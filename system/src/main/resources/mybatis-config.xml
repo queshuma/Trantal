@@ -1,0 +1,17 @@
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/trantal_sys"/>
+                <property name="username" value="root"/>
+                <property name="password" value="20001120"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="com.shuzhi.system.Mapper.UserMapper.xml"/>
+    </mappers>
+</configuration>

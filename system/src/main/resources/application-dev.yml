@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/trantal_sys
+    username: root
+    password: 20001120
+  mvc:
+    static-path-pattern: /**
+Mybatis:
+  mapper-locations: Mapper/*.xml
