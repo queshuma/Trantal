@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.shuzhi.common.SystemUtils.listIsNull;
 import static com.shuzhi.result.common.ZERO;
 
 
@@ -118,39 +117,39 @@ public class ObjectController<T> {
         Boolean b = false;
 
         //输入产品名称为空
-        if(SystemUtils.isNullOrEmpty(objectEntity.getObject_name())) {
+        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectName())) {
             logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME-- INPUT IS NULL ! ");
             outWorkInfomation("UPDATE OBJECT", (T) objectEntity);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL_NAME_NULL);
         }
         //输入产品名称长度越界
-        if (objectEntity.getObject_name().length() < ObjectSetting.OBJECT_INFO_NAME_SIZE_MIN || objectEntity.getObject_name().length() > ObjectSetting.OBJECT_INFO_NAME_SIZE_MAX) {
+        if (objectEntity.getObjectName().length() < ObjectSetting.OBJECT_INFO_NAME_SIZE_MIN || objectEntity.getObjectName().length() > ObjectSetting.OBJECT_INFO_NAME_SIZE_MAX) {
             logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME SIZE-- TO LONG/SHORT ! ");
             outWorkInfomation("UPDATE OBJECT", (T) objectEntity);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL_NAME_SIZE);
         }
         //输入原价为空(警告)
-        if (objectEntity.getObject_cost() == ZERO) {
+        if (objectEntity.getObjectCost() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COST-- INPUT IS WARNING ! ");
         }
         //输入售价为空(警告)
-        if(objectEntity.getObject_price() == ZERO) {
+        if(objectEntity.getObjectPrice() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --PRICE-- INPUT IS WARNING ! ");
         }
         //输入详情为空(警告)
-        if(SystemUtils.isNullOrEmpty(objectEntity.getObject_info())) {
+        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectInfo())) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --INFO-- INPUT IS WARNING ! ");
         }
         //输入数量为空(警告)
-        if(objectEntity.getObject_count() == ZERO) {
+        if(objectEntity.getObjectCount() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COUNT-- INPUT IS WARNING ! ");
         }
         //输入图片为空
-        if(SystemUtils.isNullOrEmpty(objectEntity.getObject_image())) {
+        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectImage())) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --IMAGE-- INPUT IS WARNING ! ");
         }
         //输入类别为空
-        if(objectEntity.getObject_classes() == ZERO) {
+        if(objectEntity.getObjectClasses() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --CLASSES-- INPUT IS WARNING ! ");
         }
 
@@ -172,7 +171,7 @@ public class ObjectController<T> {
      * @return ResponseResult<List<ObjectEntity>>
      */
     @GetMapping("/find/all")
-    public ResponseResult<List<ObjectEntity>> findAll() {
+    public ResponseResult findAll() {
 
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT START ! ==========");
 
@@ -190,8 +189,8 @@ public class ObjectController<T> {
      * @param objectId
      * @return
      */
-    @PostMapping("/update/status")
-    public ResponseResult updateStatus(int objectId) {
+    @PostMapping("/update/delete")
+    public ResponseResult updateDelete(int objectId) {
         logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT STATUS INFO START! ==========");
         Boolean b = false;
 

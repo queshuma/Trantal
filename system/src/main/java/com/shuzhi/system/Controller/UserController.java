@@ -3,9 +3,9 @@ package com.shuzhi.system.Controller;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
+import com.shuzhi.entity.UserEntity;
 import com.shuzhi.result.code.UserCode;
 import com.shuzhi.result.parmSetter.UserSetting;
-import com.shuzhi.entity.UserEntity;
 import com.shuzhi.system.Info.UserInfo;
 import com.shuzhi.system.Service.UserService;
 import org.slf4j.LoggerFactory;
@@ -132,61 +132,61 @@ public class UserController<T> {
         Boolean b = false;
 
         //输入姓名为空
-        if(SystemUtils.isNullOrEmpty(userEntity.getUser_name())) {
+        if(SystemUtils.isNullOrEmpty(userEntity.getUserName())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME-- INPUT IS NULL ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_NAME_NULL);
         }
         //输入姓名长度不合规
-        if (userEntity.getUser_name().length() < UserSetting.USER_INFO_NAME_SIZE_MIN || userEntity.getUser_name().length() > UserSetting.USER_INFO_NAME_SIZE_MAX) {
+        if (userEntity.getUserName().length() < UserSetting.USER_INFO_NAME_SIZE_MIN || userEntity.getUserName().length() > UserSetting.USER_INFO_NAME_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME SIZE-- TOO LONG/SHORT ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_NAME_SIZE);
         }
         //输入昵称为空
-        if (SystemUtils.isNullOrEmpty(userEntity.getUser_account())) {
+        if (SystemUtils.isNullOrEmpty(userEntity.getUserAccount())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT-- INPUT IS NULL ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_ACCOUNT_NULL);
         }
         //输入昵称长度不合规
-        if (userEntity.getUser_account().length() < UserSetting.USER_INFO_ACCOUNT_SIZE_MIN || userEntity.getUser_account().length() > UserSetting.USER_INFO_ACCOUNT_SIZE_MAX) {
+        if (userEntity.getUserAccount().length() < UserSetting.USER_INFO_ACCOUNT_SIZE_MIN || userEntity.getUserAccount().length() > UserSetting.USER_INFO_ACCOUNT_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT SIZE-- TOO LONG/SHORT ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_ACCOUNT_SIZE);
         }
         //输入密码为空
-        if(SystemUtils.isNullOrEmpty(userEntity.getUser_password())) {
+        if(SystemUtils.isNullOrEmpty(userEntity.getUserPassword())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD-- INPUT IS NULL ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PASSWORD_NULL);
         }
         //输入密码长度不合规
-        if (userEntity.getUser_password().length() < UserSetting.USER_INFO_PASSWORD_SIZE_MIN || userEntity.getUser_name().length() > UserSetting.USER_INFO_PASSWORD_SIZE_MAX) {
+        if (userEntity.getUserPassword().length() < UserSetting.USER_INFO_PASSWORD_SIZE_MIN || userEntity.getUserPassword().length() > UserSetting.USER_INFO_PASSWORD_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD SIZE-- TOO LONG/SHORT ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PASSWORD_SIZE);
         }
         //输入手机号为空
-        if(SystemUtils.isNullOrEmpty(userEntity.getUser_phone())) {
+        if(SystemUtils.isNullOrEmpty(userEntity.getUserPhone())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PHONE-- INPUT IS NULL ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PHONE_NULL);
         }
         //输入手机号长度不合规
-        if (userEntity.getUser_phone().length() < UserSetting.USER_INFO_PHONE_SIZE_MIN || userEntity.getUser_phone().length() > UserSetting.USER_INFO_PHONE_SIZE_MAX) {
+        if (userEntity.getUserPhone().length() < UserSetting.USER_INFO_PHONE_SIZE_MIN || userEntity.getUserPhone().length() > UserSetting.USER_INFO_PHONE_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PHONE SIZE-- TOO LONG/SHORT ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PHONE_SIZE);
         }
         //输入邮箱为空
-        if(SystemUtils.isNullOrEmpty(userEntity.getUser_email())) {
+        if(SystemUtils.isNullOrEmpty(userEntity.getUserEmail())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --EMAIL-- INPUT IS NULL ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_EMAIL_SIZE);
         }
         //输入邮箱长度不合规
-        if (userEntity.getUser_email().length() < UserSetting.USER_INFO_EMAIL_SIZE_MIN || userEntity.getUser_name().length() > UserSetting.USER_INFO_EMAIL_SIZE_MAX) {
+        if (userEntity.getUserEmail().length() < UserSetting.USER_INFO_EMAIL_SIZE_MIN || userEntity.getUserName().length() > UserSetting.USER_INFO_EMAIL_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --EMAIL SIZE-- TOO LONG/SHORT ! ");
             outWorkInfomation("UPDATE", (T) userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_EMAIL_SIZE);

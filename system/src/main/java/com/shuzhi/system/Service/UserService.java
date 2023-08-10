@@ -160,7 +160,7 @@ public class UserService {
         } catch (Exception e) {
             logger.error("USER SERVICE SELECT USER PHONE ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + userEntity.toString());
+            logger.error("result: " + userEntity);
         }
 
         logger.info("-------TRANTAL USER SELECT SERVICE END-------");
@@ -254,7 +254,7 @@ public class UserService {
      * @return
      */
     public UserEntity setPwdIsNull(UserEntity userEntity) {
-        userEntity.setUser_password(null);
+        userEntity.setUserPassword(null);
         return userEntity;
     }
     /**
@@ -276,13 +276,14 @@ public class UserService {
      */
     public UserEntity InfoToEntity(UserInfo userInfo) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUser_password(userInfo.getUserPassword());
-        userEntity.setUser_email(userInfo.getUserEmail());
-        userEntity.setUser_phone(userInfo.getUserPhone());
-        userEntity.setUser_account(userInfo.getUserAccount());
-        userEntity.setUser_name(userInfo.getUserName());
-        userEntity.setUser_time(new Date());
-        userEntity.setUser_last(new Date());
+        userEntity.setUserPassword(userInfo.getUserPassword());
+        userEntity.setUserEmail(userInfo.getUserEmail());
+        userEntity.setUserPassword(userInfo.getUserPhone());
+        userEntity.setUserAccount(userInfo.getUserAccount());
+        userEntity.setUserName(userInfo.getUserName());
+        userEntity.setUserPhone(userInfo.getUserPhone());
+        userEntity.setUserTime(new Date());
+        userEntity.setUserLast(new Date());
         return userEntity;
     }
 

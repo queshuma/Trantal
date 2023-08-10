@@ -8,3 +8,4 @@ spring:
     static-path-pattern: /**
 Mybatis:
   mapper-locations: Mapper/*.xml
+

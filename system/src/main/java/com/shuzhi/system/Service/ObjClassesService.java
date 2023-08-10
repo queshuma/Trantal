@@ -15,8 +15,12 @@ import java.util.List;
 @Service
 public class ObjClassesService {
 
+    private static final int SERVICE_UPDATE_OBJECT_INFO_NUMBER = 1;
+    private static final int ZERO = 0;
     private final ObjClassesMapper objClassesMapper;
     private Logger logger = LoggerFactory.getLogger(ObjClassesService.class);
+
+    private final int ONE = 1;
 
     @Autowired
     public ObjClassesService(ObjClassesMapper objClassesMapper) {
@@ -51,6 +55,11 @@ public class ObjClassesService {
 
     }
 
+    /**
+     * 添加产品分类
+     * @param objClassesInfo
+     * @return
+     */
     @Transactional
     public Boolean addObjectClasses(ObjClassesInfo objClassesInfo) {
         Boolean b = false;
@@ -69,4 +78,59 @@ public class ObjClassesService {
         return b;
     }
 
+    /**
+     * 删除产品分类
+     * @param objClassesId
+     * @return
+     */
+    @Transactional
+    public Boolean updObjectClasses(int objClassesId) {
+        logger.info("-------TRANTAL OBJECT CLASSES UPDATE SERVICE START-------");
+        int b = 0;
+
+        logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO START");
+        try {
+            b = objClassesMapper.updObjectClassesStatus(objClassesId, ZERO);
+            logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO SUCCESS!");
+            logger.info("result: classesId" + objClassesId + ",classesStatus " + ONE);
+        } catch (Exception e) {
+            logger.error("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: classesId" + objClassesId + ",classesStatus " + ONE);
+        }
+        logger.info("OBJECT CLASSES SERVICE UPDATE OBJECTR CLASSES INFO END");
+        if (b == SERVICE_UPDATE_OBJECT_INFO_NUMBER) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 修改商品分类信息
+     * @param objClassesEntity
+     * @return
+     */
+    @Transactional
+    public Boolean updObjectClasses(ObjClassesEntity objClassesEntity) {
+        logger.info("-------TRANTAL OBJECT CLASSES UPDATE SERVICE START-------");
+        int b = 0;
+
+        logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO START");
+        try {
+            b = objClassesMapper.updObjectClasses(objClassesEntity);
+            logger.info("OBJECT CLASSES SERVICE UPDATE USER INFO SUCCESS!");
+            logger.info("result: " + objClassesEntity);
+        } catch (Exception e) {
+            logger.error("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: userId" + objClassesEntity);
+        }
+        logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO END");
+        logger.info("-------TRANTAL OBJECT CLASSES UPDATE SERVICE END-------");
+        if (b == SERVICE_UPDATE_OBJECT_INFO_NUMBER) {
+            return true;
+        }
+        return false;
+
+    }
 }

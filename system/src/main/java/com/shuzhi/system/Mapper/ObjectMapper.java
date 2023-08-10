@@ -13,6 +13,27 @@ import java.util.List;
 public interface ObjectMapper {
 
     /**
+     * 获取所有产品信息
+     * @return
+     */
+    @Select("SELECT * FROM trantal_object")
+    @Results(id = "objectResultMap", value = {
+            @Result(property = "objectId", column = "object_id"),
+            @Result(property = "objectName", column = "object_name"),
+            @Result(property = "objectTitle", column = "object_title"),
+            @Result(property = "objectCost", column = "object_cost"),
+            @Result(property = "objectPrice", column = "object_price"),
+            @Result(property = "objectInfo", column = "object_info"),
+            @Result(property = "objectCount", column = "object_count"),
+            @Result(property = "objectImage", column = "object_image"),
+            @Result(property = "objectStatus", column = "object_status"),
+            @Result(property = "objectTime", column = "object_time"),
+            @Result(property = "objectClasses", column = "object_classes"),
+            @Result(property = "userId", column = "user_id")
+    })
+    List<ObjectEntity> getAllObject();
+
+    /**
      * 添加商品
      * @param objectInfo
      * @return
@@ -33,25 +54,18 @@ public interface ObjectMapper {
      * @return
      */
     @Update("UPDATE trantal_object " +
-            "SET object_name = #{object_name}, " +
-            "object_title = #{object_title}, " +
-            "object_cost = #{object_cost}, " +
-            "object_price = #{object_price}, " +
-            "object_info = #{object_info}, " +
-            "object_count = #{object_count}, " +
-            "object_image = #{object_image}, " +
-            "object_status = #{object_status}, " +
-            "object_classes = #{object_classes}, " +
-            "object_time = #{object_time}" +
-            "WHERE object_id = #{object_id}")
+            "SET object_name = #{objectName}, " +
+            "object_title = #{objectTitle}, " +
+            "object_cost = #{objectCost}, " +
+            "object_price = #{objectPrice}, " +
+            "object_info = #{objectInfo}, " +
+            "object_count = #{objectCount}, " +
+            "object_image = #{objectImage}, " +
+            "object_status = #{objectStatus}, " +
+            "object_classes = #{objectClasses}, " +
+            "object_time = #{objectTime}" +
+            "WHERE object_id = #{objectId}")
     int updObject(ObjectEntity objectEntity);
-
-    /**
-     * 获取所有产品信息
-     * @return
-     */
-    @Select("SELECT * FROM trantal_object")
-    List<ObjectEntity> getAllObject();
 
     /**
      * 修改产品状态
@@ -71,6 +85,7 @@ public interface ObjectMapper {
             "JOIN object_classes classes ON object." +
             "object_classes = classes.classes_id WHERE " +
             "classes.classes_name = #{ObjectClasses}")
+    @ResultMap("objectResultMap")
     List<ObjectEntity> getObjectClasses(String ObjectClasses);
 
     /**
@@ -82,5 +97,6 @@ public interface ObjectMapper {
             "JOIN trantal_user user ON object." +
             "user_id = user.user_id WHERE " +
             "user.user_account = #{ObjectUserAccount} ORDER BY object.object_classes")
+    @ResultMap("objectResultMap")
     List<ObjectEntity> getObjectUserAccount(String ObjectUserAccount);
 }

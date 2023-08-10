@@ -199,14 +199,14 @@ public class ObjectService {
      */
     public ObjectEntity InfoToEntity(ObjectInfo objectInfo) {
         ObjectEntity objectEntity = null;
-        objectEntity.setObject_name(objectInfo.getObjectName());
-        objectEntity.setObject_info(objectInfo.getObjectInfo());
-        objectEntity.setObject_cost(objectInfo.getObjectCost());
-        objectEntity.setObject_count(objectInfo.getObjectCount());
-        objectEntity.setObject_price(objectInfo.getObjectPrice());
-        objectEntity.setObject_title(objectInfo.getObjectTitle());
-        objectEntity.setUser_id(objectInfo.getUserId());
-        objectEntity.setObject_image(objectInfo.getObjectImage());
+        objectEntity.setObjectName(objectInfo.getObjectName());
+        objectEntity.setObjectInfo(objectInfo.getObjectInfo());
+        objectEntity.setObjectCost(objectInfo.getObjectCost());
+        objectEntity.setObjectCount(objectInfo.getObjectCount());
+        objectEntity.setObjectPrice(objectInfo.getObjectPrice());
+        objectEntity.setObjectTitle(objectInfo.getObjectTitle());
+        objectEntity.setObjectId(objectInfo.getUserId());
+        objectEntity.setObjectImage(objectInfo.getObjectImage());
         return objectEntity;
     }
 
