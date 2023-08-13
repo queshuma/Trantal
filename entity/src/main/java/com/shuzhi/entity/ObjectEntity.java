@@ -2,155 +2,156 @@ package com.shuzhi.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.util.Date;
+import java.math.BigDecimal;
 
 /**
  * trantal_object
  * @author SHUZHI
- * @date 2023-08-06 13:11:26
+ * @date 2023-08-11 22:31:54 
  */
 
 public class ObjectEntity {
 
-	private int object_id;
 
-	private String object_name;
+	@Column(name = "object_id")
+	private int objectId;
 
-	private String object_title;
+	@Column(name = "object_name")
+	private String objectName;
 
-	//原价
-	private float object_cost;
+	@Column(name = "object_title")
+	private String objectTitle;
 
-	//售价
-	private float object_price;
+	/**
+	 * 原价
+	 */
+	@Column(name = "object_cost")
+	private float objectCost;
 
-	private String object_info;
+	/**
+	 * 售价
+	 */
+	@Column(name = "object_price")
+	private float objectPrice;
 
-	private int object_count;
+	@Column(name = "object_info")
+	private String objectInfo;
 
-	private String object_image;
+	@Column(name = "object_count")
+	private int objectCount;
 
-	private int object_status;
+	@Column(name = "object_image")
+	private String objectImage;
+
+	@Column(name = "object_status")
+	private int objectStatus;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date object_time;
+	@Column(name = "object_time")
+	private Date objectTime;
 
-	private int object_classes;
+	@Column(name = "object_classes")
+	private int objectClasses;
 
-	private int user_id;
+	@Column(name = "user_id")
+	private int userId;
 
-	public int getObject_id() {
-		return object_id;
+	public int getObjectId() {
+		return objectId;
 	}
 
-	public void setObject_id(int object_id) {
-		this.object_id = object_id;
+	public void setObjectId(int objectId) {
+		this.objectId = objectId;
 	}
 
-	public String getObject_name() {
-		return object_name;
+	public String getObjectName() {
+		return objectName;
 	}
 
-	public void setObject_name(String object_name) {
-		this.object_name = object_name;
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
 	}
 
-	public String getObject_title() {
-		return object_title;
+	public String getObjectTitle() {
+		return objectTitle;
 	}
 
-	public void setObject_title(String object_title) {
-		this.object_title = object_title;
+	public void setObjectTitle(String objectTitle) {
+		this.objectTitle = objectTitle;
 	}
 
-	public float getObject_cost() {
-		return object_cost;
+	public float getObjectCost() {
+		return objectCost;
 	}
 
-	public void setObject_cost(float object_cost) {
-		this.object_cost = object_cost;
+	public void setObjectCost(float objectCost) {
+		this.objectCost = objectCost;
 	}
 
-	public float getObject_price() {
-		return object_price;
+	public float getObjectPrice() {
+		return objectPrice;
 	}
 
-	public void setObject_price(float object_price) {
-		this.object_price = object_price;
+	public void setObjectPrice(float objectPrice) {
+		this.objectPrice = objectPrice;
 	}
 
-	public String getObject_info() {
-		return object_info;
+	public String getObjectInfo() {
+		return objectInfo;
 	}
 
-	public void setObject_info(String object_info) {
-		this.object_info = object_info;
+	public void setObjectInfo(String objectInfo) {
+		this.objectInfo = objectInfo;
 	}
 
-	public int getObject_count() {
-		return object_count;
+	public int getObjectCount() {
+		return objectCount;
 	}
 
-	public void setObject_count(int object_count) {
-		this.object_count = object_count;
+	public void setObjectCount(int objectCount) {
+		this.objectCount = objectCount;
 	}
 
-	public String getObject_image() {
-		return object_image;
+	public String getObjectImage() {
+		return objectImage;
 	}
 
-	public void setObject_image(String object_image) {
-		this.object_image = object_image;
+	public void setObjectImage(String objectImage) {
+		this.objectImage = objectImage;
 	}
 
-	public int getObject_status() {
-		return object_status;
+	public int getObjectStatus() {
+		return objectStatus;
 	}
 
-	public void setObject_status(int object_status) {
-		this.object_status = object_status;
+	public void setObjectStatus(int objectStatus) {
+		this.objectStatus = objectStatus;
 	}
 
-	public Date getObject_time() {
-		return object_time;
+	public Date getObjectTime() {
+		return objectTime;
 	}
 
-	public void setObject_time(Date object_time) {
-		this.object_time = object_time;
+	public void setObjectTime(Date objectTime) {
+		this.objectTime = objectTime;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getObjectClasses() {
+		return objectClasses;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setObjectClasses(int objectClasses) {
+		this.objectClasses = objectClasses;
 	}
 
-	public int getObject_classes() {
-		return object_classes;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setObject_classes(int object_classes) {
-		this.object_classes = object_classes;
-	}
-
-	@Override
-	public String toString() {
-		return "ObjectEntity{" +
-				"object_id=" + object_id +
-				", object_name='" + object_name + '\'' +
-				", object_title='" + object_title + '\'' +
-				", object_cost=" + object_cost +
-				", object_price=" + object_price +
-				", object_info='" + object_info + '\'' +
-				", object_count=" + object_count +
-				", object_image='" + object_image + '\'' +
-				", object_status=" + object_status +
-				", object_time=" + object_time +
-				", object_classes=" + object_classes +
-				", user_id=" + user_id +
-				'}';
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public ObjectEntity() {

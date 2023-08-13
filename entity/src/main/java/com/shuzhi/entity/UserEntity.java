@@ -3,125 +3,129 @@ package com.shuzhi.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
-import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * trantal_user
  * @author SHUZHI
- * @date 2023-08-04 17:19:28
+ * @date 2023-08-11 22:33:33 
  */
-@Table ( name ="trantal_user")
+
 public class UserEntity {
 
-    private int user_id;
+	@Column(name = "user_id")
+	private int userId;
 
-    private String user_account;
+	@Column(name = "user_account")
+	private String userAccount;
 
-    private String user_name;
+	@Column(name = "user_name")
+	private String userName;
 
-    private String user_phone;
+	@Column(name = "user_phone")
+	private String userPhone;
 
-    private String user_email;
+	@Column(name = "user_email")
+	private String userEmail;
 
-    private String user_password;
+	@Column(name = "user_password")
+	private String userPassword;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date user_time;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "user_time")
+	private Date userTime;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date user_last;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "user_last")
+	private Date userLast;
 
-    private int user_level;
+	@Column(name = "user_level")
+	private int userLevel;
 
-    public int getUser_id() {
-        return user_id;
-    }
+	@Column(name = "user_status")
+	private int userStatus;
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
+	public int getUserId() {
+		return userId;
+	}
 
-    public String getUser_account() {
-        return user_account;
-    }
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-    public void setUser_account(String user_account) {
-        this.user_account = user_account;
-    }
+	public String getUserAccount() {
+		return userAccount;
+	}
 
-    public String getUser_name() {
-        return user_name;
-    }
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
+	}
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getUser_phone() {
-        return user_phone;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public void setUser_phone(String user_phone) {
-        this.user_phone = user_phone;
-    }
+	public String getUserPhone() {
+		return userPhone;
+	}
 
-    public String getUser_email() {
-        return user_email;
-    }
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
-    }
+	public String getUserEmail() {
+		return userEmail;
+	}
 
-    public String getUser_password() {
-        return user_password;
-    }
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
-    }
+	public String getUserPassword() {
+		return userPassword;
+	}
 
-    public Date getUser_time() {
-        return user_time;
-    }
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
 
-    public void setUser_time(Date user_time) {
-        this.user_time = user_time;
-    }
+	public Date getUserTime() {
+		return userTime;
+	}
 
-    public Date getUser_last() {
-        return user_last;
-    }
+	public void setUserTime(Date userTime) {
+		this.userTime = userTime;
+	}
 
-    public void setUser_last(Date user_last) {
-        this.user_last = user_last;
-    }
+	public Date getUserLast() {
+		return userLast;
+	}
 
-    public int getUser_level() {
-        return user_level;
-    }
+	public void setUserLast(Date userLast) {
+		this.userLast = userLast;
+	}
 
-    public void setUser_level(int user_level) {
-        this.user_level = user_level;
-    }
+	public int getUserLevel() {
+		return userLevel;
+	}
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "user_id=" + user_id +
-                ", user_account='" + user_account + '\'' +
-                ", user_name='" + user_name + '\'' +
-                ", user_phone='" + user_phone + '\'' +
-                ", user_email='" + user_email + '\'' +
-                ", user_password='" + user_password + '\'' +
-                ", user_time=" + user_time +
-                ", user_last=" + user_last +
-                ", user_level=" + user_level +
-                '}';
-    }
+	public void setUserLevel(int userLevel) {
+		this.userLevel = userLevel;
+	}
 
-    public UserEntity() {
+	public int getUserStatus() {
+		return userStatus;
+	}
 
-    }
+	public void setUserStatus(int userStatus) {
+		this.userStatus = userStatus;
+	}
+
+	public UserEntity() {
+
+	}
 }

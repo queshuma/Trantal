@@ -1,50 +1,57 @@
 package com.shuzhi.entity;
 
+import javax.persistence.Column;
+
 /**
  * object_classes
  * @author SHUZHI
- * @date 2023-08-08 16:36:23 
+ * @date 2023-08-11 22:12:17 
  */
 
 public class ObjClassesEntity {
 
-	private Long classes_id;
+	@Column(name = "classes_id")
+	private int classesId;
 
-	private Long classes_parent_id;
+	@Column(name = "classes_parent_id")
+	private int classesParentId;
 
-	private String classes_name;
+	@Column(name = "classes_name")
+	private String classesName;
 
-	public Long getClasses_id() {
-		return classes_id;
+	@Column(name = "classes_status")
+	private int classesStatus;
+
+	public int getClassesId() {
+		return classesId;
 	}
 
-	public void setClasses_id(Long classes_id) {
-		this.classes_id = classes_id;
+	public void setClassesId(int classesId) {
+		this.classesId = classesId;
 	}
 
-	public Long getClasses_parent_id() {
-		return classes_parent_id;
+	public int getClassesParentId() {
+		return classesParentId;
 	}
 
-	public void setClasses_parent_id(Long classes_parent_id) {
-		this.classes_parent_id = classes_parent_id;
+	public void setClassesParentId(int classesParentId) {
+		this.classesParentId = classesParentId;
 	}
 
-	public String getClasses_name() {
-		return classes_name;
+	public String getClassesName() {
+		return classesName;
 	}
 
-	public void setClasses_name(String classes_name) {
-		this.classes_name = classes_name;
+	public void setClassesName(String classesName) {
+		this.classesName = classesName;
 	}
 
-	@Override
-	public String toString() {
-		return "ObjClassesEntity{" +
-				"classes_id=" + classes_id +
-				", classes_parent_id=" + classes_parent_id +
-				", classes_name='" + classes_name + '\'' +
-				'}';
+	public int getClassesStatus() {
+		return classesStatus;
+	}
+
+	public void setClassesStatus(int classesStatus) {
+		this.classesStatus = classesStatus;
 	}
 
 	public ObjClassesEntity() {
