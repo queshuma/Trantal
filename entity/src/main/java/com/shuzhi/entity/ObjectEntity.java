@@ -9,14 +9,14 @@ import java.math.BigDecimal;
 /**
  * trantal_object
  * @author SHUZHI
- * @date 2023-08-11 22:31:54 
+ * @date 2023-08-11 22:31:54
  */
 
 public class ObjectEntity {
 
 
 	@Column(name = "object_id")
-	private int objectId;
+	private Long objectId;
 
 	@Column(name = "object_name")
 	private String objectName;
@@ -40,29 +40,29 @@ public class ObjectEntity {
 	private String objectInfo;
 
 	@Column(name = "object_count")
-	private int objectCount;
+	private Long objectCount;
 
 	@Column(name = "object_image")
 	private String objectImage;
 
 	@Column(name = "object_status")
-	private int objectStatus;
+	private Long objectStatus;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "object_time")
 	private Date objectTime;
 
 	@Column(name = "object_classes")
-	private int objectClasses;
+	private Long objectClasses;
 
 	@Column(name = "user_id")
-	private int userId;
+	private Long userId;
 
-	public int getObjectId() {
+	public Long getObjectId() {
 		return objectId;
 	}
 
-	public void setObjectId(int objectId) {
+	public void setObjectId(Long objectId) {
 		this.objectId = objectId;
 	}
 
@@ -106,11 +106,11 @@ public class ObjectEntity {
 		this.objectInfo = objectInfo;
 	}
 
-	public int getObjectCount() {
+	public Long getObjectCount() {
 		return objectCount;
 	}
 
-	public void setObjectCount(int objectCount) {
+	public void setObjectCount(Long objectCount) {
 		this.objectCount = objectCount;
 	}
 
@@ -122,11 +122,11 @@ public class ObjectEntity {
 		this.objectImage = objectImage;
 	}
 
-	public int getObjectStatus() {
+	public Long getObjectStatus() {
 		return objectStatus;
 	}
 
-	public void setObjectStatus(int objectStatus) {
+	public void setObjectStatus(Long objectStatus) {
 		this.objectStatus = objectStatus;
 	}
 
@@ -138,19 +138,19 @@ public class ObjectEntity {
 		this.objectTime = objectTime;
 	}
 
-	public int getObjectClasses() {
+	public Long getObjectClasses() {
 		return objectClasses;
 	}
 
-	public void setObjectClasses(int objectClasses) {
+	public void setObjectClasses(Long objectClasses) {
 		this.objectClasses = objectClasses;
 	}
 
-	public int getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 

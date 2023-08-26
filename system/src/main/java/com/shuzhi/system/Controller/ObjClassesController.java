@@ -7,6 +7,7 @@ import com.shuzhi.entity.ObjClassesEntity;
 import com.shuzhi.result.code.ObjClassesCode;
 import com.shuzhi.system.Info.ObjClassesInfo;
 import com.shuzhi.system.Service.ObjClassesService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +38,9 @@ public class ObjClassesController {
      * 查找所有商品分类
      * @return
      */
+    @ApiOperation("查找所有商品分类")
     @GetMapping("/findAll")
-    public ResponseResult<List<ObjClassesInfo>> findAll(){
+    public ResponseResult findAll(){
 
         logger.info("========== TRANTAL OBJECT CLASSES CONTROLLER SELECT ALL OBJECT CLASSES START ! ==========");
 
@@ -55,6 +57,7 @@ public class ObjClassesController {
      * @param objClassesInfo
      * @return ResponseResult
      */
+    @ApiOperation("新增分类")
     @PostMapping("/add")
     public ResponseResult add(ObjClassesInfo objClassesInfo) {
 
@@ -92,6 +95,7 @@ public class ObjClassesController {
      * @param objClassesId
      * @return
      */
+    @ApiOperation("修改商品分类状态(删除)")
     @PostMapping("/delete")
     public ResponseResult delete(int objClassesId) {
         logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT STATUS INFO START! ==========");
@@ -114,6 +118,7 @@ public class ObjClassesController {
      * @param objClassesEntity
      * @return
      */
+    @ApiOperation("修改商品分类信息")
     @PostMapping("/update")
     public ResponseResult delete(ObjClassesEntity objClassesEntity) {
         logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT STATUS INFO START! ==========");

@@ -5,17 +5,26 @@ import java.util.Date;
 
 public class ObjectInfo {
 
+    private String orderName;
     private String objectName;
     private String objectTitle;    //原价
     private float objectCost;      //售价
     private float objectPrice;
     private String objectInfo;
-    private int objectCount;
+    private Long objectCount;
     private String objectImage;
-    private int objectStatus;
+    private Long objectStatus;
     private Date objectTime;
-    private int objectClasses;
-    private int userId;
+    private Long objectClasses;
+    private Long userId;
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
 
     public String getObjectName() {
         return objectName;
@@ -57,11 +66,11 @@ public class ObjectInfo {
         this.objectInfo = objectInfo;
     }
 
-    public int getObjectCount() {
+    public Long getObjectCount() {
         return objectCount;
     }
 
-    public void setObjectCount(int objectCount) {
+    public void setObjectCount(Long objectCount) {
         this.objectCount = objectCount;
     }
 
@@ -81,27 +90,27 @@ public class ObjectInfo {
         this.objectTime = objectTime;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public int getObjectStatus() {
+    public Long getObjectStatus() {
         return objectStatus;
     }
 
-    public void setObjectStatus(int objectStatus) {
+    public void setObjectStatus(Long objectStatus) {
         this.objectStatus = objectStatus;
     }
 
-    public int getObjectClasses() {
+    public Long getObjectClasses() {
         return objectClasses;
     }
 
-    public void setObjectClasses(int objectClasses) {
+    public void setObjectClasses(Long objectClasses) {
         this.objectClasses = objectClasses;
     }
 

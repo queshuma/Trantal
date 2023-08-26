@@ -13,7 +13,7 @@ public interface ObjectCode {
     String SYSTEM_OBJECT_ERROR_ADD_NAME_SIZE = "030003";
 
     //删除商品错误状态码
-    String SYSTEM_OBJECT_INFO_DEL_FAIL = "020050";   //商品删除成功
+    String SYSTEM_OBJECT_INFO_DEL_FAIL = "020051";   //商品删除失败
 
     //更新商品错误状态码
     String SYSTEM_OBJECT_ERROR_UPDATE_FAIL = "020101";
@@ -23,7 +23,7 @@ public interface ObjectCode {
     //查找商品错误状态码
 
 
-    //10500-10999   成功的提示
+    //成功的提示
     String SYSTEM_OBJECT_INFO_ADD_SUCCESS = "020000";   //商品添加成功
     String SYSTEM_OBJECT_INFO_DEL_SUCCESS = "020050";   //商品删除成功
     String SYSTEM_OBJECT_INFO_UPD_SUCCESS = "020100";   //商品更新成功

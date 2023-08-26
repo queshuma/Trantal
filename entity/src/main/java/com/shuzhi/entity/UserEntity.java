@@ -8,13 +8,13 @@ import java.util.Date;
 /**
  * trantal_user
  * @author SHUZHI
- * @date 2023-08-11 22:33:33 
+ * @date 2023-08-11 22:33:33
  */
 
 public class UserEntity {
 
 	@Column(name = "user_id")
-	private int userId;
+	private Long userId;
 
 	@Column(name = "user_account")
 	private String userAccount;
@@ -40,16 +40,16 @@ public class UserEntity {
 	private Date userLast;
 
 	@Column(name = "user_level")
-	private int userLevel;
+	private Long userLevel;
 
 	@Column(name = "user_status")
-	private int userStatus;
+	private Long userStatus;
 
-	public int getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -109,19 +109,19 @@ public class UserEntity {
 		this.userLast = userLast;
 	}
 
-	public int getUserLevel() {
+	public Long getUserLevel() {
 		return userLevel;
 	}
 
-	public void setUserLevel(int userLevel) {
+	public void setUserLevel(Long userLevel) {
 		this.userLevel = userLevel;
 	}
 
-	public int getUserStatus() {
+	public Long getUserStatus() {
 		return userStatus;
 	}
 
-	public void setUserStatus(int userStatus) {
+	public void setUserStatus(Long userStatus) {
 		this.userStatus = userStatus;
 	}
 

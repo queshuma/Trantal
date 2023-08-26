@@ -1,4 +1,4 @@
-package com.shuzhi.result.parmSetter;
+package com.shuzhi.result.parmSetting;
 
 
 public interface UserSetting {

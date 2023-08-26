@@ -41,7 +41,7 @@ public class ObjectService {
         logger.info("-------TRANTAL OBJECT ADD SERVICE START-------");
         int b = 0;
         objectInfo.setObjectTime(new Date());
-        objectInfo.setObjectStatus(common.ONE);
+        objectInfo.setObjectStatus((long) common.ONE);
 
         logger.info("OBJECT SERVICE ADD OBJECT PHONE START");
         try {
@@ -72,7 +72,6 @@ public class ObjectService {
         int b = 0;
 
         logger.info("OBJECT SERVICE UPDATE OBJECT INFO START");
-        System.out.println(objectEntity.toString());
         try {
             b = objectMapper.updObject(objectEntity);
             logger.info("OBJECT SERVICE UPDATE OBJECT INFO SUCCESS!");

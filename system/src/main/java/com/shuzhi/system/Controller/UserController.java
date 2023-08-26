@@ -5,16 +5,15 @@ import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.entity.UserEntity;
 import com.shuzhi.result.code.UserCode;
-import com.shuzhi.result.parmSetter.UserSetting;
+import com.shuzhi.result.parmSetting.UserSetting;
 import com.shuzhi.system.Info.UserInfo;
 import com.shuzhi.system.Service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,9 +24,10 @@ import static com.shuzhi.result.common.ZERO;
 /**
  * 用户接口模块
  */
+@Api("用户接口模块")
 @RestController
 @RequestMapping("/User")
-public class UserController<T> {
+public class UserController {
 
     //依赖注入UserService服务，用于处理操作调用
     private final UserService userService;
@@ -44,6 +44,7 @@ public class UserController<T> {
      * @param userInfo
      * @return ResponseResult
      */
+    @ApiOperation("新增用户")
     @PostMapping("/add")
     public ResponseResult add(UserInfo userInfo) {
 
@@ -53,56 +54,56 @@ public class UserController<T> {
         //输入姓名为空
         if(SystemUtils.isNullOrEmpty(userInfo.getUserName())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_NAME_NULL);
         }
         if (userInfo.getUserName().length() < UserSetting.USER_INFO_NAME_SIZE_MIN || userInfo.getUserName().length() > UserSetting.USER_INFO_NAME_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_NAME_SIZE);
         }
         //输入昵称为空
         if (SystemUtils.isNullOrEmpty(userInfo.getUserAccount())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_ACCOUNT_NULL);
         }
         if (userInfo.getUserAccount().length() < UserSetting.USER_INFO_ACCOUNT_SIZE_MIN || userInfo.getUserName().length() > UserSetting.USER_INFO_ACCOUNT_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_ACCOUNT_SIZE);
         }
         //输入密码为空
         if(SystemUtils.isNullOrEmpty(userInfo.getUserPassword())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_PASSWORD_NULL);
         }
         if (userInfo.getUserPassword().length() < UserSetting.USER_INFO_PASSWORD_SIZE_MIN || userInfo.getUserName().length() > UserSetting.USER_INFO_PASSWORD_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_PASSWORD_SIZE);
         }
         //输入手机号为空
         if(SystemUtils.isNullOrEmpty(userInfo.getUserPhone())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PHONE-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_PHONE_NULL);
         }
         if (userInfo.getUserPhone().length() < UserSetting.USER_INFO_PHONE_SIZE_MIN || userInfo.getUserPhone().length() > UserSetting.USER_INFO_PHONE_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PHONE SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_PHONE_SIZE);
         }
         //输入邮箱为空
         if(SystemUtils.isNullOrEmpty(userInfo.getUserEmail())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --EMAIL-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_EMAIL_SIZE);
         }
         if (userInfo.getUserEmail().length() < UserSetting.USER_INFO_EMAIL_SIZE_MIN || userInfo.getUserName().length() > UserSetting.USER_INFO_EMAIL_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --EMAIL SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_EMAIL_SIZE);
         }
         b = userService.addUser(userInfo);
@@ -110,12 +111,12 @@ public class UserController<T> {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("ADD", (T) userInfo);
+            outWorkInfomation("ADD", userInfo);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_INFO_ADD_SUCCESS);
         }
 
         logger.error("TRANTAL USER CONTROLLER USER INFO --ADD FAIL-- ! ");
-        outWorkInfomation("ADD", (T) userInfo);
+        outWorkInfomation("ADD", userInfo);
         return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL);
 
     }
@@ -125,6 +126,7 @@ public class UserController<T> {
      * @param userEntity
      * @return ResponseResult
      */
+    @ApiOperation("修改用户信息")
     @PostMapping("/update")
     public ResponseResult update(UserEntity userEntity) {
 
@@ -134,73 +136,73 @@ public class UserController<T> {
         //输入姓名为空
         if(SystemUtils.isNullOrEmpty(userEntity.getUserName())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_NAME_NULL);
         }
         //输入姓名长度不合规
         if (userEntity.getUserName().length() < UserSetting.USER_INFO_NAME_SIZE_MIN || userEntity.getUserName().length() > UserSetting.USER_INFO_NAME_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME SIZE-- TOO LONG/SHORT ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_NAME_SIZE);
         }
         //输入昵称为空
         if (SystemUtils.isNullOrEmpty(userEntity.getUserAccount())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_ACCOUNT_NULL);
         }
         //输入昵称长度不合规
         if (userEntity.getUserAccount().length() < UserSetting.USER_INFO_ACCOUNT_SIZE_MIN || userEntity.getUserAccount().length() > UserSetting.USER_INFO_ACCOUNT_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT SIZE-- TOO LONG/SHORT ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_ACCOUNT_SIZE);
         }
         //输入密码为空
         if(SystemUtils.isNullOrEmpty(userEntity.getUserPassword())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PASSWORD_NULL);
         }
         //输入密码长度不合规
         if (userEntity.getUserPassword().length() < UserSetting.USER_INFO_PASSWORD_SIZE_MIN || userEntity.getUserPassword().length() > UserSetting.USER_INFO_PASSWORD_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD SIZE-- TOO LONG/SHORT ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PASSWORD_SIZE);
         }
         //输入手机号为空
         if(SystemUtils.isNullOrEmpty(userEntity.getUserPhone())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PHONE-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PHONE_NULL);
         }
         //输入手机号长度不合规
         if (userEntity.getUserPhone().length() < UserSetting.USER_INFO_PHONE_SIZE_MIN || userEntity.getUserPhone().length() > UserSetting.USER_INFO_PHONE_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --PHONE SIZE-- TOO LONG/SHORT ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PHONE_SIZE);
         }
         //输入邮箱为空
         if(SystemUtils.isNullOrEmpty(userEntity.getUserEmail())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --EMAIL-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_EMAIL_SIZE);
         }
         //输入邮箱长度不合规
         if (userEntity.getUserEmail().length() < UserSetting.USER_INFO_EMAIL_SIZE_MIN || userEntity.getUserName().length() > UserSetting.USER_INFO_EMAIL_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --EMAIL SIZE-- TOO LONG/SHORT ! ");
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_EMAIL_SIZE);
         }
         b = userService.updUser(userEntity);
 
         //更新数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("UPDATE", (T) userEntity);
+            outWorkInfomation("UPDATE", userEntity);
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_INFO_UPD_SUCCESS, userEntity);
         }
 
         logger.error("TRANTAL USER CONTROLLER USER INFO --UPDATE FAIL-- ! ");
-        outWorkInfomation("UPDATE", (T) userEntity);
+        outWorkInfomation("UPDATE", userEntity);
         return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL);
     }
 
@@ -210,6 +212,7 @@ public class UserController<T> {
      * @param userLevel
      * @return
      */
+    @ApiOperation("修改用户权限等级")
     @PostMapping("/update/level")
     public ResponseResult updateLevel(int userId, int userLevel) {
         logger.info("========== TRANTAL USER CONTROLLER UPDATE USER LEVEL INFO START! ==========");
@@ -239,6 +242,7 @@ public class UserController<T> {
      * @param userStatus
      * @return
      */
+    @ApiOperation("修改用户状态")
     @PostMapping("/update/status")
     public ResponseResult updateStatus(int userId, int userStatus) {
         logger.info("========== TRANTAL USER CONTROLLER UPDATE USER STATUS INFO START! ==========");
@@ -284,8 +288,9 @@ public class UserController<T> {
      * 查找所有用户信息
      * @return
      */
+    @ApiOperation("查找所有用户")
     @GetMapping("/findAll")
-    public ResponseResult<List<UserEntity>> findAll() {
+    public ResponseResult findAll() {
 
         logger.info("========== TRANTAL USER CONTROLLER SELECT ALL USER START! ==========");
         List<UserEntity> userEntityList = null;
@@ -304,8 +309,9 @@ public class UserController<T> {
      * @param userPhone
      * @return
      */
+    @ApiOperation("根据手机号查找")
     @PostMapping("/findByPhone")
-    public ResponseResult<UserEntity> findByPhone(String userPhone) {
+    public ResponseResult findByPhone(String userPhone) {
 
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER PHONE START! ==========");
         UserEntity userEntity = null;
@@ -330,8 +336,9 @@ public class UserController<T> {
      * @param userAccount
      * @return
      */
+    @ApiOperation("根据昵称查找")
     @PostMapping("/findByAccount")
-    public ResponseResult<UserEntity> findByAccount(String userAccount) {
+    public ResponseResult findByAccount(String userAccount) {
 
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER ACCOUNT START! ==========");
         UserEntity userEntity = null;
@@ -356,8 +363,9 @@ public class UserController<T> {
      * @param userEmail
      * @return
      */
+    @ApiOperation("根据邮箱查找")
     @PostMapping("/findByEmail")
-    public ResponseResult<UserEntity> findByEmail(String userEmail) {
+    public ResponseResult findByEmail(String userEmail) {
 
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER EMAIL START! ==========");
         UserEntity userEntity = null;
@@ -382,8 +390,9 @@ public class UserController<T> {
      * @param userName
      * @return
      */
+    @ApiOperation("根据姓名查找")
     @PostMapping("/findByName")
-    public ResponseResult<List<UserEntity>> findByName(String userName) {
+    public ResponseResult findByName(String userName) {
 
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER NAME START! ==========");
         List<UserEntity> userEntityList = null;
@@ -412,7 +421,7 @@ public class UserController<T> {
      * @param toDo
      * @param t
      */
-    public void outWorkInfomation(String toDo, T t) {
+    public <T> void outWorkInfomation(String toDo, T t) {
         logger.info("TRANTAL ALL USER INFO: " + t);
         logger.info("RETURN");
         logger.info("========== TRANTAL USER CONTROLLER " + toDo + " USER INFO END! ==========");

@@ -6,6 +6,8 @@ spring:
     password: 20001120
   mvc:
     static-path-pattern: /**
+    pathmatch:
+      matching-strategy: ant_path_matcher
 Mybatis:
   mapper-locations: Mapper/*.xml
 

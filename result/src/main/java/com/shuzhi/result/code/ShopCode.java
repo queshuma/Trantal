@@ -1,0 +1,27 @@
+package com.shuzhi.result.code;
+
+public interface ShopCode {
+    /**
+     * 错误
+     */
+    //订单管理  040000-040999
+    //10000-10499   错误的提示
+
+    //添加用户状态码
+    String SYSTEM_SHOP_ERROR_ADD_FAIL = "040001";
+    String SYSTEM_SHOP_ERROR_ADD_FAIL_USER_ID_NULL = "040002";
+    String SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_ID_NULL = "040003";
+    String SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_PRICE_NULL = "040004";
+    String SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_COUNT_NULL = "040005";
+    String SYSTEM_SHOP_ERROR_ADD_FAIL_SHOP_COST_IS_ERROR = "040006";
+
+    //更新用户状态码
+    String SYSTEM_SHOP_INFO_UPD_ERROE = "040051";
+
+    //  成功的提示
+    String SYSTEM_SHOP_INFO_ADD_SUCCESS = "040000";
+    String SYSTEM_SHOP_INFO_DEL_SUCCESS = "040050";
+    String SYSTEM_SHOP_INFO_UPD_SUCCESS = "040100";
+    String SYSTEM_SHOP_INFO_FIND_SUCCESS = "040150";
+
+}
