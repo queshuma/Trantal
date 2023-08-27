@@ -14,10 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -98,7 +95,6 @@ public class ShopController {
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopEntityList);
     }
 
-
     @ApiOperation("修改购物车_商品数量")
     @PostMapping("/update/count")
     public ResponseResult updateShopCount(int shopId, int objectCount) {
@@ -115,6 +111,25 @@ public class ShopController {
         logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCount = " + objectCount);
         logger.info("RETURN");
         logger.info("========== TRANTAL SHOP CONTROLLER UPDATE OBJECT COUNT END! ==========");
+        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
+    }
+
+    @ApiOperation("修改购物车_删除商品")
+    @PutMapping("/update/delete")
+    public ResponseResult updateShopStatus(int shopId) {
+        logger.info("========== TRANTAL SHOP CONTROLLER UPDATE SHOP STATUS START! ==========");
+        Boolean b = false;
+        int objectStatus = 1;
+        b = shopService.updShopStatus(shopId, objectStatus);
+        if (!b) {
+            logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectStatus" + objectStatus);
+            logger.info("RETURN");
+            logger.info("========== TRANTAL SHOP CONTROLLER UPDATE SHOP STATUS END! ==========");
+            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
+        }
+        logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectStatus" + objectStatus);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL SHOP CONTROLLER UPDATE SHOP STATUS END! ==========");
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
     }
 

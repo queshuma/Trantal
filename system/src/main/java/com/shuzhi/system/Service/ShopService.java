@@ -101,4 +101,23 @@ public class ShopService {
         logger.info("-------TRANTAL SHOP SELECT SERVICE END-------");
         return b;
     }
+
+    public Boolean updShopStatus(int shopId, int objectStatus) {
+        logger.info("-------TRANTAL SHOP SELECT SERVICE START-------");
+        Boolean b = false;
+        logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
+
+        try {
+            b = shopMapper.updShopStatus(shopId, objectStatus);
+            logger.info("OBJECT SERVICE UPDATE SHOP STATUS SUCCESS!");
+            logger.info("result: shopId = " + shopId + "objectStatus = " + objectStatus);
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE UPDATE SHOP STATUS ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: shopId = " + shopId + "objectStatus = " + objectStatus);
+        }
+
+        logger.info("-------TRANTAL SHOP SELECT SERVICE END-------");
+        return b;
+    }
 }

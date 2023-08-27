@@ -34,4 +34,7 @@ public interface ShopMapper {
 
     @Update("UPDATE trantal_shop SET object_count = #{objectCount} WHERE shop_id = #{shopId}")
     Boolean updShopCount(int shopId, int objectCount);
+
+    @Update("UPDATE trantal_shop SET object_status = #{objectStatus} WHERE shop_id = #{shopId}")
+    Boolean updShopStatus(int shopId, int objectStatus);
 }
