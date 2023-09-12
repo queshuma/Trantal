@@ -44,34 +44,28 @@ public class ShopController {
     public ResponseResult add(ShopInfo shopInfo) {
 
         Boolean b = false;
-        logger.info("========== TRANTAL SHOP CONTROLLER ADD ORDER START ! ==========");
 
         if ((shopInfo.getUserId() == LONG_ZERO)) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD SHOP", shopInfo);
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_USER_ID_NULL);
         }
         if (shopInfo.getObjectId() == LONG_ZERO) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD SHOP", shopInfo);
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_ID_NULL);
         }
         if (shopInfo.getObjectCount() == LONG_ZERO) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD SHOP", shopInfo);
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
         }
 
         b =  shopService.addShop(shopInfo);
 
         if (b) {
-            outWorkInfomation("ADD ORDER", shopInfo);
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_ADD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL SHOP INFO: " + shopInfo);
         logger.info("RETURN");
-        logger.info("========== TRANTAL SHOP CONTROLLER ADD SHOP END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
     }
 
@@ -83,67 +77,43 @@ public class ShopController {
     @ApiOperation("查询购物车")
     @PostMapping("/find/userId")
     public ResponseResult find(int userId) {
-        logger.info("========== TRANTAL SHOP CONTROLLER SELECT ALL SHOP BY USER ID START! ==========");
         List<ShopEntity> shopEntityList = null;
         shopEntityList = shopService.getShopUserId(userId);
-        if (shopEntityList == null) {
+        if (SystemUtils.isNull(shopEntityList)) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");
         }
         logger.info("TRANTAL ALL SHOP INFO: " + shopEntityList);
         logger.info("RETURN");
-        logger.info("========== TRANTAL SHOP CONTROLLER SELECT ALL SHOP BY USER ID END! ==========");
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopEntityList);
     }
 
     @ApiOperation("修改购物车_商品数量")
     @PostMapping("/update/count")
     public ResponseResult updateShopCount(int shopId, int objectCount) {
-        logger.info("========== TRANTAL SHOP CONTROLLER UPDATE OBJECT COUNT START! ==========");
         Boolean b = false;
         b = shopService.updShopCount(shopId, objectCount);
         System.out.println(b);
         if (!b) {
             logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCount" + objectCount);
             logger.info("RETURN");
-            logger.info("========== TRANTAL SHOP CONTROLLER UPDATE OBJECT COUNT END! ==========");
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
         }
         logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCount = " + objectCount);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL SHOP CONTROLLER UPDATE OBJECT COUNT END! ==========");
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
     }
 
     @ApiOperation("修改购物车_删除商品")
     @PutMapping("/update/delete")
     public ResponseResult updateShopStatus(int shopId) {
-        logger.info("========== TRANTAL SHOP CONTROLLER UPDATE SHOP STATUS START! ==========");
         Boolean b = false;
         int objectStatus = 1;
         b = shopService.updShopStatus(shopId, objectStatus);
         if (!b) {
             logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectStatus" + objectStatus);
-            logger.info("RETURN");
-            logger.info("========== TRANTAL SHOP CONTROLLER UPDATE SHOP STATUS END! ==========");
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
         }
         logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectStatus" + objectStatus);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL SHOP CONTROLLER UPDATE SHOP STATUS END! ==========");
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
     }
 
-    //
-    //订单接口层功能模块
-    //
-    /**
-     * 抽离结尾输出代码
-     * @param toDo
-     * @param t
-     */
-    public <T> void outWorkInfomation(String toDo, T t) {
-        logger.info("TRANTAL ALL OBJECT INFO: " + t);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL OBJECT CONTROLLER " + toDo + " OBJECT INFO END! ==========");
-    }
 }

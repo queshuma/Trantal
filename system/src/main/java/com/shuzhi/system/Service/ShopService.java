@@ -76,7 +76,7 @@ public class ShopService {
         } catch (Exception e) {
             logger.error("OBJECT SERVICE SELECT SHOP USER ID ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + shopEntityList.toString());
+            logger.error("result: " + shopEntityList);
         }
 
         logger.info("-------TRANTAL SHOP SELECT SERVICE END-------");

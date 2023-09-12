@@ -48,61 +48,49 @@ public class OrderController {
     public ResponseResult add(OrderInfo orderInfo) {
 
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER ADD ORDER START ! ==========");
 
         if (SystemUtils.isNullOrEmpty(orderInfo.getObjectId().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_ID_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderInfo.getUserId().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_USER_ID_NULL);
         }
         //商品信息
         if (SystemUtils.isNullOrEmpty(orderInfo.getObjectPrice().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT PRICE-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_PRICE_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCost().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COST-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCount().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
         }
         //收件信息
         if (SystemUtils.isNullOrEmpty(orderInfo.getOrderName().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderInfo.getOrderAddress().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderInfo.getOrderPhone().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
         }
 
         b =  orderService.addOrder(orderInfo);
 
         if (b) {
-            outWorkInfomation("ADD ORDER", orderInfo);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_ADD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + orderInfo);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER ADD ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
     }
 
@@ -116,40 +104,32 @@ public class OrderController {
     public ResponseResult add(OrderEntity orderEntity) {
 
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER START ! ==========");
 
         if (SystemUtils.isNullOrEmpty(orderEntity.getOrderId().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ID-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE ORDER", orderEntity);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
         }
         //收件信息
         if (SystemUtils.isNullOrEmpty(orderEntity.getOrderName().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE ORDER", orderEntity);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderEntity.getOrderAddress().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE ORDER", orderEntity);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
         }
         if (SystemUtils.isNullOrEmpty(orderEntity.getOrderPhone().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE ORDER", orderEntity);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
         }
 
         b =  orderService.updOrder(orderEntity);
 
         if (b) {
-            outWorkInfomation("UPDATE ORDER", orderEntity);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + orderEntity);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -163,18 +143,14 @@ public class OrderController {
     @PostMapping("/update/track")
     public ResponseResult updateOrderTrack(int orderId, String orderTrack) {
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER START ! ==========");
 
         b = orderService.updOrderTrack(orderId, orderTrack);
 
         if (b) {
-            outWorkInfomation("UPDATE ORDER", orderId);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "快递单号为:" + orderTrack);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -187,18 +163,14 @@ public class OrderController {
     @PostMapping("/update/status")
     public ResponseResult updateOrderStatus(int orderId) {
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER START ! ==========");
 
         b = orderService.updOrderStatus(orderId);
 
         if (b) {
-            outWorkInfomation("UPDATE ORDER", orderId);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -206,18 +178,14 @@ public class OrderController {
     @PostMapping("/update/back")
     public ResponseResult updateOrderBack(int orderId) {
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER START ! ==========");
 
         b = orderService.updOrderBack(orderId);
 
         if (b) {
-            outWorkInfomation("UPDATE ORDER", orderId);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -225,18 +193,14 @@ public class OrderController {
     @PostMapping("/update/BackOK")
     public ResponseResult updateOrderBackOk(int orderId) {
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER START ! ==========");
 
         b = orderService.updOrderBackOk(orderId);
 
         if (b) {
-            outWorkInfomation("UPDATE ORDER", orderId);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -244,18 +208,14 @@ public class OrderController {
     @PostMapping("/update/Cancel")
     public ResponseResult updateOrderCancel(int orderId) {
         Boolean b = false;
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER START ! ==========");
 
         b = orderService.updOrderCancel(orderId);
 
         if (b) {
-            outWorkInfomation("UPDATE ORDER", orderId);
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER UPDATE ORDER END ! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -268,30 +228,14 @@ public class OrderController {
     @GetMapping("/findAll")
     public ResponseResult findAll() {
 
-        logger.info("========== TRANTAL ORDER CONTROLLER SELECT ALL ORDER START! ==========");
         List<OrderEntity> orderEntityList = null;
         orderEntityList = orderService.getAllOrder();
         if (orderEntityList == null) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");
         }
         logger.info("TRANTAL ALL ORDER INFO: " + orderEntityList);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL ORDER CONTROLLER SELECT ALL ORDER END! ==========");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderEntityList);
     }
 
 
-    //
-    //订单接口层功能模块
-    //
-    /**
-     * 抽离结尾输出代码
-     * @param toDo
-     * @param t
-     */
-    public <T> void outWorkInfomation(String toDo, T t) {
-        logger.info("TRANTAL ALL OBJECT INFO: " + t);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL OBJECT CONTROLLER " + toDo + " OBJECT INFO END! ==========");
-    }
 }

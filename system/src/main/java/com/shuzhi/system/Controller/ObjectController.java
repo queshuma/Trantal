@@ -50,19 +50,16 @@ public class ObjectController {
     @PostMapping("/add")
     public ResponseResult add(ObjectInfo objectInfo) {
 
-        logger.info("========== TRANTAL OBJECT CONTROLLER ADD OBJECT INFO START! ==========");
         Boolean b = false;
 
         //输入产品名称为空
         if(SystemUtils.isNullOrEmpty(objectInfo.getObjectName())) {
             logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD OBJECT", objectInfo);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_ADD_NAME_NULL);
         }
         //输入产品名称长度越界
         if (objectInfo.getObjectName().length() < ObjectSetting.OBJECT_INFO_NAME_SIZE_MIN || objectInfo.getObjectName().length() > ObjectSetting.OBJECT_INFO_NAME_SIZE_MAX) {
             logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("ADD OBJECT", objectInfo);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_ADD_NAME_SIZE);
         }
         //输入原价为空(警告)
@@ -99,12 +96,10 @@ public class ObjectController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("ADD", objectInfo);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_ADD_SUCCESS);
         }
 
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --ADD FAIL-- ! ");
-        outWorkInfomation("ADD", objectInfo);
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_ADD_FAIL);
 
     }
@@ -118,19 +113,16 @@ public class ObjectController {
     @PostMapping("/update")
     public ResponseResult update(ObjectEntity objectEntity) {
 
-        logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT INFO START! ==========");
         Boolean b = false;
 
         //输入产品名称为空
         if(SystemUtils.isNullOrEmpty(objectEntity.getObjectName())) {
             logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("UPDATE OBJECT", objectEntity);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL_NAME_NULL);
         }
         //输入产品名称长度越界
         if (objectEntity.getObjectName().length() < ObjectSetting.OBJECT_INFO_NAME_SIZE_MIN || objectEntity.getObjectName().length() > ObjectSetting.OBJECT_INFO_NAME_SIZE_MAX) {
             logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME SIZE-- TO LONG/SHORT ! ");
-            outWorkInfomation("UPDATE OBJECT", objectEntity);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL_NAME_SIZE);
         }
         //输入原价为空(警告)
@@ -162,12 +154,10 @@ public class ObjectController {
 
         //更新数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("UPDATE", objectEntity);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_UPD_SUCCESS, objectEntity);
         }
 
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE FAIL-- ! ");
-        outWorkInfomation("UPDATE", objectEntity);
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL   );
     }
 
@@ -178,8 +168,6 @@ public class ObjectController {
     @ApiOperation("查找所有产品")
     @GetMapping("/find/all")
     public ResponseResult findAll() {
-
-        logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT START ! ==========");
 
         List<ObjectEntity> objectEntityList = null;
         objectEntityList = objectService.getAllObject();
@@ -198,18 +186,15 @@ public class ObjectController {
     @ApiOperation("修改商品状态(删除)")
     @PostMapping("/update/delete")
     public ResponseResult updateDelete(int objectId) {
-        logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT STATUS INFO START! ==========");
         Boolean b = false;
 
         b = objectService.updObjectStatus(objectId, ZERO);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("UPDATE", null);
             return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_DEL_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        outWorkInfomation("UPDATE", null);
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_DEL_FAIL);
     }
 
@@ -220,7 +205,6 @@ public class ObjectController {
      */
     @PostMapping("/find/classes")
     public ResponseResult findObjectClasses(String objectClasses) {
-        logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT START ! ==========");
 
         List<ObjectEntity> objectEntityList = null;
         objectEntityList = objectService.getObjectClasses(objectClasses);
@@ -238,7 +222,6 @@ public class ObjectController {
      */
     @PostMapping("/find/userAccount")
     public ResponseResult findObjectUserAccount(String objectUserAccount) {
-        logger.info("========== TRANTAL USER CONTROLLER SELECT ALL OBJECT START ! ==========");
 
         List<ObjectEntity> objectEntityList = null;
         objectEntityList = objectService.getObjectUserName(objectUserAccount);
@@ -249,18 +232,4 @@ public class ObjectController {
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectUserAccount, objectEntityList);
     }
 
-
-    //
-    //商品接口层功能模块
-    //
-    /**
-     * 抽离结尾输出代码
-     * @param toDo
-     * @param t
-     */
-    public <T> void outWorkInfomation(String toDo, T t) {
-        logger.info("TRANTAL ALL OBJECT INFO: " + t);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL OBJECT CONTROLLER " + toDo + " OBJECT INFO END! ==========");
-    }
 }

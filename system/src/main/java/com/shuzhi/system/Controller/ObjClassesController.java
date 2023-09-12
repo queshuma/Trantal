@@ -42,12 +42,9 @@ public class ObjClassesController {
     @GetMapping("/findAll")
     public ResponseResult findAll(){
 
-        logger.info("========== TRANTAL OBJECT CLASSES CONTROLLER SELECT ALL OBJECT CLASSES START ! ==========");
-
         List<ObjClassesEntity> objectEntityList = null;
         objectEntityList = objClassesService.getAllClasses();
 
-        outWorkInfomation("FIND", objectEntityList);
         return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objectEntityList);
 
     }
@@ -61,13 +58,11 @@ public class ObjClassesController {
     @PostMapping("/add")
     public ResponseResult add(ObjClassesInfo objClassesInfo) {
 
-        logger.info("========== TRANTAL OBJEC CLASSEST CONTROLLER ADD OBJIECT CLASSES INFO START! ==========");
         Boolean b = false;
 
         //输入产品名称为空
         if(SystemUtils.isNullOrEmpty(objClassesInfo.getClassesName())) {
             logger.error("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO --CLASSES NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("ADD OBJECT CLASSES", objClassesInfo);
             return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_ADD_FAIL_NAME_NULL);
         }
         //输入上级名称为空
@@ -80,12 +75,10 @@ public class ObjClassesController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("ADD", objClassesInfo);
             return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ADD_SUCCESS);
         }
 
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --ADD FAIL-- ! ");
-        outWorkInfomation("ADD", objClassesService);
         return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_ADD_FAIL);
 
     }
@@ -98,18 +91,15 @@ public class ObjClassesController {
     @ApiOperation("修改商品分类状态(删除)")
     @PostMapping("/delete")
     public ResponseResult delete(int objClassesId) {
-        logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT STATUS INFO START! ==========");
         Boolean b = false;
 
         b = objClassesService.updObjectClasses(objClassesId);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("UPDATE", null);
             return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_DEL_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        outWorkInfomation("UPDATE", null);
         return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_DEL_FAIL);
     }
 
@@ -121,13 +111,11 @@ public class ObjClassesController {
     @ApiOperation("修改商品分类信息")
     @PostMapping("/update")
     public ResponseResult delete(ObjClassesEntity objClassesEntity) {
-        logger.info("========== TRANTAL OBJECT CONTROLLER UPDATE OBJECT STATUS INFO START! ==========");
         Boolean b = false;
 
         //输入产品名称为空
         if(SystemUtils.isNullOrEmpty(objClassesEntity.getClassesName())) {
             logger.error("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO --CLASSES NAME-- INPUT IS NULL ! ");
-            outWorkInfomation("UPD OBJECT CLASSES", objClassesEntity);
             return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL_CLASSES_NAME_NULL);
         }
         //输入上级编号为空，默认为0
@@ -145,25 +133,10 @@ public class ObjClassesController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            outWorkInfomation("UPDATE", null);
             return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_UPD_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        outWorkInfomation("UPDATE", null);
         return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL);
     }
 
-    //
-    //商品接口层功能模块
-    //
-    /**
-     * 抽离结尾输出代码
-     * @param toDo
-     * @param t
-     */
-    public <T> void outWorkInfomation(String toDo, T t) {
-        logger.info("TRANTAL ALL OBJECT INFO: " + t);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL OBJECT CLASSES CONTROLLER " + toDo + " OBJECT CLASSES INFO END! ==========");
-    }
 }
