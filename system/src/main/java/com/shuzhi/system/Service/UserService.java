@@ -37,7 +37,6 @@ public class UserService {
     @Transactional
     public Boolean addUser(UserInfo userInfo) {
 
-        logger.info("-------TRANTAL USER ADD SERVICE START-------");
         int b = 0;
         UserEntity userEntity = null;
         userEntity = InfoToEntity(userInfo);
@@ -67,7 +66,6 @@ public class UserService {
     @Transactional
     public Boolean updUser(UserEntity userEntity) {
 
-        logger.info("-------TRANTAL USER UPDATE SERVICE START-------");
         int b = 0;
 
         logger.info("USER SERVICE UPDATE USER PHONE START");
@@ -95,7 +93,7 @@ public class UserService {
      */
     @Transactional
     public Boolean updUserLevel(int userId, int userLevel) {
-        logger.info("-------TRANTAL USER UPDATE SERVICE START-------");
+
         int b = 0;
 
         logger.info("USER SERVICE UPDATE USER INFO START");
@@ -109,7 +107,7 @@ public class UserService {
             logger.error("result: userId" + userId + ",userLevel " + userLevel);
         }
         logger.info("USER SERVICE UPDATE USER INFO END");
-        logger.info("-------TRANTAL USER UPDATE SERVICE END-------");
+
         if (b == SERVICE_UPDATE_USER_INFO_NUMBER) {
             return true;
         }
@@ -123,7 +121,7 @@ public class UserService {
      */
     @Transactional
     public List<UserEntity> getAllUser() {
-        logger.info("-------TRANTAL USER SELECT SERVICE START-------");
+
         List<UserEntity> userEntityList = null;
         logger.info("USER SERVICE SELECT ALL USER START");
 
@@ -137,7 +135,7 @@ public class UserService {
             logger.error("result: " + userEntityList.toString());
         }
         userEntityList = setListPwdIsNull(userEntityList);
-        logger.info("-------TRANTAL USER SELECT SERVICE END-------");
+
         return userEntityList;
     }
 
@@ -148,7 +146,7 @@ public class UserService {
      */
     @Transactional
     public UserEntity getUserPhone(String userPhone) {
-        logger.info("-------TRANTAL USER SELECT SERVICE START-------");
+
         UserEntity userEntity = null;
         logger.info("USER SERVICE SELECT USER PHONE START");
 
@@ -163,7 +161,6 @@ public class UserService {
             logger.error("result: " + userEntity);
         }
 
-        logger.info("-------TRANTAL USER SELECT SERVICE END-------");
         return userEntity;
     }
 
@@ -174,7 +171,7 @@ public class UserService {
      */
     @Transactional
     public UserEntity getUserAccount(String userAccount) {
-        logger.info("-------TRANTAL USER SELECT SERVICE START-------");
+
         UserEntity userEntity = null;
         logger.info("USER SERVICE SELECT USER ACCOUNT START");
 
@@ -189,7 +186,6 @@ public class UserService {
             logger.error("result: " + userEntity.toString());
         }
 
-        logger.info("-------TRANTAL USER SELECT SERVICE END-------");
         return userEntity;
     }
 
@@ -200,7 +196,7 @@ public class UserService {
      */
     @Transactional
     public UserEntity getUserEmail(String userEmail) {
-        logger.info("-------TRANTAL USER SELECT SERVICE START-------");
+
         UserEntity userEntity = null;
         logger.info("USER SERVICE SELECT USER EMAIL START");
 
@@ -215,7 +211,6 @@ public class UserService {
             logger.error("result: " + userEntity.toString());
         }
 
-        logger.info("-------TRANTAL USER SELECT SERVICE END-------");
         return userEntity;
     }
 
@@ -226,7 +221,7 @@ public class UserService {
      */
     @Transactional
     public List<UserEntity> getUserName(String userName) {
-        logger.info("-------TRANTAL USER SELECT SERVICE START-------");
+
         List<UserEntity> userEntityList = null;
         logger.info("USER SERVICE SELECT USER NAME START");
 
@@ -241,7 +236,6 @@ public class UserService {
             logger.error("result: " + userEntityList.toString());
         }
 
-        logger.info("-------TRANTAL USER SELECT SERVICE END-------");
         return userEntityList;
     }
 

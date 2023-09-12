@@ -34,11 +34,9 @@ public class ObjClassesService {
     @Transactional
     public List<ObjClassesEntity> getAllClasses() {
 
-        logger.info("-------TRANTAL OBJECT CLASSES SELECT SERVICE START-------");
         int b = 0;
         List<ObjClassesEntity> objClassesEntityList = new ArrayList<>();
 
-        logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO START");
         try {
             objClassesEntityList = objClassesMapper.findAllClasses();
             logger.info("OBJECT CLASSES SERVICE SELECT OBJECT CLASSES SUCCESS!");
@@ -50,7 +48,6 @@ public class ObjClassesService {
         }
         logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO END");
 
-        logger.info("-------TRANTAL OBJECT CLASSES SELECT SERVICE END-------");
         return objClassesEntityList;
 
     }
@@ -74,7 +71,6 @@ public class ObjClassesService {
         }
         logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO END");
 
-        logger.info("-------TRANTAL OBJECT CLASSES SELECT SERVICE END-------");
         return b;
     }
 
@@ -85,7 +81,7 @@ public class ObjClassesService {
      */
     @Transactional
     public Boolean updObjectClasses(int objClassesId) {
-        logger.info("-------TRANTAL OBJECT CLASSES UPDATE SERVICE START-------");
+
         int b = 0;
 
         logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO START");
@@ -112,7 +108,6 @@ public class ObjClassesService {
      */
     @Transactional
     public Boolean updObjectClasses(ObjClassesEntity objClassesEntity) {
-        logger.info("-------TRANTAL OBJECT CLASSES UPDATE SERVICE START-------");
         int b = 0;
 
         logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO START");
@@ -126,7 +121,7 @@ public class ObjClassesService {
             logger.error("result: userId" + objClassesEntity);
         }
         logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO END");
-        logger.info("-------TRANTAL OBJECT CLASSES UPDATE SERVICE END-------");
+
         if (b == SERVICE_UPDATE_OBJECT_INFO_NUMBER) {
             return true;
         }

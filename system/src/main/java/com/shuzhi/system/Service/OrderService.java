@@ -37,7 +37,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean addOrder(OrderInfo orderInfo) {
-        logger.info("-------TRANTAL OBJECT ADD SERVICE START-------");
+
         int b = 0;
         Random random = new Random(System.currentTimeMillis());
         String orderNumber = String.valueOf(random.nextLong());
@@ -71,7 +71,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean updOrder(OrderEntity orderEntity) {
-        logger.info("-------TRANTAL OBJECT ADD SERVICE START-------");
+
         int b = 0;
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
@@ -99,7 +99,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean updOrderTrack(int orderId, String orderTrack) {
-        logger.info("-------TRANTAL OBJECT ADD SERVICE START-------");
+
         int b = 0;
         int orderStatus = 1;
 
@@ -127,7 +127,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean updOrderStatus(int orderId) {
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE START-------");
+
         int b = 0;
         int orderStatus = 2;
 
@@ -155,7 +155,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean updOrderBack(int orderId) {
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE START-------");
+
         int b = 0;
         int orderStatus = 3;
 
@@ -183,7 +183,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean updOrderBackOk(int orderId) {
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE START-------");
+
         int b = 0;
         int orderStatus = 4;
 
@@ -211,7 +211,7 @@ public class OrderService {
      */
     @Transactional
     public Boolean updOrderCancel(int orderId) {
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE START-------");
+
         int b = 0;
         int orderStatus = 5;
 
@@ -239,7 +239,7 @@ public class OrderService {
      */
     @Transactional
     public List<OrderEntity> getAllOrder() {
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE START-------");
+
         List<OrderEntity> orderEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
@@ -253,7 +253,6 @@ public class OrderService {
             logger.error("result: " + orderEntityList.toString());
         }
 
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE END-------");
         return orderEntityList;
     }
 

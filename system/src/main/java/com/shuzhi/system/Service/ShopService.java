@@ -39,7 +39,7 @@ public class ShopService {
      */
     @Transactional
     public Boolean addShop(ShopInfo shopInfo) {
-        logger.info("-------TRANTAL SHOP ADD SERVICE START-------");
+
         int b = 0;
 
         Date date = new Date();
@@ -65,7 +65,7 @@ public class ShopService {
 
     @Transactional
     public List<ShopEntity> getShopUserId(int userId) {
-        logger.info("-------TRANTAL SHOP SELECT SERVICE START-------");
+
         List<ShopEntity> shopEntityList = null;
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
@@ -79,12 +79,11 @@ public class ShopService {
             logger.error("result: " + shopEntityList);
         }
 
-        logger.info("-------TRANTAL SHOP SELECT SERVICE END-------");
         return shopEntityList;
     }
 
     public Boolean updShopCount(int shopId, int objectCount) {
-        logger.info("-------TRANTAL SHOP SELECT SERVICE START-------");
+
         Boolean b = false;
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
@@ -98,12 +97,11 @@ public class ShopService {
             logger.error("result: shopId = " + shopId + "objectCount = " + objectCount);
         }
 
-        logger.info("-------TRANTAL SHOP SELECT SERVICE END-------");
         return b;
     }
 
     public Boolean updShopStatus(int shopId, int objectStatus) {
-        logger.info("-------TRANTAL SHOP SELECT SERVICE START-------");
+
         Boolean b = false;
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
@@ -117,7 +115,6 @@ public class ShopService {
             logger.error("result: shopId = " + shopId + "objectStatus = " + objectStatus);
         }
 
-        logger.info("-------TRANTAL SHOP SELECT SERVICE END-------");
         return b;
     }
 }

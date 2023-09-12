@@ -38,7 +38,6 @@ public class ObjectService {
     @Transactional
     public Boolean addObject(ObjectInfo objectInfo) {
 
-        logger.info("-------TRANTAL OBJECT ADD SERVICE START-------");
         int b = 0;
         objectInfo.setObjectTime(new Date());
         objectInfo.setObjectStatus((long) common.ONE);
@@ -68,7 +67,6 @@ public class ObjectService {
     @Transactional
     public Boolean updObject(ObjectEntity objectEntity) {
 
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE START-------");
         int b = 0;
 
         logger.info("OBJECT SERVICE UPDATE OBJECT INFO START");
@@ -96,7 +94,7 @@ public class ObjectService {
      */
     @Transactional
     public Boolean updObjectStatus(int objectId, int objectStatus) {
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE START-------");
+
         int b = 0;
 
         logger.info("OBJECT SERVICE UPDATE OBJECT STATUS INFO START");
@@ -110,7 +108,7 @@ public class ObjectService {
             logger.error("result: objectId" + objectId + ",objectStatus " + objectStatus);
         }
         logger.info("OBJECT SERVICE UPDATE USEOBJECT INFO END");
-        logger.info("-------TRANTAL OBJECT UPDATE SERVICE END-------");
+
         if (b == SERVICE_UPDATE_OBJECT_INFO_NUMBER) {
             return true;
         }
@@ -124,7 +122,7 @@ public class ObjectService {
      */
     @Transactional
     public List<ObjectEntity> getAllObject() {
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE START-------");
+
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT ALL OBJECT START");
 
@@ -137,7 +135,7 @@ public class ObjectService {
             logger.error("ERROE:" + e);
             logger.error("result: " + objectEntityList.toString());
         }
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE END-------");
+
         return objectEntityList;
     }
 
@@ -162,7 +160,7 @@ public class ObjectService {
             logger.error("result: " + objectEntityList.toString());
         }
 
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE END-------");
+
         return objectEntityList;
     }
 
@@ -173,7 +171,7 @@ public class ObjectService {
      */
     @Transactional
     public List<ObjectEntity> getObjectUserName(String ObjectUserAccount) {
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE START-------");
+
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
@@ -187,7 +185,6 @@ public class ObjectService {
             logger.error("result: " + objectEntityList.toString());
         }
 
-        logger.info("-------TRANTAL OBJECT SELECT SERVICE END-------");
         return objectEntityList;
     }
 
