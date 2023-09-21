@@ -47,9 +47,15 @@ public interface UserCode {
     String SYSTEM_USER_ERROR_FIND_NAME_NULL = "010154";
     String SYSTEM_USER_ERROR_FIND_ACCOUNT_NULL = "010155";
 
+    //用户登陆错误状态码
+    String SYSTEM_USER_ERROR_LOGIN_FAIL = "010201";
+    String SYSTEM_USER_ERROR_LOGIN_INFO_NULL = "010202";
+    String SYSTEM_USER_ERROR_LOGIN_INFO_ERROR = "010203";
+
     //10500-10999   成功的提示
     String SYSTEM_USER_INFO_ADD_SUCCESS = "010000";   //用户添加成功
     String SYSTEM_USER_INFO_DEL_SUCCESS = "010050";   //用户删除成功
     String SYSTEM_USER_INFO_UPD_SUCCESS = "010100";   //用户更新成功
     String SYSTEM_USER_INFO_FIND_SUCCESS = "010150";   //用户查询成功
+    String SYSTEM_USER_ERROR_LOGIN_SUCCESS = "010200";  //用户登陆成功
 }

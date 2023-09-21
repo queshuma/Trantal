@@ -3,6 +3,7 @@ package com.shuzhi.system.Service;
 import com.shuzhi.entity.UserEntity;
 import com.shuzhi.system.Info.UserInfo;
 import com.shuzhi.system.Mapper.UserMapper;
+import com.shuzhi.system.config.JwtConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,6 +238,58 @@ public class UserService {
         }
 
         return userEntityList;
+    }
+
+    /**
+     * 根据手机号进行校验
+     * @param phone
+     * @param password
+     * @return
+     */
+    @Transactional
+    public String userPhoneCheck(String phone, String password) {
+        String token = null;
+        try {
+            UserEntity userEntity = userMapper.loginByPhone(phone, password);
+            userEntity = setPwdIsNull(userEntity);
+            //String userId
+            Long userId = userEntity.getUserId();
+            System.out.println("生成token");
+            token = JwtConfig.jwtGenerator(String.valueOf(userId), userEntity.getUserName(), userEntity.getUserAccount());
+            logger.info("token: " + token);
+            logger.info("USER SERVICE SELECT USER NAME SUCCESS!");
+            logger.info("result: " + userEntity.toString());
+        }catch (Exception e) {
+            logger.error("USER SERVICE SELECT USER NAME ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + phone + "/" + password);
+            return token;
+        }
+
+
+        return token;
+    }
+    @Transactional
+    public String userEmailCheck(String email, String password) {
+        String token = null;
+        try {
+            UserEntity userEntity = userMapper.loginByPhone(email, password);
+            userEntity = setPwdIsNull(userEntity);
+            //String userId
+            Long userId = userEntity.getUserId();
+            token = JwtConfig.jwtGenerator(String.valueOf(userId), userEntity.getUserName(), userEntity.getUserAccount());
+            logger.info("token: " + token);
+            logger.info("USER SERVICE SELECT USER NAME SUCCESS!");
+            logger.info("result: " + userEntity.toString());
+        }catch (Exception e) {
+            logger.error("USER SERVICE SELECT USER NAME ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + email + "/" + password);
+            return token;
+        }
+
+
+        return token;
     }
 
     //

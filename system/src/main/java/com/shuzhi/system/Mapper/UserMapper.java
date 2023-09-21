@@ -99,4 +99,24 @@ public interface UserMapper {
     @Select("SELECT * FROM trantal_user WHERE user_email = #{userEmail}")
     @ResultMap("userResultMap")
     UserEntity getUserEmail(String userEmail);
+
+    /**
+     * 根据手机号码进行登陆校验
+     * @param userPhone
+     * @param userPassword
+     * @return
+     */
+    @Select("SELECT * FROM trantal_user WHERE user_phone = #{userPhone} AND user_password = #{userPassword}")
+    @ResultMap("userResultMap")
+    UserEntity loginByPhone(String userPhone, String userPassword);
+
+    /**
+     * 根据进行登陆校验
+     * @param userEmail
+     * @param userPassword
+     * @return
+     */
+    @Select("SELECT * FROM trantal_user WHERE user_email = #{userEmail} AND user_password = #{userPassword}")
+    @ResultMap("userResultMap")
+    UserEntity loginByEmail(String userEmail, String userPassword);
 }

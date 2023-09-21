@@ -8,6 +8,8 @@ import com.shuzhi.result.code.UserCode;
 import com.shuzhi.result.parmSetting.UserSetting;
 import com.shuzhi.system.Info.UserInfo;
 import com.shuzhi.system.Service.UserService;
+import com.shuzhi.system.config.CookieConfig;
+import com.shuzhi.system.config.JwtConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static com.shuzhi.common.SystemUtils.*;
@@ -115,7 +120,7 @@ public class UserController {
      */
     @ApiOperation("修改用户信息")
     @PostMapping("/update")
-    public ResponseResult update(UserEntity userEntity) {
+    public ResponseResult update(UserEntity userEntity, HttpServletRequest httpServletRequest) {
 
         Boolean b = false;
 
@@ -272,7 +277,6 @@ public class UserController {
     @ApiOperation("根据手机号查找")
     @PostMapping("/findByPhone")
     public ResponseResult findByPhone(String userPhone) {
-
         UserEntity userEntity = null;
         String resultCode = UserCode.SYSTEM_USER_INFO_FIND_SUCCESS;
         if(!SystemUtils.isNull(userPhone)) {
@@ -368,4 +372,60 @@ public class UserController {
         return ResponseResultFactory.buildResponseFactory(resultCode, userEntityList);
     }
 
+    /**
+     * 用户登陆接口
+     * @param info
+     * @param password
+     * @return
+     */
+    @ApiOperation("根据邮箱/手机登陆")
+    @PostMapping("/login")
+    public ResponseResult loginByPhoneAndEmail(String info, String password, HttpServletResponse httpServletResponse) {
+        //定义返回的状态码
+        String resultCode;
+
+        //初步筛选，邮箱和手机号是否为空
+        if (SystemUtils.isNull(info) || SystemUtils.isNull(password)) {
+            resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_NULL;
+            return ResponseResultFactory.buildResponseFactory(resultCode);
+        }
+
+        //区分邮箱登陆或者是手机号码登陆
+        String token = null;
+        if (info.contains("@")) {
+            if (info.length() > UserSetting.USER_INFO_EMAIL_SIZE_MAX || info.length() < UserSetting.USER_INFO_EMAIL_SIZE_MIN) {
+                resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_ERROR;
+                return ResponseResultFactory.buildResponseFactory(resultCode);
+            }
+            token = userService.userEmailCheck(info, password);
+        } else {
+            if (info.length() > UserSetting.USER_INFO_PHONE_SIZE_MAX || info.length() < UserSetting.USER_INFO_PHONE_SIZE_MIN) {
+                resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_ERROR;
+                return ResponseResultFactory.buildResponseFactory(resultCode);
+            }
+            token = userService.userPhoneCheck(info, password);
+        }
+
+        if (!SystemUtils.isNullOrEmpty(token)) {
+            //设置添加cookie
+            CookieConfig.setClientCookie(httpServletResponse, info, token);
+            return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_LOGIN_SUCCESS, token);
+        } else {
+            return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_LOGIN_FAIL);
+        }
+
+    }
+
+
+    /**
+     * 用户退出接口
+     * @param httpServletResponse
+     * @return
+     */
+    @ApiOperation("退出登陆")
+    @GetMapping("/logout")
+    public ResponseResult logoutUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        CookieConfig.delClientCookie(httpServletRequest, httpServletResponse);
+        return ResponseResultFactory.buildResponseFactory("200");
+    }
 }
