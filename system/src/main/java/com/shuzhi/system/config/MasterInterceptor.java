@@ -22,24 +22,33 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Component
-public class LoginInterceptor implements HandlerInterceptor {
+public class MasterInterceptor implements HandlerInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
+    private final Logger logger = LoggerFactory.getLogger(MasterInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) {
         try {
-            for (Cookie c:httpServletRequest.getCookies()) {
-                JWSObject jwsObject = JWSObject.parse(c.getValue());
-                Payload payload = jwsObject.getPayload();
+            if(httpServletRequest.getCookies() != null) {
+                for (Cookie c:httpServletRequest.getCookies()) {
+                    JWSObject jwsObject = JWSObject.parse(c.getValue());
+                    Payload payload = jwsObject.getPayload();
 
-                JWTClaimsSet claimsSet = JWTClaimsSet.parse(payload.toJSONObject());
+                    JWTClaimsSet claimsSet = JWTClaimsSet.parse(payload.toJSONObject());
 
-                String userId = claimsSet.getSubject();
-                return true;
+                    String userId = claimsSet.getSubject();
+                    long userLevel = (long) claimsSet.getClaim("userLevel");
+                    if (userLevel == 2) {
+                        logger.info("用户权限等级：Master");
+                        return true;
+                    } else {
+                        logger.info("用户权限等级：Business");
+                        return false;
+                    }
+                }
             }
         }catch (Exception e) {
-                logger.error("ERROR: " + e);
+            logger.error("ERROR: " + e);
         }
         return false;
     }

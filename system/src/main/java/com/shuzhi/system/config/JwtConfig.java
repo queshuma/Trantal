@@ -23,7 +23,7 @@ import java.util.UUID;
 public class JwtConfig {
 
     //设置默认存活时间为10小时
-    public static String jwtGenerator(String userId, String userName, String userAccount) throws NoSuchAlgorithmException, JOSEException {
+    public static String jwtGenerator(String userId, String userName, String userAccount, long userLevel) throws NoSuchAlgorithmException, JOSEException {
         // 生成RSA密钥对
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
@@ -38,7 +38,8 @@ public class JwtConfig {
                 .expirationTime(new Date(new Date().getTime() + 3600 * 10000)) // 10小时后过期
                 //自定义属性
                 .claim("userName", userName)
-                .claim( "username", userAccount)
+                .claim( "userAccount", userAccount)
+                .claim("userLevel", userLevel)
                 .jwtID(UUID.randomUUID().toString())
                 .build();
 

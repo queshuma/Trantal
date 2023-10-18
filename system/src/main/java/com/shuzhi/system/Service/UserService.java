@@ -255,7 +255,8 @@ public class UserService {
             //String userId
             Long userId = userEntity.getUserId();
             System.out.println("生成token");
-            token = JwtConfig.jwtGenerator(String.valueOf(userId), userEntity.getUserName(), userEntity.getUserAccount());
+            token = JwtConfig.jwtGenerator(String.valueOf(userId), userEntity.getUserName(),
+                    userEntity.getUserAccount(), userEntity.getUserLevel());
             logger.info("token: " + token);
             logger.info("USER SERVICE SELECT USER NAME SUCCESS!");
             logger.info("result: " + userEntity.toString());
@@ -277,7 +278,8 @@ public class UserService {
             userEntity = setPwdIsNull(userEntity);
             //String userId
             Long userId = userEntity.getUserId();
-            token = JwtConfig.jwtGenerator(String.valueOf(userId), userEntity.getUserName(), userEntity.getUserAccount());
+            token = JwtConfig.jwtGenerator(String.valueOf(userId), userEntity.getUserName(),
+                    userEntity.getUserAccount(), userEntity.getUserLevel());
             logger.info("token: " + token);
             logger.info("USER SERVICE SELECT USER NAME SUCCESS!");
             logger.info("result: " + userEntity.toString());

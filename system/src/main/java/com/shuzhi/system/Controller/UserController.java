@@ -258,8 +258,7 @@ public class UserController {
      */
     @ApiOperation("查找所有用户")
     @GetMapping("/findAll")
-    public ResponseResult findAll() {
-
+    public ResponseResult findAll(HttpServletRequest httpServletRequest) {
         List<UserEntity> userEntityList = null;
         userEntityList = userService.getAllUser();
         if (userEntityList == null) {
