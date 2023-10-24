@@ -45,7 +45,7 @@ public class OrderController {
      */
     @ApiOperation("添加订单")
     @PostMapping("/add")
-    public ResponseResult add(OrderInfo orderInfo) {
+    public ResponseResult add(OrderInfo orderInfo) throws Exception {
 
         Boolean b = false;
 
@@ -58,14 +58,14 @@ public class OrderController {
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_USER_ID_NULL);
         }
         //商品信息
-        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectPrice().toString())) {
-            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT PRICE-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_PRICE_NULL);
-        }
-        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCost().toString())) {
-            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COST-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
-        }
+//        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectPrice().toString())) {
+//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT PRICE-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_PRICE_NULL);
+//        }
+//        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCost().toString())) {
+//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COST-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
+//        }
         if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCount().toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);

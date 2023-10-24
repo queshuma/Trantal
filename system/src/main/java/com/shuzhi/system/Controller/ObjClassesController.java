@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import org.slf4j.Logger;
 
-import static com.shuzhi.result.common.ZERO;
+import static com.shuzhi.result.Common.ZERO;
 
 @RestController
 @RequestMapping("/Object/Classes")

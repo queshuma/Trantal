@@ -3,3 +3,4 @@ spring:
     name: system
   profiles:
     active: dev
+

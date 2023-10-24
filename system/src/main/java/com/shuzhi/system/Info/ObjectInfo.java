@@ -16,6 +16,8 @@ public class ObjectInfo {
     private Long objectStatus;
     private Date objectTime;
     private Long objectClasses;
+    private String objectBanner;
+    private String objectImg;
     private Long userId;
 
     public String getOrderName() {
@@ -112,6 +114,22 @@ public class ObjectInfo {
 
     public void setObjectClasses(Long objectClasses) {
         this.objectClasses = objectClasses;
+    }
+
+    public String getObjectBanner() {
+        return objectBanner;
+    }
+
+    public void setObjectBanner(String objectBanner) {
+        this.objectBanner = objectBanner;
+    }
+
+    public String getObjectImg() {
+        return objectImg;
+    }
+
+    public void setObjectImg(String objectImg) {
+        this.objectImg = objectImg;
     }
 
     public ObjectInfo() {

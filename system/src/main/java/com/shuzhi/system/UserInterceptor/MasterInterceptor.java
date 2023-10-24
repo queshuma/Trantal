@@ -1,4 +1,4 @@
-package com.shuzhi.system.config;
+package com.shuzhi.system.UserInterceptor;
 
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.Payload;
@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Component
-public class ClientInterceptor implements HandlerInterceptor {
+public class MasterInterceptor implements HandlerInterceptor {
 
-    private final Logger logger = LoggerFactory.getLogger(ClientInterceptor.class);
+    private final Logger logger = LoggerFactory.getLogger(MasterInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) {
@@ -38,16 +38,15 @@ public class ClientInterceptor implements HandlerInterceptor {
 
                     String userId = claimsSet.getSubject();
                     long userLevel = (long) claimsSet.getClaim("userLevel");
-                    System.out.println("进入一层判断");
-                    if (userLevel >= 0) {
+                    if (userLevel == 2) {
+                        logger.info("用户权限等级：Master");
                         return true;
                     } else {
-                        logger.info("用户权限等级：Tourist");
+                        logger.info("用户权限等级：Business");
                         return false;
                     }
                 }
             }
-            return false;
         }catch (Exception e) {
             logger.error("ERROR: " + e);
         }

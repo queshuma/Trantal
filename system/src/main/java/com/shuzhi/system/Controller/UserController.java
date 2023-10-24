@@ -8,8 +8,7 @@ import com.shuzhi.result.code.UserCode;
 import com.shuzhi.result.parmSetting.UserSetting;
 import com.shuzhi.system.Info.UserInfo;
 import com.shuzhi.system.Service.UserService;
-import com.shuzhi.system.config.CookieConfig;
-import com.shuzhi.system.config.JwtConfig;
+import com.shuzhi.system.Config.CookieConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.LoggerFactory;
@@ -17,13 +16,12 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static com.shuzhi.common.SystemUtils.*;
-import static com.shuzhi.result.common.ZERO;
+import static com.shuzhi.result.Common.ZERO;
 
 
 /**

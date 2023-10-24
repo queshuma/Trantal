@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.shuzhi.result.common.ZERO;
+import static com.shuzhi.result.Common.ZERO;
 
 
 /**

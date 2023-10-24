@@ -1,15 +1,10 @@
-package com.shuzhi.system.config;
+package com.shuzhi.system.Config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import com.shuzhi.system.UserInterceptor.BusinessInterceptor;
+import com.shuzhi.system.UserInterceptor.ClientInterceptor;
+import com.shuzhi.system.UserInterceptor.MasterInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 import static com.shuzhi.result.parmSetting.Authority.*;
 

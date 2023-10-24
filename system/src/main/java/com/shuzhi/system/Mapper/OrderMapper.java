@@ -14,7 +14,10 @@ public interface OrderMapper {
      * @param orderInfo
      * @return
      */
-    @Insert("INSERT INTO trantal_order (order_number, user_id, object_id, object_price, object_count, order_cost, order_info, order_time, order_track, order_address, order_name, order_phone, order_status) VALUES (#{orderNumber}, #{userId}, #{objectId}, #{objectPrice}, #{objectCount}, #{orderCost}, #{orderInfo}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus})")
+//    @Insert("INSERT INTO trantal_order (order_number, user_id, object_id, object_price, object_count, order_cost, order_info, order_time, order_track, order_address, order_name, order_phone, order_status) VALUES (#{orderNumber}, #{userId}, #{objectId}, #{objectPrice}, #{objectCount}, #{orderCost}, #{orderInfo}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus})")
+    @Insert("INSERT INTO trantal_order (order_number, user_id, object_id, object_count, order_info, order_time, order_track, order_address, order_name, order_phone, order_status, object_price, order_cost) \n" +
+            "                   SELECT  #{orderNumber}, #{userId}, #{objectId}, #{objectCount}, #{orderInfo}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus}, obj.object_price,  object_price * #{objectCount}\n" +
+            "                   FROM trantal_object obj WHERE obj.object_id = #{objectCount};")
     int addOrder(OrderInfo orderInfo);
 
     /**
@@ -71,4 +74,5 @@ public interface OrderMapper {
      */
     @Update("UPDATE trantal_order SET order_status = #{orderStatus} WHERE order_id = #{orderId}")
     int updOrderStatus(int orderId, int orderStatus);
+
 }

@@ -1,7 +1,7 @@
 package com.shuzhi.system.Service;
 
 import com.shuzhi.entity.ObjectEntity;
-import com.shuzhi.result.common;
+import com.shuzhi.result.Common;
 import com.shuzhi.system.Info.ObjectInfo;
 import com.shuzhi.system.Mapper.ObjectMapper;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class ObjectService {
 
         int b = 0;
         objectInfo.setObjectTime(new Date());
-        objectInfo.setObjectStatus((long) common.ONE);
+        objectInfo.setObjectStatus((long) Common.ONE);
 
         logger.info("OBJECT SERVICE ADD OBJECT PHONE START");
         try {

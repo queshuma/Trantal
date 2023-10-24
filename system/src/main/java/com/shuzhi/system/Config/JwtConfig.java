@@ -1,4 +1,4 @@
-package com.shuzhi.system.config;
+package com.shuzhi.system.Config;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;

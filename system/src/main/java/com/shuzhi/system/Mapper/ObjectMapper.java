@@ -99,4 +99,16 @@ public interface ObjectMapper {
             "user.user_account = #{ObjectUserAccount} ORDER BY object.object_classes")
     @ResultMap("objectResultMap")
     List<ObjectEntity> getObjectUserAccount(String ObjectUserAccount);
+
+    /**
+     * 提交订单，修改产品的总数
+     * @param ObjectId
+     * @param ObjectCount
+     * @return
+     */
+    @Update("UPDATE trantal_object SET object_count = object_count - #{ObjectCount} WHERE object_id = #{ObjectId};")
+    int updObjectReduce(long ObjectId, long ObjectCount);
+
+    @Select("SELECT object_count FROM trantal_object WHERE object_id = #{ObjectId}")
+    int getObjectCount(long ObjectId);
 }

@@ -3,7 +3,7 @@ package com.shuzhi.system.Service;
 import com.shuzhi.entity.UserEntity;
 import com.shuzhi.system.Info.UserInfo;
 import com.shuzhi.system.Mapper.UserMapper;
-import com.shuzhi.system.config.JwtConfig;
+import com.shuzhi.system.Config.JwtConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

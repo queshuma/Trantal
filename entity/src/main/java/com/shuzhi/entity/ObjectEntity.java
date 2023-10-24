@@ -1,5 +1,6 @@
 package com.shuzhi.entity;
 
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -57,6 +58,12 @@ public class ObjectEntity {
 
 	@Column(name = "user_id")
 	private Long userId;
+
+	@Column(name = "object_banner")
+	private String objectBanner;
+
+	@Column(name = "object_img")
+	private String objectImg;
 
 	public Long getObjectId() {
 		return objectId;
@@ -152,6 +159,22 @@ public class ObjectEntity {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getObjectBanner() {
+		return objectBanner;
+	}
+
+	public void setObjectBanner(String objectBanner) {
+		this.objectBanner = objectBanner;
+	}
+
+	public String getObjectImg() {
+		return objectImg;
+	}
+
+	public void setObjectImg(String objectImg) {
+		this.objectImg = objectImg;
 	}
 
 	public ObjectEntity() {
