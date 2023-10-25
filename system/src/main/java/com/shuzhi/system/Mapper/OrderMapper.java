@@ -31,7 +31,7 @@ public interface OrderMapper {
             @Result(property = "userId", column = "user_id"),
             @Result(property = "objectId", column = "object_id"),
             @Result(property = "objectPrice", column = "object_price"),
-            @Result(property = "objectCost", column = "object_cost"),
+            @Result(property = "objectCost", column = "object_oldprice"),
             @Result(property = "objectCount", column = "object_count"),
             @Result(property = "orderInfo", column = "order_info"),
             @Result(property = "orderTime", column = "order_time"),

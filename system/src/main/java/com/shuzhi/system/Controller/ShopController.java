@@ -7,6 +7,7 @@ import com.shuzhi.entity.OrderEntity;
 import com.shuzhi.entity.ShopEntity;
 import com.shuzhi.result.code.OrderCode;
 import com.shuzhi.result.code.ShopCode;
+import com.shuzhi.system.DTO.ShopDTO;
 import com.shuzhi.system.Info.ShopInfo;
 import com.shuzhi.system.Service.OrderService;
 import com.shuzhi.system.Service.ShopService;
@@ -76,15 +77,15 @@ public class ShopController {
      */
     @ApiOperation("查询购物车")
     @PostMapping("/find/userId")
-    public ResponseResult find(int userId) {
-        List<ShopEntity> shopEntityList = null;
-        shopEntityList = shopService.getShopUserId(userId);
-        if (SystemUtils.isNull(shopEntityList)) {
+    public ResponseResult findById(int userId) {
+        List<ShopDTO> shopDTOList = null;
+        shopDTOList = shopService.getShopUserId(userId);
+        if (SystemUtils.isNull(shopDTOList)) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");
         }
-        logger.info("TRANTAL ALL SHOP INFO: " + shopEntityList);
+        logger.info("TRANTAL ALL SHOP INFO: " + shopDTOList);
         logger.info("RETURN");
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopEntityList);
+        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopDTOList);
     }
 
     @ApiOperation("修改购物车_商品数量")

@@ -29,7 +29,7 @@ public class OrderEntity {
 	@Column(name = "object_price")
 	private Float objectPrice;
 
-	@Column(name = "object_cost")
+	@Column(name = "object_oldprice")
 	private Float objectCost;
 
 	@Column(name = "object_count")

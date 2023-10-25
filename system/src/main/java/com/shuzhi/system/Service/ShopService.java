@@ -2,6 +2,7 @@ package com.shuzhi.system.Service;
 
 import com.shuzhi.entity.OrderEntity;
 import com.shuzhi.entity.ShopEntity;
+import com.shuzhi.system.DTO.ShopDTO;
 import com.shuzhi.system.Info.ShopInfo;
 import com.shuzhi.system.Mapper.ShopMapper;
 import org.slf4j.Logger;
@@ -63,25 +64,38 @@ public class ShopService {
         return false;
     }
 
+    /**
+     * 根据用户ID、查询购物车信息
+     * @param userId
+     * @return
+     */
     @Transactional
-    public List<ShopEntity> getShopUserId(int userId) {
+    public List<ShopDTO> getShopUserId(int userId) {
 
-        List<ShopEntity> shopEntityList = null;
+        List<ShopDTO> shopDTOList = null;
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
         try {
-            shopEntityList = shopMapper.getShopUserId(userId);
+            shopDTOList = shopMapper.getShopUserId(userId);
             logger.info("OBJECT SERVICE SELECT SHOP USER ID SUCCESS!");
-            logger.info("result: " + shopEntityList.toString());
+            logger.info("result: " + shopDTOList.toString());
         } catch (Exception e) {
             logger.error("OBJECT SERVICE SELECT SHOP USER ID ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + shopEntityList);
+            logger.error("result: " + shopDTOList);
+            throw e;
+
         }
 
-        return shopEntityList;
+        return shopDTOList;
     }
 
+    /**
+     * 更新购物车商品数量
+     * @param shopId
+     * @param objectCount
+     * @return
+     */
     public Boolean updShopCount(int shopId, int objectCount) {
 
         Boolean b = false;

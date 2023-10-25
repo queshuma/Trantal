@@ -21,7 +21,7 @@ public interface ObjectMapper {
             @Result(property = "objectId", column = "object_id"),
             @Result(property = "objectName", column = "object_name"),
             @Result(property = "objectTitle", column = "object_title"),
-            @Result(property = "objectCost", column = "object_cost"),
+            @Result(property = "objectCost", column = "object_oldprice"),
             @Result(property = "objectPrice", column = "object_price"),
             @Result(property = "objectInfo", column = "object_info"),
             @Result(property = "objectCount", column = "object_count"),
@@ -39,7 +39,7 @@ public interface ObjectMapper {
      * @return
      */
     @Insert("INSERT INTO trantal_object (object_name, " +
-            "object_title, object_cost, object_price, " +
+            "object_title, object_oldprice, object_price, " +
             "object_info, object_count, object_image, " +
             "object_status, object_time, object_classes, " +
             "user_id) VALUES (#{objectName}, #{objectTitle}," +
@@ -56,7 +56,7 @@ public interface ObjectMapper {
     @Update("UPDATE trantal_object " +
             "SET object_name = #{objectName}, " +
             "object_title = #{objectTitle}, " +
-            "object_cost = #{objectCost}, " +
+            "object_oldprice = #{objectCost}, " +
             "object_price = #{objectPrice}, " +
             "object_info = #{objectInfo}, " +
             "object_count = #{objectCount}, " +

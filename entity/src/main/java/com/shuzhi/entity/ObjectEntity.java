@@ -28,7 +28,7 @@ public class ObjectEntity {
 	/**
 	 * 原价
 	 */
-	@Column(name = "object_cost")
+	@Column(name = "object_oldprice")
 	private float objectCost;
 
 	/**

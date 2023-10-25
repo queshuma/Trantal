@@ -32,7 +32,7 @@ public class ShopEntity {
 	@Column(name = "object_count")
 	private Long objectCount;
 
-	@Column(name = "object_Cost")
+	@Column(name = "object_oldprice")
 	private Float objectOldCost;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
