@@ -27,8 +27,9 @@ public class ShopController {
 
     private final ShopService shopService;
     private final Logger logger = LoggerFactory.getLogger(ShopController.class);
-    private Long LONG_ZERO = 0L;
-    private Float FLOAT_ZERO = Float.valueOf(0);
+    private final Long LONG_ZERO = 0L;
+    private final int ZERO = 0;
+    private final Float FLOAT_ZERO = Float.valueOf(0);
 
     public ShopController(ShopService shopService) {
         this.shopService = shopService;
@@ -36,36 +37,38 @@ public class ShopController {
 
 
     /**
-     * 添加购物车
-     * @param shopInfo
+     * 添加商品至购物车
+     * @param userId
+     * @param objectId
+     * @param shopCout
      * @return
      */
     @ApiOperation("添加购物车")
     @PostMapping("/add")
-    public ResponseResult add(ShopInfo shopInfo) {
+    public ResponseResult add(int userId, int objectId, int shopCout) {
 
         Boolean b = false;
 
-        if ((shopInfo.getUserId() == LONG_ZERO)) {
+        if (userId == ZERO) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_USER_ID_NULL);
         }
-        if (shopInfo.getObjectId() == LONG_ZERO) {
+        if (objectId == ZERO) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_ID_NULL);
         }
-        if (shopInfo.getObjectCount() == LONG_ZERO) {
+        if (shopCout == ZERO) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
         }
 
-        b =  shopService.addShop(shopInfo);
+        b =  shopService.addShop(userId, objectId, shopCout);
 
         if (b) {
             return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_ADD_SUCCESS);
         }
 
-        logger.info("TRANTAL ALL SHOP INFO: " + shopInfo);
+//        logger.info("TRANTAL ALL SHOP INFO: " + shopInfo);
         logger.info("RETURN");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
     }
@@ -88,20 +91,20 @@ public class ShopController {
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopDTOList);
     }
 
-    @ApiOperation("修改购物车_商品数量")
-    @PostMapping("/update/count")
-    public ResponseResult updateShopCount(int shopId, int objectCount) {
-        Boolean b = false;
-        b = shopService.updShopCount(shopId, objectCount);
-        System.out.println(b);
-        if (!b) {
-            logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCount" + objectCount);
-            logger.info("RETURN");
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
-        }
-        logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCount = " + objectCount);
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
-    }
+//    @ApiOperation("修改购物车_商品数量")
+//    @PostMapping("/update/count")
+//    public ResponseResult updateShopCount(int shopId, int objectCount) {
+//        Boolean b = false;
+//        b = shopService.updShopCount(shopId, objectCount);
+//        System.out.println(b);
+//        if (!b) {
+//            logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCount" + objectCount);
+//            logger.info("RETURN");
+//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
+//        }
+//        logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCount = " + objectCount);
+//        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
+//    }
 
     @ApiOperation("修改购物车_删除商品")
     @PutMapping("/update/delete")

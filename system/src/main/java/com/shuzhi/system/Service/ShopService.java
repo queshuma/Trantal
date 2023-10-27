@@ -2,6 +2,7 @@ package com.shuzhi.system.Service;
 
 import com.shuzhi.entity.OrderEntity;
 import com.shuzhi.entity.ShopEntity;
+import com.shuzhi.result.Common;
 import com.shuzhi.system.DTO.ShopDTO;
 import com.shuzhi.system.Info.ShopInfo;
 import com.shuzhi.system.Mapper.ShopMapper;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.management.CompilationMXBean;
 import java.util.Date;
 import java.util.List;
 
@@ -35,27 +37,34 @@ public class ShopService {
 
     /**
      * 添加至购物车
-     * @param shopInfo
+     * @param userId
+     * @param objectId
+     * @param shopCout
      * @return
      */
     @Transactional
-    public Boolean addShop(ShopInfo shopInfo) {
+    public Boolean addShop(int userId, int objectId, int shopCout) {
 
         int b = 0;
+        int ShopLength = 0;
 
-        Date date = new Date();
-        shopInfo.setShopTime(date);
-        shopInfo.setObjectStatus(ZERO);
+        Date shopTime = new Date();
 
         logger.info("OBJECT SERVICE ADD OBJECT PHONE START");
         try {
-            b = shopMapper.addShop(shopInfo);
+            ShopLength = shopMapper.getShopUserIdObjectId(userId, objectId);
+            if (ShopLength == Common.ZERO) {
+                shopMapper.addShop(userId, objectId, shopCout, shopTime);
+            } else if (ShopLength == Common.ONE){
+                shopMapper.updShopCout(userId, objectId, shopCout, shopTime);
+            }
+            b = 1;
             logger.info("SHOP SERVICE ADD ORDER INFO SUCCESS!");
-            logger.info("result: " + shopInfo.toString());
+//            logger.info("result: " + shopInfo.toString());
         } catch (Exception e) {
             logger.error("SHOP SERVICE ADD ORDER INFO ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + shopInfo.toString());
+//            logger.error("result: " + shopInfo.toString());
         }
         logger.info("SHOP SERVICE ADD ORDER INFO END");
         if (b == SERVICE_ADD_SHOP_INFO_NUMBER) {
@@ -92,23 +101,25 @@ public class ShopService {
 
     /**
      * 更新购物车商品数量
-     * @param shopId
-     * @param objectCount
+     * @param userId
+     * @param objectId
+     * @param shopCout
      * @return
      */
-    public Boolean updShopCount(int shopId, int objectCount) {
+    public Boolean updShopCount(int userId, int objectId, int shopCout) {
 
         Boolean b = false;
+        Date shopTime = new Date();
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
         try {
-            b = shopMapper.updShopCount(shopId, objectCount);
+            b = shopMapper.updShopCout(userId, objectId, shopCout, shopTime);
             logger.info("OBJECT SERVICE UPDATE SHOP COUNT SUCCESS!");
-            logger.info("result: shopId = " + shopId + "objectCount = " + objectCount);
+//            logger.info("result: shopId = " + shopId + "objectCount = " + objectCount);
         } catch (Exception e) {
             logger.error("OBJECT SERVICE UPDATE SHOP COUNT ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: shopId = " + shopId + "objectCount = " + objectCount);
+//            logger.error("result: shopId = " + shopId + "objectCount = " + objectCount);
         }
 
         return b;

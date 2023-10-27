@@ -5,6 +5,7 @@ import com.shuzhi.system.DTO.ShopDTO;
 import com.shuzhi.system.Info.ShopInfo;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,8 @@ import java.util.Map;
 
 @Mapper
 public interface ShopMapper {
-    @Insert("INSERT INTO trantal_shop (user_id, object_id, object_old_price, object_price, object_count, object_oldprice, shop_time, object_status) VALUES (#{userId}, #{objectId}, #{objectOldPrice}, #{objectPrice}, #{objectCount}, #{objectCost}, #{shopTime}, #{objectStatus})")
-    int addShop(ShopInfo shopInfo);
+    @Insert("INSERT INTO trantal_shop (user_id, object_id, shop_cout, shop_time) VALUES (#{userId}, #{objectId}, #{shopCout},#{shopTime})")
+    int addShop(int userId, int objectId, int shopCout, Date shopTime);
 
 //    @Select("SELECT tshop.*,  FROM trantal_shop tshop")
     @Select("SELECT  shop.user_id, obj.object_name, obj.object_title, obj.object_oldprice,obj.object_price, obj.object_cout, shop.shop_cout, shop.shop_cout * obj.object_price as shop_pay, obj.object_status, shop.shop_time \n" +
@@ -40,12 +41,13 @@ public interface ShopMapper {
 
     /**
      * 添加订单后更新产品数据信息
-     * @param shopId
-     * @param objectCount
+     * @param userId
+     * @param shopCout
+     * @param shopTime
      * @return
      */
-    @Update("UPDATE trantal_shop SET object_count = #{objectCount} WHERE shop_id = #{shopId}")
-    Boolean updShopCount(int shopId, int objectCount);
+    @Update("UPDATE trantal_shop SET shop_cout = #{shopCout} + shop_cout, shop_time = #{shopTime} WHERE user_id = #{userId} AND object_id = #{objectId}")
+    Boolean updShopCout(int userId, int objectId, int shopCout, Date shopTime);
 
     /**
      * 设置订单状态
@@ -55,4 +57,13 @@ public interface ShopMapper {
      */
     @Update("UPDATE trantal_shop SET object_status = #{objectStatus} WHERE shop_id = #{shopId}")
     Boolean updShopStatus(int shopId, int objectStatus);
+
+    /**
+     * 根据用户Id、产品Id判断商品是否存在购物车
+     * @param userId
+     * @param objectId
+     * @return
+     */
+    @Select("SELECT COUNT(object_id) as FindShopCout FROM trantal_object WHERE user_id = #{userId} AND object_id = #{objectId};")
+    int getShopUserIdObjectId(int userId, int objectId);
 }

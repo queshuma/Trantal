@@ -23,24 +23,12 @@ public class ShopEntity {
 	@Column(name = "object_id")
 	private Long objectId;
 
-	@Column(name = "object_old_price")
-	private Float objectOldPrice;
-
-	@Column(name = "object_price")
-	private Float objectPrice;
-
-	@Column(name = "object_count")
-	private Long objectCount;
-
-	@Column(name = "object_oldprice")
-	private Float objectOldCost;
+	@Column(name = "shop_count")
+	private Long shopCout;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "shop_time")
 	private Date shopTime;
-
-	@Column(name = "object_status")
-	private Long objectStatus;
 
 	public Long getShopId() {
 		return shopId;
@@ -66,12 +54,12 @@ public class ShopEntity {
 		this.objectId = objectId;
 	}
 
-	public Long getObjectCount() {
-		return objectCount;
+	public Long getShopCout() {
+		return shopCout;
 	}
 
-	public void setObjectCount(Long objectCount) {
-		this.objectCount = objectCount;
+	public void setShopCout(Long shopCout) {
+		this.shopCout = shopCout;
 	}
 
 	public Date getShopTime() {
@@ -80,38 +68,6 @@ public class ShopEntity {
 
 	public void setShopTime(Date shopTime) {
 		this.shopTime = shopTime;
-	}
-
-	public Long getObjectStatus() {
-		return objectStatus;
-	}
-
-	public void setObjectStatus(Long objectStatus) {
-		this.objectStatus = objectStatus;
-	}
-
-	public Float getObjectOldPrice() {
-		return objectOldPrice;
-	}
-
-	public void setObjectOldPrice(Float objectOldPrice) {
-		this.objectOldPrice = objectOldPrice;
-	}
-
-	public Float getObjectPrice() {
-		return objectPrice;
-	}
-
-	public void setObjectPrice(Float objectPrice) {
-		this.objectPrice = objectPrice;
-	}
-
-	public Float getObjectOldCost() {
-		return objectOldCost;
-	}
-
-	public void setObjectOldCost(Float objectOldCost) {
-		this.objectOldCost = objectOldCost;
 	}
 
 	public ShopEntity() {
