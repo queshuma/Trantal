@@ -103,12 +103,12 @@ public interface ObjectMapper {
     /**
      * 提交订单，修改产品的总数
      * @param ObjectId
-     * @param ObjectCount
+     * @param ObjectCout
      * @return
      */
-    @Update("UPDATE trantal_object SET object_count = object_count - #{ObjectCount} WHERE object_id = #{ObjectId};")
-    int updObjectReduce(long ObjectId, long ObjectCount);
+    @Update("UPDATE trantal_object SET object_cout = object_cout - #{ObjectCout} WHERE object_id = #{ObjectId};")
+    int updObjectReduce(long ObjectId, long ObjectCout);
 
-    @Select("SELECT object_count FROM trantal_object WHERE object_id = #{ObjectId}")
-    int getObjectCount(long ObjectId);
+    @Select("SELECT object_cout FROM trantal_object WHERE object_id = #{ObjectId}")
+    int getObjectCout(long ObjectId);
 }

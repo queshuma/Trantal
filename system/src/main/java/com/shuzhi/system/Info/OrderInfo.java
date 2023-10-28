@@ -16,7 +16,7 @@ public class OrderInfo {
 
     private Float objectPrice;
 
-    private Long objectCount;
+    private Long objectCout;
 
     private Float orderCost;
 
@@ -75,12 +75,20 @@ public class OrderInfo {
         this.orderCost = orderCost;
     }
 
-    public Long getObjectCount() {
-        return objectCount;
+    public Long getObjectCout() {
+        return objectCout;
     }
 
-    public void setObjectCount(Long objectCount) {
-        this.objectCount = objectCount;
+    public void setObjectCout(Long objectCout) {
+        this.objectCout = objectCout;
+    }
+
+    public Float getOrderCost() {
+        return orderCost;
+    }
+
+    public void setOrderCost(Float orderCost) {
+        this.orderCost = orderCost;
     }
 
     public String getOrderInfo() {
@@ -146,7 +154,7 @@ public class OrderInfo {
                 ", userId=" + userId +
                 ", objectId=" + objectId +
                 ", objectPrice=" + objectPrice +
-                ", objectCount=" + objectCount +
+                ", objectCout=" + objectCout +
                 ", orderCost=" + orderCost +
                 ", orderInfo='" + orderInfo + '\'' +
                 ", orderTime=" + orderTime +

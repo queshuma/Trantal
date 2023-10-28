@@ -23,6 +23,4 @@ logging:
 Mybatis:
   mapper-locations: Mapper/*.xml
 
-shuzhi:
-
 

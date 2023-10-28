@@ -66,23 +66,23 @@ public class OrderController {
 //            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COST-- INPUT IS NULL ! ");
 //            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
 //        }
-        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCount().toString())) {
-            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
-        }
-        //收件信息
-        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderName().toString())) {
-            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
-        }
-        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderAddress().toString())) {
-            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
-        }
-        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderPhone().toString())) {
-            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
-        }
+//        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCout().toString())) {
+//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
+//        }
+//        //收件信息
+//        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderName().toString())) {
+//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
+//        }
+//        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderAddress().toString())) {
+//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
+//        }
+//        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderPhone().toString())) {
+//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
+//        }
 
         b =  orderService.addOrder(orderInfo);
 

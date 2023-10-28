@@ -5,15 +5,20 @@ import com.shuzhi.result.Common;
 import com.shuzhi.system.Info.OrderInfo;
 import com.shuzhi.system.Mapper.ObjectMapper;
 import com.shuzhi.system.Mapper.OrderMapper;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class OrderService {
@@ -23,6 +28,8 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final ObjectMapper objectMapper;
     private final Logger logger = LoggerFactory.getLogger(OrderService.class);
+//    新建商品修改的互斥锁表
+    final Map<Long, ReentrantLock> productLocks = new ConcurrentHashMap<>();
 
     @Autowired
     public OrderService(OrderMapper orderMapper, ObjectMapper objectMapper) {
@@ -36,9 +43,10 @@ public class OrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
+//    @Async("threadPoolTaskExecutor")
     public Boolean addOrder(OrderInfo orderInfo) throws Exception {
 
-        Boolean b = true;
+        boolean b = true;
         Random random = new Random(System.currentTimeMillis());
         String orderNumber = String.valueOf(-random.nextLong());
         orderInfo.setOrderNumber(orderNumber);
@@ -48,32 +56,43 @@ public class OrderService {
 
         logger.info("ORDER SERVICE ADD ORDER START");
         //判断提交订单之后，产品数量是否低于0
-        if(objectMapper.getObjectCount(orderInfo.getObjectId())  - orderInfo.getObjectCount() < Common.ZERO) {
+        if(objectMapper.getObjectCout(orderInfo.getObjectId())  - orderInfo.getObjectCout() < Common.ZERO) {
             logger.error("OBJECT COUNT LOWER!");
             logger.error("result: " + orderInfo);
             logger.info("ORDER SERVICE ADD ORDER INFO END");
             return false;
         }
-        try {
-            //执行相关的持久层函数
-            //更新产品信息
-            objectMapper.updObjectReduce(orderInfo.getObjectId(), orderInfo.getObjectCount());
-            //更新订单信息
-            orderMapper.addOrder(orderInfo);
-            logger.info("ORDER SERVICE ADD ORDER INFO SUCCESS!");
-            logger.info("result: " + orderInfo);
-        } catch (Exception e) {
-            logger.error("ORDER SERVICE ADD ORDER INFO ERROR!");
-            logger.error("ERROE:" + e);
-            logger.error("result: " + orderInfo);
-            b = false;
-            throw e;
-        } finally {
-            logger.info("ORDER SERVICE ADD ORDER INFO END");
-        }
-        //判断执行数量是否为1
-        if (b) {
-            return true;
+
+        // 获取商品对应的锁对象
+        ReentrantLock productLock = productLocks.computeIfAbsent(orderInfo.getObjectId(), id -> new ReentrantLock());
+
+        //判断互斥锁当前的状态
+        if (productLock.tryLock()) {
+            System.out.println("进入service");
+            try {
+                //执行相关的持久层函数
+                //更新产品信息
+                objectMapper.updObjectReduce(orderInfo.getObjectId(), orderInfo.getObjectCout());
+                //更新订单信息
+                orderMapper.addOrder(orderInfo);
+                logger.info("ORDER SERVICE ADD ORDER INFO SUCCESS!");
+                logger.info("result: " + orderInfo);
+            } catch (Exception e) {
+                logger.error("ORDER SERVICE ADD ORDER INFO ERROR!");
+                logger.error("ERROE:" + e);
+                logger.error("result: " + orderInfo);
+                b = false;
+                throw e;
+            } finally {
+                logger.info("ORDER SERVICE ADD ORDER INFO END");
+                productLock.unlock();
+                System.out.println("ss");
+                //判断执行数量是否为1
+                if (b) {
+                    return true;
+                }
+                return false;
+            }
         }
         return false;
     }
