@@ -43,7 +43,6 @@ public class OrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-//    @Async("threadPoolTaskExecutor")
     public Boolean addOrder(OrderInfo orderInfo) throws Exception {
 
         boolean b = true;
@@ -68,7 +67,6 @@ public class OrderService {
 
         //判断互斥锁当前的状态
         if (productLock.tryLock()) {
-            System.out.println("进入service");
             try {
                 //执行相关的持久层函数
                 //更新产品信息
@@ -86,7 +84,6 @@ public class OrderService {
             } finally {
                 logger.info("ORDER SERVICE ADD ORDER INFO END");
                 productLock.unlock();
-                System.out.println("ss");
                 //判断执行数量是否为1
                 if (b) {
                     return true;
@@ -100,23 +97,25 @@ public class OrderService {
 
     /**
      * 修改订单
-     * @param orderEntity
+     * @param orderNumber
+     * @param orderName
+     * @param orderAddress
+     * @param orderPhone
+     * @param orderInfo
      * @return
      */
     @Transactional
-    public Boolean updOrder(OrderEntity orderEntity) {
+    public Boolean updOrder(Long orderNumber, String orderName, String orderAddress, String orderPhone, String orderInfo) {
 
         int b = 0;
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
         try {
-            b = orderMapper.updOrder(orderEntity);
+            b = orderMapper.updOrder(orderNumber, orderName, orderAddress, orderPhone, orderInfo);
             logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-            logger.info("result: " + orderEntity);
         } catch (Exception e) {
             logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + orderEntity);
         }
         logger.info("ORDER SERVICE UPDATE ORDER INFO END");
         if (b == SERVICE_UPD_ORDER_INFO_NUMBER) {
@@ -183,7 +182,7 @@ public class OrderService {
     }
 
     /**
-     * 修改订单状态_退货
+     * 修改订单状态_申请退货
      * @param orderId
      * @return
      */
@@ -211,7 +210,7 @@ public class OrderService {
     }
 
     /**
-     * 修改订单状态_退货确认
+     * 修改订单状态_允许退货(商家)
      * @param orderId
      * @return
      */
@@ -223,7 +222,7 @@ public class OrderService {
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
         try {
-            b = orderMapper.updOrderStatus(orderId, orderStatus);
+            orderMapper.updOrderStatus(orderId, orderStatus);
             logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
             logger.info("result: " + orderId + "退货确认");
         } catch (Exception e) {
@@ -240,30 +239,42 @@ public class OrderService {
 
     /**
      * 修改订单状态_取消订单
-     * @param orderId
+     * @param orderNumber
      * @return
      */
-    @Transactional
-    public Boolean updOrderCancel(int orderId) {
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updOrderCancel(int orderNumber) throws Exception{
 
-        int b = 0;
+        Boolean b = true;
         int orderStatus = 5;
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
+
         try {
-            b = orderMapper.updOrderStatus(orderId, orderStatus);
-            logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-            logger.info("result: " + orderId + "退货确认");
+            //获取该订单的产品Id
+            Long objectId = orderMapper.getObjectIdByOrderNumber(orderNumber);
+            // 获取商品对应的锁对象
+            ReentrantLock productLock = productLocks.computeIfAbsent(objectId, id -> new ReentrantLock());
+            if (productLock.tryLock()) {
+                orderMapper.updOrderStatus(orderNumber, orderStatus);
+                objectMapper.updObjectAdd(orderNumber);
+                logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
+                logger.info("result: " + orderNumber + "退货确认");
+            }
+            productLock.unlock();
         } catch (Exception e) {
             logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + orderId);
+            logger.error("result: " + orderNumber);
+            b = false;
+            throw e;
+        } finally {
+            logger.info("ORDER SERVICE UPDATE ORDER INFO END");
+            if (b) {
+                return true;
+            }
+            return false;
         }
-        logger.info("ORDER SERVICE UPDATE ORDER INFO END");
-        if (b == SERVICE_UPD_ORDER_INFO_NUMBER) {
-            return true;
-        }
-        return false;
     }
 
 

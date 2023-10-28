@@ -58,31 +58,23 @@ public class OrderController {
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_USER_ID_NULL);
         }
         //商品信息
-//        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectPrice().toString())) {
-//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT PRICE-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_PRICE_NULL);
-//        }
-//        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCost().toString())) {
-//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COST-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
-//        }
-//        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCout().toString())) {
-//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
-//        }
-//        //收件信息
-//        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderName().toString())) {
-//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
-//        }
-//        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderAddress().toString())) {
-//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
-//        }
-//        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderPhone().toString())) {
-//            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
-//        }
+        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCout().toString())) {
+            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
+        }
+        //收件信息
+        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderName().toString())) {
+            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
+        }
+        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderAddress().toString())) {
+            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
+        }
+        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderPhone().toString())) {
+            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
+        }
 
         b =  orderService.addOrder(orderInfo);
 
@@ -96,40 +88,43 @@ public class OrderController {
 
     /**
      * 修改订单
-     * @param orderEntity
+     * @param orderNumber
+     * @param orderName
+     * @param orderAddress
+     * @param orderPhone
+     * @param orderInfo
      * @return
      */
     @ApiOperation("修改订单")
     @PostMapping("/update")
-    public ResponseResult add(OrderEntity orderEntity) {
+    public ResponseResult updateOrder(Long orderNumber, String orderName, String orderAddress, String orderPhone, String orderInfo) {
 
         Boolean b = false;
 
-        if (SystemUtils.isNullOrEmpty(orderEntity.getOrderId().toString())) {
+        if (SystemUtils.isNullOrEmpty(orderNumber.toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ID-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COST_NULL);
         }
         //收件信息
-        if (SystemUtils.isNullOrEmpty(orderEntity.getOrderName().toString())) {
+        if (SystemUtils.isNullOrEmpty(orderName.toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
         }
-        if (SystemUtils.isNullOrEmpty(orderEntity.getOrderAddress().toString())) {
+        if (SystemUtils.isNullOrEmpty(orderAddress.toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
         }
-        if (SystemUtils.isNullOrEmpty(orderEntity.getOrderPhone().toString())) {
+        if (SystemUtils.isNullOrEmpty(orderPhone.toString())) {
             logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
         }
 
-        b =  orderService.updOrder(orderEntity);
+        b =  orderService.updOrder(orderNumber, orderName, orderAddress, orderPhone, orderInfo);
 
         if (b) {
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
-        logger.info("TRANTAL ALL OBJECT INFO: " + orderEntity);
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
@@ -206,16 +201,16 @@ public class OrderController {
 
     @ApiOperation("取消订单")
     @PostMapping("/update/Cancel")
-    public ResponseResult updateOrderCancel(int orderId) {
+    public ResponseResult updateOrderCancel(int orderNumber) throws Exception {
         Boolean b = false;
 
-        b = orderService.updOrderCancel(orderId);
+        b = orderService.updOrderCancel(orderNumber);
 
         if (b) {
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
-        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
+        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderNumber + "当前状态为:确认收货");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 

@@ -109,6 +109,21 @@ public interface ObjectMapper {
     @Update("UPDATE trantal_object SET object_cout = object_cout - #{ObjectCout} WHERE object_id = #{ObjectId};")
     int updObjectReduce(long ObjectId, long ObjectCout);
 
+    /**
+     * 根据产品id获取产品库存
+     * @param ObjectId
+     * @return
+     */
     @Select("SELECT object_cout FROM trantal_object WHERE object_id = #{ObjectId}")
     int getObjectCout(long ObjectId);
+
+    /**
+     * 取消订单，修改商品的总数
+     * @param orderId
+     */
+    @Update("UPDATE trantal_object AS obj\n" +
+            "JOIN trantal_order AS ord ON obj.object_id = ord.object_id\n" +
+            "SET obj.object_cout = obj.object_cout + ord.object_cout\n" +
+            "WHERE ord.order_id = #{orderId};")
+    void updObjectAdd(int orderId);
 }

@@ -44,16 +44,20 @@ public interface OrderMapper {
 
     /**
      * 修改订单信息
-     * @param orderEntity
+     * @param orderNumber
+     * @param orderName
+     * @param orderAddress
+     * @param orderPhone
      * @return
      */
     @Update("UPDATE trantal_order " +
             "SET order_info = #{orderInfo}, " +
             "order_address = #{orderAddress}, " +
             "order_name = #{orderName}, " +
-            "order_phone = #{orderPhone} " +
-            "WHERE order_id = #{orderId}")
-    int updOrder(OrderEntity orderEntity);
+            "order_phone = #{orderPhone}, " +
+            "order_info = #{orderInfo} " +
+            "WHERE order_number = #{orderNumber}")
+    int updOrder(Long orderNumber, String orderName, String orderAddress, String orderPhone, String orderInfo);
 
     /**
      * 修改订单快递编号
@@ -74,4 +78,5 @@ public interface OrderMapper {
     @Update("UPDATE trantal_order SET order_status = #{orderStatus} WHERE order_id = #{orderId}")
     int updOrderStatus(int orderId, int orderStatus);
 
+    Long getObjectIdByOrderNumber(int orderNumber);
 }
