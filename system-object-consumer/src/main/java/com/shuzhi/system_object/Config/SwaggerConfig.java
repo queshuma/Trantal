@@ -1,4 +1,4 @@
-package com.shuzhi.system.Config;
+package com.shuzhi.system_object.Config;
 
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.RequestHandlerSelectors;

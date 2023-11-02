@@ -7,7 +7,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 
 @EnableOpenApi
 @SpringBootApplication
-@MapperScan("com.shuzhi.system.Mapper")
+@MapperScan("com.shuzhi.system.com.shuzhi.system_order.Mapper")
 public class SystemApplication {
 
     public static void main(String[] args) {

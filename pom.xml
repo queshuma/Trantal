@@ -23,6 +23,11 @@
         <module>result</module>
         <module>dependencies</module>
         <module>system</module>
+        <module>system-user-consumer</module>
+        <module>system-object-consumer</module>
+        <module>system-order-consumer</module>
+        <module>system-shop-consumer</module>
+        <module>system-objclasses-consumer</module>
     </modules>
 
     <properties>
@@ -122,6 +127,11 @@
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>9.13</version> <!-- 使用最新版本 -->
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
         </dependency>
     </dependencies>
 

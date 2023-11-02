@@ -1,4 +1,4 @@
-package com.shuzhi.system.Config;
+package com.shuzhi.system_user.Config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
