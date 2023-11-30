@@ -1,0 +1,41 @@
+server:
+  port: 80
+spring:
+  application:
+    name: system-gateway
+  cloud:
+    gateway:
+      routes:
+        #用户模块动态路由设置
+        - id: system-user
+          uri: lb://system-user/User/
+          predicates:
+            - Path=/User/**
+        #商品模块动态路由设置
+        - id: system-object
+          uri: lb://system-object/Object/
+          predicates:
+            - Path=/Object/**
+        #购物车模块动态路由设置
+        - id: system-shop
+          uri: lb://system-shop/Shop/
+          predicates:
+            - Path=/Shop/**
+        #商品分类模块动态路由设置
+        - id: system-objclasses
+          uri: lb://system-objclasses/Object/
+          predicates:
+            - Path=/Object/**
+        #订单模块动态路由设置
+        - id: system-order
+          uri: lb://system-order/Order/
+          predicates:
+            - Path=/Order/**
+
+      discovery:
+        locator:
+          enabled: true
+    nacos:
+      discovery:
+        server-addr: localhost:8848/nacos/
+        enabled: true
