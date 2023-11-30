@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: system-objclasses
+  profiles:
+    active: dev
+
