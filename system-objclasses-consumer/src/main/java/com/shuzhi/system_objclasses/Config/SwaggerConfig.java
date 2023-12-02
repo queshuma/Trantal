@@ -42,7 +42,7 @@ public class SwaggerConfig extends SwaggerConfigBase {
                 "SHUZHI WEB API",
                 "Trantal WebSite！",
                 "v1.0",
-                "1428767438@qq.com",
+                "15372542572@163.com",
                 "SHUZHI",
                 "Apache 2.0",  //许可证
                 "http://www.apache.org/licenses/LICENSE-2.0" //许可证链接

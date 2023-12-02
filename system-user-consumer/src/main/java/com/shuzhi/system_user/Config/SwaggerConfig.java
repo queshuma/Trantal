@@ -48,18 +48,18 @@ public class SwaggerConfig extends SwaggerConfigBase {
                     "http://www.apache.org/licenses/LICENSE-2.0" //许可证链接
             );
         }
-    @Bean
-    public  Docket createRestApi(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .pathMapping("/")
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.soul"))
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-
+//    @Bean
+//    public  Docket createRestApi(){
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .pathMapping("/")
+//                .apiInfo(apiInfo())
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.soul"))
+//                .paths(PathSelectors.any())
+//                .build();
+//    }
+//
+//
     @Bean
     public static BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
         return new BeanPostProcessor() {

@@ -30,7 +30,7 @@ public class SwaggerConfig extends SwaggerConfigBase {
                 .enable(true)
                 .groupName("shuzhi")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.shuzhi.system_user.Controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.shuzhi.system_object.Controller"))
 //                    .paths(PathSelectors.ant("/com.shuzhi.system_order.Controller/**"))
                 .build();
     }
