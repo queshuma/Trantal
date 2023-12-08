@@ -9,8 +9,6 @@ import com.shuzhi.result.parmSetting.UserSetting;
 import com.shuzhi.system_user.Config.CookieConfig;
 import com.shuzhi.system_user.Info.UserInfo;
 import com.shuzhi.system_user.Service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ import static com.shuzhi.result.Common.ZERO;
 /**
  * 用户接口模块
  */
-@Api("用户接口模块")
+
 @RestController
 @RequestMapping("/User")
 public class UserController {
@@ -51,7 +49,6 @@ public class UserController {
      * @param userInfo
      * @return ResponseResult
      */
-    @ApiOperation("新增用户")
     @PostMapping("/add")
     public ResponseResult add(UserInfo userInfo) {
 
@@ -120,7 +117,6 @@ public class UserController {
      * @param userEntity
      * @return ResponseResult
      */
-    @ApiOperation("修改用户信息")
     @PostMapping("/update")
     public ResponseResult update(UserEntity userEntity, HttpServletRequest httpServletRequest) {
 
@@ -193,7 +189,6 @@ public class UserController {
      * @param userLevel
      * @return
      */
-    @ApiOperation("修改用户权限等级")
     @PostMapping("/update/level")
     public ResponseResult updateLevel(int userId, int userLevel) {
         Boolean b = false;
@@ -219,7 +214,6 @@ public class UserController {
      * @param userStatus
      * @return
      */
-    @ApiOperation("修改用户状态")
     @PostMapping("/update/status")
     public ResponseResult updateStatus(int userId, int userStatus) {
         Boolean b = false;
@@ -258,7 +252,6 @@ public class UserController {
      * 查找所有用户信息
      * @return
      */
-    @ApiOperation("查找所有用户")
     @GetMapping("/findAll")
     public ResponseResult findAll(HttpServletRequest httpServletRequest) {
         List<UserEntity> userEntityList = null;
@@ -275,7 +268,6 @@ public class UserController {
      * @param userPhone
      * @return
      */
-    @ApiOperation("根据手机号查找")
     @PostMapping("/findByPhone")
     public ResponseResult findByPhone(String userPhone) {
         UserEntity userEntity = null;
@@ -300,7 +292,6 @@ public class UserController {
      * @param userAccount
      * @return
      */
-    @ApiOperation("根据昵称查找")
     @PostMapping("/findByAccount")
     public ResponseResult findByAccount(String userAccount) {
 
@@ -326,7 +317,6 @@ public class UserController {
      * @param userEmail
      * @return
      */
-    @ApiOperation("根据邮箱查找")
     @PostMapping("/findByEmail")
     public ResponseResult findByEmail(String userEmail) {
 
@@ -352,7 +342,6 @@ public class UserController {
      * @param userName
      * @return
      */
-    @ApiOperation("根据姓名查找")
     @PostMapping("/findByName")
     public ResponseResult findByName(String userName) {
 
@@ -379,7 +368,6 @@ public class UserController {
      * @param password
      * @return
      */
-    @ApiOperation("根据邮箱/手机登陆")
     @PostMapping("/login")
     public ResponseResult loginByPhoneAndEmail(String info, String password, HttpServletResponse httpServletResponse) {
         //定义返回的状态码
@@ -423,7 +411,6 @@ public class UserController {
      * @param httpServletResponse
      * @return
      */
-    @ApiOperation("退出登陆")
     @GetMapping("/logout")
     public ResponseResult logoutUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         CookieConfig.delClientCookie(httpServletRequest, httpServletResponse);

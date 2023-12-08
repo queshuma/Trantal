@@ -9,8 +9,6 @@ import com.shuzhi.result.parmSetting.ObjectSetting;
 
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Service.ObjectService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ import static com.shuzhi.result.Common.ZERO;
 /**
  * 商品分类接口模块
  */
-@Api("商品分类接口模块")
 @RestController
 @RequestMapping("/Object")
 public class ObjectController {
@@ -47,7 +44,6 @@ public class ObjectController {
      * @param objectInfo
      * @return ResponseResult
      */
-    @ApiOperation("新增商品")
     @PostMapping("/add")
     public ResponseResult add(ObjectInfo objectInfo) {
 
@@ -110,7 +106,6 @@ public class ObjectController {
      * @param objectEntity
      * @return ResponseResult
      */
-    @ApiOperation("修改商品信息")
     @PostMapping("/update")
     public ResponseResult update(ObjectEntity objectEntity) {
 
@@ -166,7 +161,6 @@ public class ObjectController {
      * 查找所有产品
      * @return ResponseResult<List<ObjectEntity>>
      */
-    @ApiOperation("查找所有产品")
     @GetMapping("/find/all")
     public ResponseResult findAll() {
 
@@ -184,7 +178,6 @@ public class ObjectController {
      * @param objectId
      * @return
      */
-    @ApiOperation("修改商品状态(删除)")
     @PostMapping("/update/delete")
     public ResponseResult updateDelete(int objectId) {
         Boolean b = false;

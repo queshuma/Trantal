@@ -7,7 +7,6 @@ import com.shuzhi.entity.ObjClassesEntity;
 import com.shuzhi.result.code.ObjClassesCode;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 import com.shuzhi.system_objclasses.Service.ObjClassesService;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class ObjClassesController {
      * 查找所有商品分类
      * @return
      */
-    @ApiOperation("查找所有商品分类")
     @GetMapping("/findAll")
     public ResponseResult findAll(){
 
@@ -54,7 +52,6 @@ public class ObjClassesController {
      * @param objClassesInfo
      * @return ResponseResult
      */
-    @ApiOperation("新增分类")
     @PostMapping("/add")
     public ResponseResult add(ObjClassesInfo objClassesInfo) {
 
@@ -88,7 +85,6 @@ public class ObjClassesController {
      * @param objClassesId
      * @return
      */
-    @ApiOperation("修改商品分类状态(删除)")
     @PostMapping("/delete")
     public ResponseResult delete(int objClassesId) {
         Boolean b = false;
@@ -108,7 +104,6 @@ public class ObjClassesController {
      * @param objClassesEntity
      * @return
      */
-    @ApiOperation("修改商品分类信息")
     @PostMapping("/update")
     public ResponseResult delete(ObjClassesEntity objClassesEntity) {
         Boolean b = false;

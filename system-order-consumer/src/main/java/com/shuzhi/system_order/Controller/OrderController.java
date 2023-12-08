@@ -8,8 +8,6 @@ import com.shuzhi.result.code.ObjectCode;
 import com.shuzhi.result.code.OrderCode;
 import com.shuzhi.system_order.Info.OrderInfo;
 import com.shuzhi.system_order.Service.OrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-@Api("订单模块")
 @RestController
 @RequestMapping("/Order")
 public class OrderController {
@@ -37,7 +34,6 @@ public class OrderController {
      * @param orderInfo
      * @return
      */
-    @ApiOperation("添加订单")
     @PostMapping("/add")
     public ResponseResult add(OrderInfo orderInfo) throws Exception {
 
@@ -89,7 +85,6 @@ public class OrderController {
      * @param orderInfo
      * @return
      */
-    @ApiOperation("修改订单")
     @PostMapping("/update")
     public ResponseResult updateOrder(Long orderNumber, String orderName, String orderAddress, String orderPhone, String orderInfo) {
 
@@ -128,7 +123,6 @@ public class OrderController {
      * @param orderTrack
      * @return
      */
-    @ApiOperation("修改订单编号")
     @PostMapping("/update/track")
     public ResponseResult updateOrderTrack(int orderId, String orderTrack) {
         Boolean b = false;
@@ -148,7 +142,6 @@ public class OrderController {
      * @param orderId
      * @return
      */
-    @ApiOperation("修改订单状态")
     @PostMapping("/update/status")
     public ResponseResult updateOrderStatus(int orderId) {
         Boolean b = false;
@@ -162,8 +155,6 @@ public class OrderController {
         logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
-
-    @ApiOperation("退回订单")
     @PostMapping("/update/back")
     public ResponseResult updateOrderBack(int orderId) {
         Boolean b = false;
@@ -178,7 +169,6 @@ public class OrderController {
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
-    @ApiOperation("确认退货订单")
     @PostMapping("/update/BackOK")
     public ResponseResult updateOrderBackOk(int orderId) {
         Boolean b = false;
@@ -193,7 +183,6 @@ public class OrderController {
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
-    @ApiOperation("取消订单")
     @PostMapping("/update/Cancel")
     public ResponseResult updateOrderCancel(int orderNumber) throws Exception {
         Boolean b = false;
@@ -213,7 +202,6 @@ public class OrderController {
      * 查找所有订单
      * @return
      */
-    @ApiOperation("查找所有订单")
     @GetMapping("/findAll")
     public ResponseResult findAll() {
 

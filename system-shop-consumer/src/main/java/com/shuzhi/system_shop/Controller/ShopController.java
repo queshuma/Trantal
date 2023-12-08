@@ -7,8 +7,6 @@ import com.shuzhi.result.code.OrderCode;
 import com.shuzhi.result.code.ShopCode;
 import com.shuzhi.system_shop.DTO.ShopDTO;
 import com.shuzhi.system_shop.Service.ShopService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-@Api("购物车模块")
 @RestController
 @RequestMapping("/Shop")
 public class ShopController {
@@ -42,7 +39,6 @@ public class ShopController {
      * @param shopCout
      * @return
      */
-    @ApiOperation("添加购物车")
     @PostMapping("/add")
     public ResponseResult add(int userId, int objectId, int shopCout) {
 
@@ -77,7 +73,6 @@ public class ShopController {
      * @param userId
      * @return
      */
-    @ApiOperation("查询购物车")
     @PostMapping("/find/userId")
     public ResponseResult findById(int userId) {
         List<ShopDTO> shopDTOList = null;
@@ -105,7 +100,6 @@ public class ShopController {
 //        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
 //    }
 
-    @ApiOperation("修改购物车_删除商品")
     @PutMapping("/update/delete")
     public ResponseResult updateShopStatus(int shopId) {
         Boolean b = false;
