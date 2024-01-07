@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +43,8 @@ public class UserService {
         int b = 0;
         UserEntity userEntity = null;
         userEntity = InfoToEntity(userInfo);
+        userEntity.setUserTime(new Date());
+        userEntity.setUserLast(new Date());
 
         logger.info("USER SERVICE ADD USER PHONE START");
         try {
@@ -259,6 +263,9 @@ public class UserService {
                     userEntity.getUserAccount(), userEntity.getUserLevel());
             logger.info("token: " + token);
             logger.info("USER SERVICE SELECT USER NAME SUCCESS!");
+            Date date = new Date();
+            int updDate = userMapper.updUserLoginTime(userEntity.getUserId(), date);
+            logger.info("用户登录时间更新" + userEntity.getUserId() + " " + updDate);
             logger.info("result: " + userEntity.toString());
         }catch (Exception e) {
             logger.error("USER SERVICE SELECT USER NAME ERROR!");
@@ -266,10 +273,15 @@ public class UserService {
             logger.error("result: " + phone + "/" + password);
             return token;
         }
-
-
         return token;
     }
+
+    /**
+     * 根据邮箱校验
+     * @param email
+     * @param password
+     * @return
+     */
     @Transactional
     public String userEmailCheck(String email, String password) {
         String token = null;
@@ -282,6 +294,9 @@ public class UserService {
                     userEntity.getUserAccount(), userEntity.getUserLevel());
             logger.info("token: " + token);
             logger.info("USER SERVICE SELECT USER NAME SUCCESS!");
+            Date date = new Date();
+            int updDate = userMapper.updUserLoginTime(userEntity.getUserId(), date);
+            logger.info("用户登录时间更新" + userEntity.getUserId() + " " + updDate);
             logger.info("result: " + userEntity.toString());
         }catch (Exception e) {
             logger.error("USER SERVICE SELECT USER NAME ERROR!");
@@ -292,6 +307,33 @@ public class UserService {
 
 
         return token;
+    }
+
+    /**
+     * 更新用户状态
+     * @param userId
+     * @param userStatus
+     * @return
+     */
+    public Boolean updUserStatus(int userId, int userStatus) {
+        int b = 0;
+
+        logger.info("USER SERVICE UPDATE USER INFO START");
+        try {
+            b = userMapper.updUserStatus(userId, userStatus);
+            logger.info("USER SERVICE UPDATE USER INFO SUCCESS!");
+            logger.info("result: userId" + userId + ",userStatus " + userStatus);
+        } catch (Exception e) {
+            logger.error("USER SERVICE UPDATE USER INFO ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: userId" + userId + ",userStatus " + userStatus);
+        }
+        logger.info("USER SERVICE UPDATE USER INFO END");
+
+        if (b == SERVICE_UPDATE_USER_INFO_NUMBER) {
+            return true;
+        }
+        return false;
     }
 
     //
@@ -306,6 +348,7 @@ public class UserService {
         userEntity.setUserPassword(null);
         return userEntity;
     }
+
     /**
      * 隐藏列表用户的UserEntity的密码
      * @param userEntityList
@@ -327,7 +370,6 @@ public class UserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserPassword(userInfo.getUserPassword());
         userEntity.setUserEmail(userInfo.getUserEmail());
-        userEntity.setUserPassword(userInfo.getUserPhone());
         userEntity.setUserAccount(userInfo.getUserAccount());
         userEntity.setUserName(userInfo.getUserName());
         userEntity.setUserPhone(userInfo.getUserPhone());
@@ -335,5 +377,4 @@ public class UserService {
         userEntity.setUserLast(new Date());
         return userEntity;
     }
-
 }

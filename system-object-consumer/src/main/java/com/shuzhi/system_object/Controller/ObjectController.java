@@ -12,10 +12,7 @@ import com.shuzhi.system_object.Service.ObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -134,7 +131,7 @@ public class ObjectController {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --INFO-- INPUT IS WARNING ! ");
         }
         //输入数量为空(警告)
-        if(objectEntity.getObjectCount() == ZERO) {
+        if(objectEntity.getObjectCout() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COUNT-- INPUT IS WARNING ! ");
         }
         //输入图片为空
@@ -199,7 +196,6 @@ public class ObjectController {
      */
     @PostMapping("/find/classes")
     public ResponseResult findObjectClasses(String objectClasses) {
-
         List<ObjectEntity> objectEntityList = null;
         objectEntityList = objectService.getObjectClasses(objectClasses);
 
@@ -224,6 +220,23 @@ public class ObjectController {
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectUserAccount, objectEntityList);
+    }
+
+    /**
+     * 根据商品id查询商品
+     * @param objectId
+     * @return
+     */
+    @GetMapping("/find/object")
+    public ResponseResult findObject(int objectId) {
+
+        ObjectEntity objectEntity = null;
+        objectEntity = objectService.getObject(objectId);
+
+        logger.info("TRANTAL ALL OBJECT INFO: " + objectEntity);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, String.valueOf(objectId), objectEntity);
     }
 
 }

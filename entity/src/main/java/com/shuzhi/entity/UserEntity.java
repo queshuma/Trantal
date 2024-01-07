@@ -1,5 +1,6 @@
 package com.shuzhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -31,11 +32,13 @@ public class UserEntity {
 	@Column(name = "user_password")
 	private String userPassword;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
 	@Column(name = "user_time")
 	private Date userTime;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
 	@Column(name = "user_last")
 	private Date userLast;
 
@@ -128,4 +131,5 @@ public class UserEntity {
 	public UserEntity() {
 
 	}
+
 }

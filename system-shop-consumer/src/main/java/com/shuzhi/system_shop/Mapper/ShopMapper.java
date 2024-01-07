@@ -22,13 +22,15 @@ public interface ShopMapper {
     int addShop(int userId, int objectId, int shopCout, Date shopTime);
 
     //    @Select("SELECT tshop.*,  FROM trantal_shop tshop")
-    @Select("SELECT  shop.user_id, obj.object_name, obj.object_title, obj.object_oldprice,obj.object_price, obj.object_cout, shop.shop_cout, shop.shop_cout * obj.object_price as shop_pay, obj.object_status, shop.shop_time \n" +
+    @Select("SELECT shop.shop_id, shop.user_id, obj.object_name, obj.object_title, obj.object_image, obj.object_oldprice,obj.object_price, obj.object_cout, shop.shop_cout, shop.shop_cout * obj.object_price as shop_pay, obj.object_status, shop.shop_time \n" +
             "FROM trantal_shop AS shop LEFT JOIN trantal_object AS obj on shop.object_id = obj.object_id \n" +
-            "WHERE shop.user_id = #{userId};")
+            "WHERE shop.user_id = #{userId} AND shop.shop_cout > 0;")
     @Results(id = "shopResultMap", value = {
+            @Result(property = "shopId", column = "shop_id"),
             @Result(property = "userId", column = "user_id"),
             @Result(property = "objectName", column = "object_name"),
             @Result(property = "objectTitle", column = "object_title"),
+            @Result(property = "objectImage", column = "object_image"),
             @Result(property = "objectOldPrice", column = "object_old_price"),
             @Result(property = "objectPrice", column = "object_price"),
             @Result(property = "objectCout", column = "object_cout"),
@@ -42,12 +44,15 @@ public interface ShopMapper {
     /**
      * 添加订单后更新产品数据信息
      * @param userId
-     * @param shopCout
+     * @param objectId
      * @param shopTime
      * @return
      */
     @Update("UPDATE trantal_shop SET shop_cout = #{shopCout} + shop_cout, shop_time = #{shopTime} WHERE user_id = #{userId} AND object_id = #{objectId}")
-    Boolean updShopCout(int userId, int objectId, int shopCout, Date shopTime);
+    Boolean updShopCoutAddShop(int userId, int objectId, int shopCout, Date shopTime);
+
+    @Update("UPDATE trantal_shop SET shop_cout = #{objectCout} + shop_cout, shop_time = #{shopTime} WHERE user_id = #{userId} AND shop_id = #{shopId}")
+    Boolean updShopCout(int shopId, int userId, int objectCout, Date shopTime);
 
     /**
      * 设置订单状态
@@ -64,6 +69,6 @@ public interface ShopMapper {
      * @param objectId
      * @return
      */
-    @Select("SELECT COUNT(object_id) as FindShopCout FROM trantal_object WHERE user_id = #{userId} AND object_id = #{objectId};")
+    @Select("SELECT COUNT(object_id) as FindShopCout FROM trantal_shop WHERE user_id = #{userId} AND object_id = #{objectId};")
     int getShopUserIdObjectId(int userId, int objectId);
 }

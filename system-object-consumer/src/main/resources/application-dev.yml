@@ -8,6 +8,8 @@ spring:
     static-path-pattern: /**
     pathmatch:
       matching-strategy: ant_path_matcher
+  resources:
+    static-locations: classpath:/
   devtools:
     restart:
       additional-paths: src/main/java

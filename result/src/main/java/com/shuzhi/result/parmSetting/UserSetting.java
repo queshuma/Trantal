@@ -33,7 +33,7 @@ public interface UserSetting {
     public final int USER_INFO_LEVER_MIN = 1;
 
     //用户状态最大限制
-    public final int USER_INFO_STATUS_MAX = 1;
+    public final int USER_INFO_STATUS_MAX = 2;
     //用户等级最小限制
-    public final int USER_INFO_STATUS_MIN = 0;
+    public final int USER_INFO_STATUS_MIN = 1;
 }

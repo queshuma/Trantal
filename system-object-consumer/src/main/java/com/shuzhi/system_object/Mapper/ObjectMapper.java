@@ -24,12 +24,14 @@ public interface ObjectMapper {
             @Result(property = "objectCost", column = "object_oldprice"),
             @Result(property = "objectPrice", column = "object_price"),
             @Result(property = "objectInfo", column = "object_info"),
-            @Result(property = "objectCount", column = "object_count"),
+            @Result(property = "objectCout", column = "object_cout"),
             @Result(property = "objectImage", column = "object_image"),
             @Result(property = "objectStatus", column = "object_status"),
             @Result(property = "objectTime", column = "object_time"),
             @Result(property = "objectClasses", column = "object_classes"),
-            @Result(property = "userId", column = "user_id")
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "objectBanner", column = "object_banner"),
+            @Result(property = "objectImg", column = "object_img"),
     })
     List<ObjectEntity> getAllObject();
 
@@ -81,10 +83,7 @@ public interface ObjectMapper {
      * @param ObjectClasses
      * @return
      */
-    @Select("SELECT * FROM trantal_object object " +
-            "JOIN object_classes classes ON object." +
-            "object_classes = classes.classes_id WHERE " +
-            "classes.classes_name = #{ObjectClasses}")
+    @Select("SELECT * FROM trantal_object JOIN object_classes ON trantal_object.object_classes = object_classes.classes_id WHERE object_classes.classes_name = #{ObjectClasses} ")
     @ResultMap("objectResultMap")
     List<ObjectEntity> getObjectClasses(String ObjectClasses);
 
@@ -126,4 +125,8 @@ public interface ObjectMapper {
             "SET obj.object_cout = obj.object_cout + ord.object_cout\n" +
             "WHERE ord.order_id = #{orderId};")
     void updObjectAdd(int orderId);
+
+    @Select("SELECT * FROM trantal_object WHERE object_id = #{objectId}")
+    @ResultMap("objectResultMap")
+    ObjectEntity getObject(int objectId);
 }

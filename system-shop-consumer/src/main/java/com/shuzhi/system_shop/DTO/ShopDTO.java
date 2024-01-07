@@ -13,11 +13,13 @@ import java.util.Date;
 
 public class ShopDTO {
 
+    private int shopId;
     private int userId;
     private String objectName;
     private String objectTitle;
+    private String objectImage;
     private BigDecimal objectOldPrice;
-    private BigDecimal ObjectPrice;
+    private BigDecimal objectPrice;
     private int objectCout;
     private int shopCout;
     private BigDecimal shopPay;
@@ -54,14 +56,6 @@ public class ShopDTO {
 
     public void setObjectOldPrice(BigDecimal objectOldPrice) {
         this.objectOldPrice = objectOldPrice;
-    }
-
-    public BigDecimal getObjectPrice() {
-        return ObjectPrice;
-    }
-
-    public void setObjectPrice(BigDecimal objectPrice) {
-        ObjectPrice = objectPrice;
     }
 
     public int getObjectCout() {
@@ -104,16 +98,45 @@ public class ShopDTO {
         this.shopTime = shopTime;
     }
 
-    public ShopDTO(int userId, String objectName, String objectTitle, BigDecimal objectOldPrice, BigDecimal objectPrice, int objectCout, int shopCout, BigDecimal shopPay, int objectStatus, Date shopTime) {
-        this.userId = userId;
-        this.objectName = objectName;
-        this.objectTitle = objectTitle;
-        this.objectOldPrice = objectOldPrice;
-        ObjectPrice = objectPrice;
-        this.objectCout = objectCout;
-        this.shopCout = shopCout;
-        this.shopPay = shopPay;
-        this.objectStatus = objectStatus;
-        this.shopTime = shopTime;
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getObjectImage() {
+        return objectImage;
+    }
+
+    public void setObjectImage(String objectImage) {
+        this.objectImage = objectImage;
+    }
+
+    public BigDecimal getObjectPrice() {
+        return objectPrice;
+    }
+
+    public void setObjectPrice(BigDecimal objectPrice) {
+        this.objectPrice = objectPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopDTO{" +
+                "shopId=" + shopId +
+                ", userId=" + userId +
+                ", objectName='" + objectName + '\'' +
+                ", objectTitle='" + objectTitle + '\'' +
+//                ", ObjectImage='" + objectImage + '\'' +
+                ", objectOldPrice=" + objectOldPrice +
+                ", ObjectPrice=" + objectPrice +
+                ", objectCout=" + objectCout +
+                ", shopCout=" + shopCout +
+                ", shopPay=" + shopPay +
+                ", objectStatus=" + objectStatus +
+                ", shopTime=" + shopTime +
+                '}';
     }
 }

@@ -49,10 +49,11 @@ public class ShopService {
         logger.info("OBJECT SERVICE ADD OBJECT PHONE START");
         try {
             ShopLength = shopMapper.getShopUserIdObjectId(userId, objectId);
+            System.out.println("shop" + ShopLength);
             if (ShopLength == Common.ZERO) {
                 shopMapper.addShop(userId, objectId, shopCout, shopTime);
             } else if (ShopLength == Common.ONE){
-                shopMapper.updShopCout(userId, objectId, shopCout, shopTime);
+                shopMapper.updShopCoutAddShop(userId, objectId, shopCout, shopTime);
             }
             b = 1;
             logger.info("SHOP SERVICE ADD ORDER INFO SUCCESS!");
@@ -98,18 +99,18 @@ public class ShopService {
     /**
      * 更新购物车商品数量
      * @param userId
-     * @param objectId
-     * @param shopCout
+     * @param shopId
+     * @param objectCout
      * @return
      */
-    public Boolean updShopCount(int userId, int objectId, int shopCout) {
+    public Boolean updShopCout(int shopId, int userId, int objectCout) {
 
         Boolean b = false;
         Date shopTime = new Date();
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
         try {
-            b = shopMapper.updShopCout(userId, objectId, shopCout, shopTime);
+            b = shopMapper.updShopCout(shopId, userId, objectCout, shopTime);
             logger.info("OBJECT SERVICE UPDATE SHOP COUNT SUCCESS!");
 //            logger.info("result: shopId = " + shopId + "objectCount = " + objectCount);
         } catch (Exception e) {

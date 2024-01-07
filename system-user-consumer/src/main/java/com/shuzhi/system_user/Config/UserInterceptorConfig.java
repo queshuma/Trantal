@@ -21,9 +21,6 @@ public class UserInterceptorConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         System.out.println("进入拦截器");
-//        registry.addInterceptor(new TouristInterceptor()).addPathPatterns("/**")
-//                .excludePathPatterns("/User/login", "/User/logout", "/User/findAll")
-//                .order(1);
 
         registry.addInterceptor(new ClientInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns(TouristAuthority)

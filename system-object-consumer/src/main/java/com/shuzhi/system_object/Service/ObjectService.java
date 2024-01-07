@@ -188,6 +188,23 @@ public class ObjectService {
         return objectEntityList;
     }
 
+    public ObjectEntity getObject(int objectId) {
+        ObjectEntity objectEntity = null;
+        logger.info("OBJECT SERVICE SELECT OBJECT START");
+
+        try {
+            objectEntity = objectMapper.getObject(objectId);
+            logger.info("OBJECT SERVICE SELECT OBJECT SUCCESS!");
+            logger.info("result: " + objectEntity.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT OBJECT ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + objectEntity.toString());
+        }
+
+        return objectEntity;
+    }
+
     /**
      * 将ObjectInfo数据转换成ObjectEntity
      * @param objectInfo

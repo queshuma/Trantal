@@ -25,17 +25,21 @@ public class UserInterceptorConfig extends WebMvcConfigurationSupport {
 //                .excludePathPatterns("/User/login", "/User/logout", "/User/findAll")
 //                .order(1);
 
-        registry.addInterceptor(new ClientInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns(TouristAuthority)
+//        registry.addInterceptor(new ClientInterceptor()).addPathPatterns("/**")
+//                .excludePathPatterns(TouristAuthority)
+//                .order(1);
+//
+//        registry.addInterceptor(new BusinessInterceptor()).addPathPatterns("/**")
+//                .excludePathPatterns(ClientAuthority)
+//                .order(2);
+//
+//        registry.addInterceptor(new MasterInterceptor()).addPathPatterns("/**")
+//                .excludePathPatterns(BusinessAuthority)
+//                .order(3);
+
+                registry.addInterceptor(new ClientInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/**")
                 .order(1);
-
-        registry.addInterceptor(new BusinessInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns(ClientAuthority)
-                .order(2);
-
-        registry.addInterceptor(new MasterInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns(BusinessAuthority)
-                .order(3);
 
 
     }

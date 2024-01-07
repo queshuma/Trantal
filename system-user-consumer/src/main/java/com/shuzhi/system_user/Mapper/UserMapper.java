@@ -3,6 +3,7 @@ package com.shuzhi.system_user.Mapper;
 import com.shuzhi.entity.UserEntity;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -118,4 +119,22 @@ public interface UserMapper {
     @Select("SELECT * FROM trantal_user WHERE user_email = #{userEmail} AND user_password = #{userPassword}")
     @ResultMap("userResultMap")
     UserEntity loginByEmail(String userEmail, String userPassword);
+
+    /**
+     * 更新登录时间
+     * @param userId
+     * @param date
+     * @return
+     */
+    @Update("UPDATE trantal_user set user_last = #{date} WHERE user_id = #{userId}")
+    int updUserLoginTime(Long userId, Date date);
+
+    /**
+     * 更新用户状态
+     * @param userId
+     * @param userStatus
+     * @return
+     */
+    @Update("UPDATE trantal_user set user_status = #{userStatus} WHERE user_id = #{userId}")
+    int updUserStatus(int userId, int userStatus);
 }

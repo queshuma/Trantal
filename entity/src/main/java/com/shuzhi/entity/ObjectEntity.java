@@ -40,8 +40,8 @@ public class ObjectEntity {
 	@Column(name = "object_info")
 	private String objectInfo;
 
-	@Column(name = "object_count")
-	private Long objectCount;
+	@Column(name = "object_cout")
+	private Long objectCout;
 
 	@Column(name = "object_image")
 	private String objectImage;
@@ -113,12 +113,12 @@ public class ObjectEntity {
 		this.objectInfo = objectInfo;
 	}
 
-	public Long getObjectCount() {
-		return objectCount;
+	public Long getObjectCout() {
+		return objectCout;
 	}
 
 	public void setObjectCount(Long objectCount) {
-		this.objectCount = objectCount;
+		this.objectCout = objectCout;
 	}
 
 	public String getObjectImage() {

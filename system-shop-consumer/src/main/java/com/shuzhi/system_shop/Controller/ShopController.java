@@ -85,20 +85,19 @@ public class ShopController {
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopDTOList);
     }
 
-//    @ApiOperation("修改购物车_商品数量")
-//    @PostMapping("/update/count")
-//    public ResponseResult updateShopCount(int shopId, int objectCount) {
-//        Boolean b = false;
-//        b = shopService.updShopCount(shopId, objectCount);
-//        System.out.println(b);
-//        if (!b) {
-//            logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCount" + objectCount);
-//            logger.info("RETURN");
-//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
-//        }
-//        logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCount = " + objectCount);
-//        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
-//    }
+    @PostMapping("/update/cout")
+    public ResponseResult updateShopCout(int userId, int shopId, int objectCout) {
+        Boolean b = false;
+        b = shopService.updShopCout(shopId, userId, objectCout);
+        System.out.println(b);
+        if (!b) {
+            logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCout" + objectCout);
+            logger.info("RETURN");
+            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
+        }
+        logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCout = " + objectCout);
+        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
+    }
 
     @PutMapping("/update/delete")
     public ResponseResult updateShopStatus(int shopId) {

@@ -12,16 +12,12 @@ import com.shuzhi.system_user.Service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-import static com.shuzhi.common.SystemUtils.*;
 import static com.shuzhi.common.SystemUtils.listIsNull;
 import static com.shuzhi.result.Common.ZERO;
 
@@ -53,7 +49,7 @@ public class UserController {
     public ResponseResult add(UserInfo userInfo) {
 
         Boolean b = false;
-
+        System.out.println(userInfo.getUserPassword());
         //输入姓名为空
         if(SystemUtils.isNullOrEmpty(userInfo.getUserName())) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --NAME-- INPUT IS NULL ! ");
@@ -223,7 +219,7 @@ public class UserController {
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_STATUS_OVER_LINE);
         }
 
-        b = userService.updUserLevel(userId, userStatus);
+        b = userService.updUserStatus(userId, userStatus);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
@@ -373,6 +369,8 @@ public class UserController {
         //定义返回的状态码
         String resultCode;
 
+        System.out.println("info" + info);
+        System.out.println("info" + password);
         //初步筛选，邮箱和手机号是否为空
         if (SystemUtils.isNull(info) || SystemUtils.isNull(password)) {
             resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_NULL;
@@ -386,12 +384,14 @@ public class UserController {
                 resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_ERROR;
                 return ResponseResultFactory.buildResponseFactory(resultCode);
             }
+            System.out.println("邮箱登录：");
             token = userService.userEmailCheck(info, password);
         } else {
             if (info.length() > UserSetting.USER_INFO_PHONE_SIZE_MAX || info.length() < UserSetting.USER_INFO_PHONE_SIZE_MIN) {
                 resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_ERROR;
                 return ResponseResultFactory.buildResponseFactory(resultCode);
             }
+            System.out.println("手机号登录：");
             token = userService.userPhoneCheck(info, password);
         }
 
@@ -404,7 +404,6 @@ public class UserController {
         }
 
     }
-
 
     /**
      * 用户退出接口
