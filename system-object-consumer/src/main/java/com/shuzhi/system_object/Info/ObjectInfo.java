@@ -10,7 +10,7 @@ public class ObjectInfo {
     private float objectCost;      //售价
     private float objectPrice;
     private String objectInfo;
-    private Long objectCount;
+    private int objectCout;
     private String objectImage;
     private Long objectStatus;
     private Date objectTime;
@@ -67,12 +67,12 @@ public class ObjectInfo {
         this.objectInfo = objectInfo;
     }
 
-    public Long getObjectCount() {
-        return objectCount;
+    public int getObjectCout() {
+        return objectCout;
     }
 
-    public void setObjectCount(Long objectCount) {
-        this.objectCount = objectCount;
+    public void setObjectCout(int objectCout) {
+        this.objectCout = objectCout;
     }
 
     public String getObjectImage() {

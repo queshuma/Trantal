@@ -245,6 +245,47 @@ public class UserService {
     }
 
     /**
+     * 根据等级查询
+     * @param userLevel
+     * @return
+     */
+    public List<UserEntity> getUserLevel(int userLevel) {
+        List<UserEntity> userEntityList = null;
+        logger.info("USER SERVICE SELECT USER NAME START");
+
+        try {
+            userEntityList = userMapper.getUserLevel(userLevel);
+            userEntityList = setListPwdIsNull(userEntityList);
+            logger.info("USER SERVICE SELECT USER LEVEL SUCCESS!");
+            logger.info("result: " + userEntityList.toString());
+        } catch (Exception e) {
+            logger.error("USER SERVICE SELECT USER LEVEL ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + userEntityList.toString());
+        }
+
+        return userEntityList;
+    }
+
+    public UserEntity getUserId(Long userId) {
+        UserEntity userEntity = null;
+        logger.info("USER SERVICE SELECT USER NAME START");
+
+        try {
+            userEntity = userMapper.getUserId(userId);
+            userEntity = setPwdIsNull(userEntity);
+            logger.info("USER SERVICE SELECT USER ID SUCCESS!");
+            logger.info("result: " + userEntity.toString());
+        } catch (Exception e) {
+            logger.error("USER SERVICE SELECT USER ID ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + userEntity.toString());
+        }
+
+        return userEntity;
+    }
+
+    /**
      * 根据手机号进行校验
      * @param phone
      * @param password

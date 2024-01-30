@@ -8,8 +8,10 @@ spring:
     static-path-pattern: /**
     pathmatch:
       matching-strategy: ant_path_matcher
-  resources:
-    static-locations: classpath:/
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
   devtools:
     restart:
       additional-paths: src/main/java
@@ -23,9 +25,23 @@ spring:
     nacos:
       config:
         server-addr: localhost:8848/nacos/
+#        enabled: true
+  boot:
+    admin:
+      client:
+        url: localhost:9001
 logging:
   config:
     classpath: logback-spring.xml
+#ribbon:
+#  nacos:
+#    enabled: true
+system-user:
+  ribbon:
+    listOfServers: localhost:8888  # Nacos 注册中心的地址和端口
+system-objclasses:
+  ribbon:
+    listOfServers: localhost:8858  # Nacos 注册中心的地址和端口
 Mybatis:
   mapper-locations: Mapper/*.xml
 server:
@@ -38,4 +54,9 @@ management:
   endpoint:
     health:
       show-details: always
+#    feign:
+#      client:
+#        config:
+#          default:
+#            loggerLevel: full # 设置Feign的日志级别，便于调试
 

@@ -32,12 +32,12 @@ public class UserEntity {
 	@Column(name = "user_password")
 	private String userPassword;
 
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyy-MM-dd HH:mm")
 	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
 	@Column(name = "user_time")
 	private Date userTime;
 
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyy-MM-dd HH:mm")
 	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
 	@Column(name = "user_last")
 	private Date userLast;

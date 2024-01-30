@@ -5,3 +5,4 @@ spring:
     active: dev
 server:
   port: 8888
+

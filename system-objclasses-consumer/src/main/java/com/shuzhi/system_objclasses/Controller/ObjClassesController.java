@@ -6,6 +6,7 @@ import com.shuzhi.common.SystemUtils;
 import com.shuzhi.entity.ObjClassesEntity;
 import com.shuzhi.result.code.ObjClassesCode;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
+import com.shuzhi.system_objclasses.Info.ObjClassesShow;
 import com.shuzhi.system_objclasses.Service.ObjClassesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +21,11 @@ import java.util.List;
 import static com.shuzhi.result.Common.ZERO;
 
 @RestController
-@RequestMapping("/Object/Classes")
+@RequestMapping("/ObjClasses")
 public class ObjClassesController {
 
     private static final int SYSTEM_OBJECT_CLASSES_DEFAULT_CLASSES_STATUS = 0;
-    private final int SYSTEM_OBJECT_CLASSES_DEFAULT_CLASSES_PARENT_ID = 0;
+    private final Long SYSTEM_OBJECT_CLASSES_DEFAULT_CLASSES_PARENT_ID = 0L;
     private final ObjClassesService objClassesService;
     private final Logger logger = (Logger) LoggerFactory.getLogger(ObjClassesController.class);
 
@@ -41,9 +42,9 @@ public class ObjClassesController {
     public ResponseResult findAll(){
 
         List<ObjClassesEntity> objectEntityList = null;
-        objectEntityList = objClassesService.getAllClasses();
+        List<ObjClassesShow> objClassesShowList = objClassesService.getAllClasses();
 
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objectEntityList);
+        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objClassesShowList);
 
     }
 

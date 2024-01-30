@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: system-gateway
+
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
@@ -35,7 +36,7 @@ spring:
         - id: system-objclasses
           uri: lb://system-objclasses/
           predicates:
-            - Path=/Object/Classes/**, /v3/api-docs/objclasses
+            - Path=/ObjClasses/**, /v3/api-docs/objclasses
 #        #订单模块动态路由设置
 #        - id: system-order
 #          uri: lb://system-order/

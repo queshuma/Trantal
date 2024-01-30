@@ -25,7 +25,7 @@ public interface UserMapper {
      * @param userEntity
      * @return
      */
-    @Update("UPDATE trantal_user SET user_name = #{userName}, user_account = #{userAccount}, user_email = #{userEmail}, user_password = #{userPassword}, user_phone = #{userPhone}, user_time = #{userTime}, user_last = #{userLast} WHERE user_id = #{userId}")
+    @Update("UPDATE trantal_user SET user_name = #{userName}, user_account = #{userAccount}, user_email = #{userEmail}, user_phone = #{userPhone}, user_time = #{userTime}, user_last = #{userLast} WHERE user_id = #{userId}")
     int updUser(UserEntity userEntity);
     /**
      * 修改用户登记信息
@@ -101,6 +101,24 @@ public interface UserMapper {
     UserEntity getUserEmail(String userEmail);
 
     /**
+     * 根据等级查询用户操作
+     * @param userLevel
+     * @return
+     */
+    @Select("SELECT * FROM trantal_user WHERE user_level= #{userLevel}")
+    @ResultMap("userResultMap")
+    List<UserEntity> getUserLevel(int userLevel);
+
+    /**
+     * 根据用户Id查询用户信息
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM trantal_user WHERE user_id= #{userId}")
+    @ResultMap("userResultMap")
+    UserEntity getUserId(Long userId);
+
+    /**
      * 根据手机号码进行登陆校验
      * @param userPhone
      * @param userPassword
@@ -137,4 +155,5 @@ public interface UserMapper {
      */
     @Update("UPDATE trantal_user set user_status = #{userStatus} WHERE user_id = #{userId}")
     int updUserStatus(int userId, int userStatus);
+
 }

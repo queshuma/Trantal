@@ -1,5 +1,6 @@
 package com.shuzhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -41,7 +42,7 @@ public class ObjectEntity {
 	private String objectInfo;
 
 	@Column(name = "object_cout")
-	private Long objectCout;
+	private int objectCout;
 
 	@Column(name = "object_image")
 	private String objectImage;
@@ -49,7 +50,8 @@ public class ObjectEntity {
 	@Column(name = "object_status")
 	private Long objectStatus;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyy-MM-dd HH:mm")
+	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
 	@Column(name = "object_time")
 	private Date objectTime;
 
@@ -113,11 +115,11 @@ public class ObjectEntity {
 		this.objectInfo = objectInfo;
 	}
 
-	public Long getObjectCout() {
+	public int getObjectCout() {
 		return objectCout;
 	}
 
-	public void setObjectCount(Long objectCount) {
+	public void setObjectCout(int objectCout) {
 		this.objectCout = objectCout;
 	}
 
@@ -177,7 +179,25 @@ public class ObjectEntity {
 		this.objectImg = objectImg;
 	}
 
+	public ObjectEntity(Long objectId, String objectName, String objectTitle, float objectCost, float objectPrice, String objectInfo, int objectCout, String objectImage, Long objectStatus, Date objectTime, Long objectClasses, Long userId, String objectBanner, String objectImg) {
+		this.objectId = objectId;
+		this.objectName = objectName;
+		this.objectTitle = objectTitle;
+		this.objectCost = objectCost;
+		this.objectPrice = objectPrice;
+		this.objectInfo = objectInfo;
+		this.objectCout = objectCout;
+		this.objectImage = objectImage;
+		this.objectStatus = objectStatus;
+		this.objectTime = objectTime;
+		this.objectClasses = objectClasses;
+		this.userId = userId;
+		this.objectBanner = objectBanner;
+		this.objectImg = objectImg;
+	}
+
 	public ObjectEntity() {
 
 	}
+
 }

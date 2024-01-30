@@ -8,15 +8,19 @@ import com.shuzhi.result.code.ObjectCode;
 import com.shuzhi.result.parmSetting.ObjectSetting;
 
 import com.shuzhi.system_object.Info.ObjectInfo;
+import com.shuzhi.system_object.Info.ObjectWithBuss;
 import com.shuzhi.system_object.Service.ObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
-import static com.shuzhi.result.Common.ZERO;
+import static com.shuzhi.result.Common.*;
 
 
 /**
@@ -27,13 +31,91 @@ import static com.shuzhi.result.Common.ZERO;
 public class ObjectController {
 
     //依赖注入UserService服务，用于处理操作调用
-    private final ObjectService objectService;
+    @Autowired
+    private ObjectService objectService;
+
+    @Autowired
+    private UserFeign userFeign;
+    @Autowired
+    private ObjClassesFeign objClassesFeign;
+
     //依赖注入Logger服务，用于日志输出
     private final Logger logger = LoggerFactory.getLogger(ObjectController.class);
 
-    @Autowired
-    public ObjectController(ObjectService objectService) {
-        this.objectService = objectService;
+//    @GetMapping("/all")
+//    public void findByAll(Long userId) {
+//        System.out.println(objClassesFeign.findById(userId).getResultMsg());
+//    }
+
+    /**
+     * 上传商品图片Image
+     * @param multipartFiles
+     * @param objectId
+     * @param objectName
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/uploadImage")
+    public ResponseResult handleFileUploadImage(@RequestParam("file") MultipartFile multipartFiles, String objectId, String objectName){
+        HashMap<String, String> hashMap = objectService.uploadImage(multipartFiles, objectId, objectName);
+        System.out.println(multipartFiles.getOriginalFilename());
+        System.out.println("地址：" + hashMap.get("url"));
+
+        if (hashMap != null) {
+            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "", hashMap));
+            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "",hashMap.get("url"));
+        } else {
+            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL));
+            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL);
+        }
+
+    }
+
+
+    /**
+     * 上传商品海报Banner
+     * @param multipartFiles
+     * @param objectId
+     * @param objectName
+     * @return
+     */
+    @PostMapping("/uploadBanner")
+    public ResponseResult handleFileUploadBanner(@RequestParam("file") MultipartFile multipartFiles, String objectId, String objectName){
+        HashMap<String, String> hashMap = objectService.uploadBanner(multipartFiles, objectId, objectName);
+        System.out.println(multipartFiles.getOriginalFilename());
+        System.out.println("地址：" + hashMap.get("url"));
+
+        if (hashMap != null) {
+            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "", hashMap));
+            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "",hashMap.get("url"));
+        } else {
+            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL));
+            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL);
+        }
+
+    }
+
+    /**
+     * 上传图片详情图Img
+     * @param multipartFiles
+     * @param objectId
+     * @param objectName
+     * @return
+     */
+    @PostMapping("/uploadImg")
+    public ResponseResult handleFileUploadImg(@RequestParam("file") MultipartFile multipartFiles, String objectId, String objectName){
+        HashMap<String, String> hashMap = objectService.uploadImg(multipartFiles, objectId, objectName);
+        System.out.println(multipartFiles.getOriginalFilename());
+        System.out.println("地址：" + hashMap.get("url"));
+
+        if (hashMap != null) {
+            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "", hashMap));
+            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "",hashMap.get("url"));
+        } else {
+            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL));
+            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL);
+        }
+
     }
 
     /**
@@ -69,7 +151,7 @@ public class ObjectController {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --INFO-- INPUT IS WARNING ! ");
         }
         //输入数量为空(警告)
-        if(objectInfo.getObjectCount() == ZERO) {
+        if(objectInfo.getObjectCout() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --EMAIL-- INPUT IS WARNING ! ");
         }
         //输入图片为空
@@ -104,6 +186,7 @@ public class ObjectController {
      * @return ResponseResult
      */
     @PostMapping("/update")
+//    @ResponseBody
     public ResponseResult update(ObjectEntity objectEntity) {
 
         Boolean b = false;
@@ -135,9 +218,9 @@ public class ObjectController {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COUNT-- INPUT IS WARNING ! ");
         }
         //输入图片为空
-        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectImage())) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --IMAGE-- INPUT IS WARNING ! ");
-        }
+//        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectImage())) {
+//            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --IMAGE-- INPUT IS WARNING ! ");
+//        }
         //输入类别为空
         if(objectEntity.getObjectClasses() == ZERO) {
             logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --CLASSES-- INPUT IS WARNING ! ");
@@ -162,24 +245,33 @@ public class ObjectController {
     public ResponseResult findAll() {
 
         List<ObjectEntity> objectEntityList = null;
+        List<ObjectWithBuss> objectInfoWithUserNameList = new ArrayList<>();
         objectEntityList = objectService.getAllObject();
+        for (ObjectEntity obj:objectEntityList) {
+              ObjectWithBuss objectInfoWithUserName =new ObjectWithBuss();
+              BeanUtils.copyProperties(obj, objectInfoWithUserName);
+              objectInfoWithUserName.setBussAccount(userFeign.findById(obj.getUserId()).getResultMsg());
+              objectInfoWithUserName.setClassesName(objClassesFeign.findById(obj.getObjectClasses()).getResultMsg());
+              objectInfoWithUserNameList.add(objectInfoWithUserName);
+        }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL BJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectEntityList);
+//        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectEntityList);
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectInfoWithUserNameList);
     }
 
     /**
-     * 修改商品状态(删除)
+     * 下架商品状态
      * @param objectId
      * @return
      */
-    @PostMapping("/update/delete")
-    public ResponseResult updateDelete(int objectId) {
+    @PostMapping("/update/status")
+    public ResponseResult updateObject(int objectId, int objectStatus) {
         Boolean b = false;
 
-        b = objectService.updObjectStatus(objectId, ZERO);
+        b = objectService.updObjectStatus(objectId, objectStatus);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {

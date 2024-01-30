@@ -3,6 +3,7 @@ package com.shuzhi.system_objclasses.Service;
 import com.shuzhi.entity.ObjClassesEntity;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 
+import com.shuzhi.system_objclasses.Info.ObjClassesShow;
 import com.shuzhi.system_objclasses.Mapper.ObjClassesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ObjClassesService {
 
     private static final int SERVICE_UPDATE_OBJECT_INFO_NUMBER = 1;
     private static final int ZERO = 0;
+    private static final Long ZEROL = 0L;
     private final ObjClassesMapper objClassesMapper;
     private Logger logger = LoggerFactory.getLogger(ObjClassesService.class);
 
@@ -33,13 +34,36 @@ public class ObjClassesService {
      * @return
      */
     @Transactional
-    public List<ObjClassesEntity> getAllClasses() {
+    public List<ObjClassesShow> getAllClasses() {
 
         int b = 0;
         List<ObjClassesEntity> objClassesEntityList = new ArrayList<>();
+        List<ObjClassesShow> objClassesShowList = new ArrayList<>();
 
         try {
             objClassesEntityList = objClassesMapper.findAllClasses();
+            HashMap<Long, Integer> classesParSon = new HashMap<>();
+            int n = 0;
+            for (ObjClassesEntity objClassesEntity:objClassesEntityList) {
+                ObjClassesShow objClassesShow = new ObjClassesShow();
+                objClassesShow.setId(objClassesEntity.getClassesId());
+                objClassesShow.setLabel(objClassesEntity.getClassesName());
+                classesParSon.put(objClassesEntity.getClassesId(), n);
+                if (objClassesEntity.getClassesParentId() == ZERO) {
+                    objClassesShowList.add(objClassesShow);
+                } else {
+                    System.out.println();
+                    List<ObjClassesShow> ocsl = new ArrayList<>();
+                    if (objClassesShowList.get(0).getChildren() == null) {
+                        ocsl.add(objClassesShow);
+                    } else {
+                        ocsl = objClassesShowList.get(0).getChildren();
+                        ocsl.add(objClassesShow);
+
+                    }
+                    objClassesShowList.get(0).setChildren(ocsl);
+                }
+            }
             logger.info("OBJECT CLASSES SERVICE SELECT OBJECT CLASSES SUCCESS!");
             logger.info("result: " + objClassesEntityList.toString());
         } catch (Exception e) {
@@ -49,8 +73,31 @@ public class ObjClassesService {
         }
         logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO END");
 
-        return objClassesEntityList;
+//        return objClassesEntityList;
+        return objClassesShowList;
+    }
 
+    /**
+     * 根据Id获取分类信息
+     * @param classesId
+     * @return
+     */
+    public ObjClassesEntity getClassesById(Long classesId) {
+        int b = 0;
+        ObjClassesEntity objClassesEntity = new ObjClassesEntity();
+
+        try {
+            objClassesEntity = objClassesMapper.findClassesById(classesId);
+            logger.info("OBJECT CLASSES SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + objClassesEntity);
+        } catch (Exception e) {
+            logger.error("OBJECT CLASSES SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROR: " + e);
+            logger.error("result: " + objClassesEntity);
+        }
+        logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO END");
+
+        return objClassesEntity;
     }
 
     /**

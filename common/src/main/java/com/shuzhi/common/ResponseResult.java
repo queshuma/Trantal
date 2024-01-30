@@ -8,6 +8,11 @@ public class ResponseResult<T> {
     //  具体的结果
     T result;
 
+
+
+    public ResponseResult() {
+    }
+
     public ResponseResult(String resultCode) {
         this.resultCode = resultCode;
     }

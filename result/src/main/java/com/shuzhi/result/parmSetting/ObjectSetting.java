@@ -5,7 +5,7 @@ public interface ObjectSetting {
     //用户姓名最小长度
     public final int OBJECT_INFO_NAME_SIZE_MIN = 2;
     //用户姓名最大长度
-    public final int OBJECT_INFO_NAME_SIZE_MAX = 8;
+    public final int OBJECT_INFO_NAME_SIZE_MAX = 20;
 
     //用户昵称最小长度
     public final int OBJECT_INFO_ACCOUNT_SIZE_MIN = 2;

@@ -23,6 +23,15 @@ public interface ObjClassesMapper {
     public List<ObjClassesEntity> findAllClasses();
 
     /**
+     * 根据Id查询分类信息
+     * @param classesId
+     * @return
+     */
+    @Select("SELECT * FROM object_classes WHERE classes_id = #{classesId}")
+    @ResultMap("objectClassesResultMap")
+    public ObjClassesEntity findClassesById(Long classesId);
+
+    /**
      * 添加产品分类
      * @param objClassesInfo
      * @return
@@ -46,4 +55,5 @@ public interface ObjClassesMapper {
      */
     @Update("UPDATE object_classes SET classes_parent_id = #{classesParentId}, classes_name = #{classesName}, classes_status = #{classesStatus} WHERE classes_id = #{classesId}")
     public int updObjectClasses(ObjClassesEntity objClassesEntity);
+
 }

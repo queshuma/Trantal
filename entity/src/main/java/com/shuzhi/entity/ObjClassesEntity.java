@@ -11,7 +11,7 @@ import javax.persistence.Column;
 public class ObjClassesEntity {
 
 	@Column(name = "classes_id")
-	private int classesId;
+	private Long classesId;
 
 	@Column(name = "classes_parent_id")
 	private int classesParentId;
@@ -22,11 +22,11 @@ public class ObjClassesEntity {
 	@Column(name = "classes_status")
 	private int classesStatus;
 
-	public int getClassesId() {
+	public Long getClassesId() {
 		return classesId;
 	}
 
-	public void setClassesId(int classesId) {
+	public void setClassesId(Long classesId) {
 		this.classesId = classesId;
 	}
 
@@ -52,9 +52,5 @@ public class ObjClassesEntity {
 
 	public void setClassesStatus(int classesStatus) {
 		this.classesStatus = classesStatus;
-	}
-
-	public ObjClassesEntity() {
-
 	}
 }

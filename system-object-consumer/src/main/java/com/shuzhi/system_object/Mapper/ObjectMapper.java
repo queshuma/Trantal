@@ -46,7 +46,7 @@ public interface ObjectMapper {
             "object_status, object_time, object_classes, " +
             "user_id) VALUES (#{objectName}, #{objectTitle}," +
             " #{objectCost}, #{objectPrice}, #{objectInfo}," +
-            " #{objectCount}, #{objectImage}, #{objectStatus}, " +
+            " #{objectCout}, #{objectImage}, #{objectStatus}, " +
             "#{objectTime}, #{objectClasses}, #{userId})")
     int addObject(ObjectInfo objectInfo);
 
@@ -61,8 +61,10 @@ public interface ObjectMapper {
             "object_oldprice = #{objectCost}, " +
             "object_price = #{objectPrice}, " +
             "object_info = #{objectInfo}, " +
-            "object_count = #{objectCount}, " +
+            "object_cout = #{objectCout}, " +
             "object_image = #{objectImage}, " +
+            "object_img = #{objectImg}, " +
+            "object_banner = #{objectBanner}, " +
             "object_status = #{objectStatus}, " +
             "object_classes = #{objectClasses}, " +
             "object_time = #{objectTime}" +

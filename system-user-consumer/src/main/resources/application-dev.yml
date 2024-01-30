@@ -28,8 +28,6 @@ spring:
 logging:
   config:
     classpath: logback-spring.xml
-Mybatis:
-  mapper-locations: Mapper/*.xml
 springfox:
   documentation:
     enabled: true
@@ -43,4 +41,7 @@ management:
   endpoint:
     health:
       show-details: always
+ribbon:
+  nacos:
+    enabled: true
 

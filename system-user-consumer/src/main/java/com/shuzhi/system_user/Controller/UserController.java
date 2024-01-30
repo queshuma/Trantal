@@ -9,6 +9,7 @@ import com.shuzhi.result.parmSetting.UserSetting;
 import com.shuzhi.system_user.Config.CookieConfig;
 import com.shuzhi.system_user.Info.UserInfo;
 import com.shuzhi.system_user.Service.UserService;
+import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class UserController {
 
     //依赖注入UserService服务，用于处理操作调用
     private final UserService userService;
+
     //依赖注入Logger服务，用于日志输出
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -137,16 +139,6 @@ public class UserController {
         if (userEntity.getUserAccount().length() < UserSetting.USER_INFO_ACCOUNT_SIZE_MIN || userEntity.getUserAccount().length() > UserSetting.USER_INFO_ACCOUNT_SIZE_MAX) {
             logger.error("TRANTAL USER CONTROLLER USER INFO --ACCOUNT SIZE-- TOO LONG/SHORT ! ");
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_ACCOUNT_SIZE);
-        }
-        //输入密码为空
-        if(SystemUtils.isNullOrEmpty(userEntity.getUserPassword())) {
-            logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PASSWORD_NULL);
-        }
-        //输入密码长度不合规
-        if (userEntity.getUserPassword().length() < UserSetting.USER_INFO_PASSWORD_SIZE_MIN || userEntity.getUserPassword().length() > UserSetting.USER_INFO_PASSWORD_SIZE_MAX) {
-            logger.error("TRANTAL USER CONTROLLER USER INFO --PASSWORD SIZE-- TOO LONG/SHORT ! ");
-            return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL_PASSWORD_SIZE);
         }
         //输入手机号为空
         if(SystemUtils.isNullOrEmpty(userEntity.getUserPhone())) {
@@ -348,6 +340,63 @@ public class UserController {
         } else {
             logger.error("ERROR : THE USER NAME INPUT IS NULL! ");
             resultCode = UserCode.SYSTEM_USER_ERROR_FIND_NAME_NULL;
+        }
+        if (listIsNull(userEntityList)) {
+            logger.info("SELECT BY NAME USER INFO IS NULL!");
+        }
+        logger.info("TRANTAL ALL USER INFO: " + userEntityList);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY NAME END! ==========");
+        return ResponseResultFactory.buildResponseFactory(resultCode, userEntityList);
+    }
+
+    /**
+     * 根据用户ID查找(唯一)
+     * @param userId
+     * @return
+     */
+    @GetMapping("/findById")
+    public ResponseResult findById(@RequestParam("userId") Long userId) {
+
+        UserEntity userEntity = null;
+        String resultCode = UserCode.SYSTEM_USER_INFO_FIND_SUCCESS;
+        if(!SystemUtils.isNull(userId)) {
+            userEntity = userService.getUserId(userId);
+        } else {
+            logger.error("ERROR : THE USER ID INPUT IS NULL! ");
+            resultCode = UserCode.SYSTEM_USER_ERROR_FIND_ID_NULL;
+        }
+        if (userEntity == null) {
+            logger.info("SELECT BY NAME USER INFO IS NULL!");
+        }
+        logger.info("TRANTAL ALL USER INFO: " + userEntity);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY NAME END! ==========");
+        return ResponseResultFactory.buildResponseFactory(resultCode, userEntity);
+    }
+
+    @GetMapping("/findByIdFeign")
+    public String findByIdFeign(@RequestParam("userId") Long userId) {
+
+        UserEntity userEntity = userService.getUserId(userId);
+        return userEntity.getUserAccount();
+    }
+
+    /**
+     * 根据用户权限等级查找(不唯一)
+     * @param userLevel
+     * @return
+     */
+    @GetMapping("/findByLevel")
+    public ResponseResult findByName(int userLevel) {
+
+        List<UserEntity> userEntityList = null;
+        String resultCode = UserCode.SYSTEM_USER_INFO_FIND_SUCCESS;
+        if(!SystemUtils.isNull(userLevel)) {
+            userEntityList = userService.getUserLevel(userLevel);
+        } else {
+            logger.error("ERROR : THE USER NAME INPUT IS NULL! ");
+            resultCode = UserCode.SYSTEM_USER_ERROR_FIND_LEVEL_NULL;
         }
         if (listIsNull(userEntityList)) {
             logger.info("SELECT BY NAME USER INFO IS NULL!");

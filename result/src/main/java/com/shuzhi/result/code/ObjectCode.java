@@ -22,10 +22,13 @@ public interface ObjectCode {
 
     //查找商品错误状态码
 
+    //上传图片错误状态码
+    String SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL = "020201";   //商品添加成功
 
     //成功的提示
     String SYSTEM_OBJECT_INFO_ADD_SUCCESS = "020000";   //商品添加成功
     String SYSTEM_OBJECT_INFO_DEL_SUCCESS = "020050";   //商品删除成功
     String SYSTEM_OBJECT_INFO_UPD_SUCCESS = "020100";   //商品更新成功
     String SYSTEM_OBJECT_INFO_FIND_SUCCESS = "020150";   //商品查询成功
+    String SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS = "020200";   //商品添加成功
 }

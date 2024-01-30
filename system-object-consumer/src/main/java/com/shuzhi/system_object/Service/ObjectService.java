@@ -4,13 +4,18 @@ import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.result.Common;
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Mapper.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -116,7 +121,7 @@ public class ObjectService {
     }
 
     /**
-     * 查询所有用户
+     * 查询所有商品
      * @parm null
      * @return List<UserEntity>
      */
@@ -188,6 +193,11 @@ public class ObjectService {
         return objectEntityList;
     }
 
+    /**
+     * 根据商品Id查询商品
+     * @param objectId
+     * @return
+     */
     public ObjectEntity getObject(int objectId) {
         ObjectEntity objectEntity = null;
         logger.info("OBJECT SERVICE SELECT OBJECT START");
@@ -215,7 +225,7 @@ public class ObjectService {
         objectEntity.setObjectName(objectInfo.getObjectName());
         objectEntity.setObjectInfo(objectInfo.getObjectInfo());
         objectEntity.setObjectCost(objectInfo.getObjectCost());
-        objectEntity.setObjectCount(objectInfo.getObjectCount());
+        objectEntity.setObjectCout(objectInfo.getObjectCout());
         objectEntity.setObjectPrice(objectInfo.getObjectPrice());
         objectEntity.setObjectTitle(objectInfo.getObjectTitle());
         objectEntity.setObjectId(objectInfo.getUserId());
@@ -223,4 +233,81 @@ public class ObjectService {
         return objectEntity;
     }
 
+
+
+    public HashMap<String, String> uploadImage(MultipartFile multipartFiles, String objectId, String objectName){
+        // 处理文件上传逻辑
+        // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + objectId + "_" + "/image/";
+        File d = new File(dirname);
+        if (!d.exists()) {
+            d.mkdirs();
+        }
+        int length = 25; // 设置要生成的随机字符串的长度为10
+        String randomStr = RandomStringUtils.randomAlphanumeric(length);
+        File targetFile = new File(dirname, randomStr + System.currentTimeMillis() + multipartFiles.getOriginalFilename().substring(multipartFiles.getOriginalFilename().indexOf('.')));
+
+        try {
+            // 使用Spring的FileCopyUtils将文件内容从MultipartFile复制到目标文件
+            FileCopyUtils.copy(multipartFiles.getBytes(), new FileOutputStream(targetFile));
+        }catch (IOException e) {
+            logger.error("ERROR:" + e);
+            return null;
+        }
+        hashMap.put("name", targetFile.getName());
+        hashMap.put("url", "http://localhost:8898/"+ objectId + "_" + "/image/" + targetFile.getName());
+        return hashMap;
+
+    }
+
+    public HashMap<String, String> uploadBanner(MultipartFile multipartFiles, String objectId, String objectName) {
+        // 处理文件上传逻辑
+        // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + objectId + "_" + "/banner/";
+        File d = new File(dirname);
+        if (!d.exists()) {
+            d.mkdirs();
+        }
+        int length = 25; // 设置要生成的随机字符串的长度为10
+        String randomStr = RandomStringUtils.randomAlphanumeric(length);
+        File targetFile = new File(dirname, randomStr + System.currentTimeMillis() + multipartFiles.getOriginalFilename().substring(multipartFiles.getOriginalFilename().indexOf('.')));
+
+        try {
+            // 使用Spring的FileCopyUtils将文件内容从MultipartFile复制到目标文件
+            FileCopyUtils.copy(multipartFiles.getBytes(), new FileOutputStream(targetFile));
+        }catch (IOException e) {
+            logger.error("ERROR:" + e);
+            return null;
+        }
+        hashMap.put("name", targetFile.getName());
+        hashMap.put("url", "http://localhost:8898/"+ objectId + "_" + "/banner/" + targetFile.getName());
+        return hashMap;
+    }
+
+    public HashMap<String, String> uploadImg(MultipartFile multipartFiles, String objectId, String objectName) {
+        // 处理文件上传逻辑
+        // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + objectId + "_" + "/info/";
+        File d = new File(dirname);
+        if (!d.exists()) {
+            d.mkdirs();
+        }
+        int length = 25; // 设置要生成的随机字符串的长度为10
+        String randomStr = RandomStringUtils.randomAlphanumeric(length);
+        File targetFile = new File(dirname, randomStr + System.currentTimeMillis() + multipartFiles.getOriginalFilename().substring(multipartFiles.getOriginalFilename().indexOf('.')));
+
+        try {
+            // 使用Spring的FileCopyUtils将文件内容从MultipartFile复制到目标文件
+            FileCopyUtils.copy(multipartFiles.getBytes(), new FileOutputStream(targetFile));
+        }catch (IOException e) {
+            logger.error("ERROR:" + e);
+            return null;
+        }
+        hashMap.put("name", targetFile.getName());
+        hashMap.put("url", "http://localhost:8898/"+ objectId + "_" + "/info/" + targetFile.getName());
+        return hashMap;
+    }
 }
