@@ -36,3 +36,6 @@ management:
   endpoint:
     health:
       show-details: always
+system-object:
+  ribbon:
+    listOfServers: localhost:8898  # Nacos 注册中心的地址和端口

@@ -19,6 +19,7 @@ public interface ObjectMapper {
     @Select("SELECT * FROM trantal_object")
     @Results(id = "objectResultMap", value = {
             @Result(property = "objectId", column = "object_id"),
+            @Result(property = "objectUUID", column = "object_uuid"),
             @Result(property = "objectName", column = "object_name"),
             @Result(property = "objectTitle", column = "object_title"),
             @Result(property = "objectCost", column = "object_oldprice"),
@@ -42,12 +43,12 @@ public interface ObjectMapper {
      */
     @Insert("INSERT INTO trantal_object (object_name, " +
             "object_title, object_oldprice, object_price, " +
-            "object_info, object_count, object_image, " +
+            "object_info, object_cout, object_image, object_banner, object_img, " +
             "object_status, object_time, object_classes, " +
-            "user_id) VALUES (#{objectName}, #{objectTitle}," +
+            "user_id, object_uuid) VALUES (#{objectName}, #{objectTitle}," +
             " #{objectCost}, #{objectPrice}, #{objectInfo}," +
-            " #{objectCout}, #{objectImage}, #{objectStatus}, " +
-            "#{objectTime}, #{objectClasses}, #{userId})")
+            " #{objectCout}, #{objectImage}, #{objectBanner}, #{objectImg}, #{objectStatus}, " +
+            "#{objectTime}, #{objectClasses}, #{userId}, #{objectUUID})")
     int addObject(ObjectInfo objectInfo);
 
     /**
@@ -82,24 +83,21 @@ public interface ObjectMapper {
 
     /**
      * 根据产品分类查找产品
-     * @param ObjectClasses
+     * @param ClassesId
      * @return
      */
-    @Select("SELECT * FROM trantal_object JOIN object_classes ON trantal_object.object_classes = object_classes.classes_id WHERE object_classes.classes_name = #{ObjectClasses} ")
+    @Select("SELECT * FROM trantal_object WHERE object_classes = #{ClassesId} ")
     @ResultMap("objectResultMap")
-    List<ObjectEntity> getObjectClasses(String ObjectClasses);
+    List<ObjectEntity> getObjectClasses(Long ClassesId);
 
     /**
      * 根据产品上架用户查找产品
-     * @param ObjectUserAccount
+     * @param UserId
      * @return
      */
-    @Select("SELECT * FROM trantal_object object " +
-            "JOIN trantal_user user ON object." +
-            "user_id = user.user_id WHERE " +
-            "user.user_account = #{ObjectUserAccount} ORDER BY object.object_classes")
+    @Select("SELECT * FROM trantal_object WHERE user_id = #{userId}")
     @ResultMap("objectResultMap")
-    List<ObjectEntity> getObjectUserAccount(String ObjectUserAccount);
+    List<ObjectEntity> getObjectByClassesId(Long UserId);
 
     /**
      * 提交订单，修改产品的总数
@@ -130,5 +128,5 @@ public interface ObjectMapper {
 
     @Select("SELECT * FROM trantal_object WHERE object_id = #{objectId}")
     @ResultMap("objectResultMap")
-    ObjectEntity getObject(int objectId);
+    ObjectEntity getObject(Long objectId);
 }

@@ -23,12 +23,15 @@ public class ShopEntity {
 	@Column(name = "object_id")
 	private Long objectId;
 
-	@Column(name = "shop_count")
-	private Long shopCout;
+	@Column(name = "shop_cout")
+	private int shopCout;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "shop_time")
 	private Date shopTime;
+
+	@Column(name = "shop_status")
+	private Long shopStatus;
 
 	public Long getShopId() {
 		return shopId;
@@ -54,11 +57,11 @@ public class ShopEntity {
 		this.objectId = objectId;
 	}
 
-	public Long getShopCout() {
+	public int getShopCout() {
 		return shopCout;
 	}
 
-	public void setShopCout(Long shopCout) {
+	public void setShopCout(int shopCout) {
 		this.shopCout = shopCout;
 	}
 
@@ -68,6 +71,14 @@ public class ShopEntity {
 
 	public void setShopTime(Date shopTime) {
 		this.shopTime = shopTime;
+	}
+
+	public Long getShopStatus() {
+		return shopStatus;
+	}
+
+	public void setShopStatus(Long shopStatus) {
+		this.shopStatus = shopStatus;
 	}
 
 	public ShopEntity() {

@@ -15,7 +15,7 @@ spring:
           uri: lb://system-user/
 #          uri: http://localhost:8888/
           predicates:
-            - Path=/User/**, /v3/api-docs/user
+            - Path=/User/**, /Receive/**, /v3/api-docs/user
         #订单模块动态路由设置
         - id: system-order
           uri: lb://system-order/

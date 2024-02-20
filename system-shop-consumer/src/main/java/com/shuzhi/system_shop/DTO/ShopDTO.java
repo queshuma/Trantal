@@ -13,81 +13,42 @@ import java.util.Date;
 
 public class ShopDTO {
 
-    private int shopId;
-    private int userId;
-    private String objectName;
-    private String objectTitle;
-    private String objectImage;
-    private BigDecimal objectOldPrice;
-    private BigDecimal objectPrice;
-    private int objectCout;
-    private int shopCout;
-    private BigDecimal shopPay;
-    private int objectStatus;
+    private Long shopId;
+    private Long userId;
+    private Long objectId;
+    private Long shopCout;
     private Date shopTime;
 
-    public int getUserId() {
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getObjectName() {
-        return objectName;
+    public Long getObjectId() {
+        return objectId;
     }
 
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
     }
 
-    public String getObjectTitle() {
-        return objectTitle;
-    }
-
-    public void setObjectTitle(String objectTitle) {
-        this.objectTitle = objectTitle;
-    }
-
-    public BigDecimal getObjectOldPrice() {
-        return objectOldPrice;
-    }
-
-    public void setObjectOldPrice(BigDecimal objectOldPrice) {
-        this.objectOldPrice = objectOldPrice;
-    }
-
-    public int getObjectCout() {
-        return objectCout;
-    }
-
-    public void setObjectCout(int objectCout) {
-        this.objectCout = objectCout;
-    }
-
-    public int getShopCout() {
+    public Long getShopCout() {
         return shopCout;
     }
 
-    public void setShopCout(int shopCout) {
+    public void setShopCout(Long shopCout) {
         this.shopCout = shopCout;
-    }
-
-    public BigDecimal getShopPay() {
-        return shopPay;
-    }
-
-    public void setShopPay(BigDecimal shopPay) {
-        this.shopPay = shopPay;
-    }
-
-    public int getObjectStatus() {
-        return objectStatus;
-    }
-
-    public void setObjectStatus(int objectStatus) {
-        this.objectStatus = objectStatus;
     }
 
     public Date getShopTime() {
@@ -98,44 +59,13 @@ public class ShopDTO {
         this.shopTime = shopTime;
     }
 
-    public int getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
-    }
-
-    public String getObjectImage() {
-        return objectImage;
-    }
-
-    public void setObjectImage(String objectImage) {
-        this.objectImage = objectImage;
-    }
-
-    public BigDecimal getObjectPrice() {
-        return objectPrice;
-    }
-
-    public void setObjectPrice(BigDecimal objectPrice) {
-        this.objectPrice = objectPrice;
-    }
-
     @Override
     public String toString() {
         return "ShopDTO{" +
                 "shopId=" + shopId +
                 ", userId=" + userId +
-                ", objectName='" + objectName + '\'' +
-                ", objectTitle='" + objectTitle + '\'' +
-//                ", ObjectImage='" + objectImage + '\'' +
-                ", objectOldPrice=" + objectOldPrice +
-                ", ObjectPrice=" + objectPrice +
-                ", objectCout=" + objectCout +
+                ", objectId=" + objectId +
                 ", shopCout=" + shopCout +
-                ", shopPay=" + shopPay +
-                ", objectStatus=" + objectStatus +
                 ", shopTime=" + shopTime +
                 '}';
     }

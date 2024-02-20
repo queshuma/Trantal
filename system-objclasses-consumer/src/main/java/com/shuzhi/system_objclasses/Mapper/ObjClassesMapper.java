@@ -56,4 +56,7 @@ public interface ObjClassesMapper {
     @Update("UPDATE object_classes SET classes_parent_id = #{classesParentId}, classes_name = #{classesName}, classes_status = #{classesStatus} WHERE classes_id = #{classesId}")
     public int updObjectClasses(ObjClassesEntity objClassesEntity);
 
+    @Select("SELECT * FROM object_classes WHERE classes_name = #{classesName}")
+    @ResultMap("objectClassesResultMap")
+    ObjClassesEntity findClassesByName(String classesName);
 }

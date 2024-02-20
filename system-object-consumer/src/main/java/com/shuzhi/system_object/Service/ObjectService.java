@@ -4,6 +4,7 @@ import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.result.Common;
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Mapper.ObjectMapper;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,18 +146,18 @@ public class ObjectService {
     }
 
     /**
-     * 根据分类查询用户信息
-     * @param ObjectClasses
+     * 根据分类查询商品信息
+     * @param ClassesId
      * @return ResponseResult<List<ObjectEntity>>
      */
     @Transactional
-    public List<ObjectEntity> getObjectClasses(String ObjectClasses) {
+    public List<ObjectEntity> getObjectClasses(Long ClassesId) {
         logger.info("-------TRANTAL OBJECT SELECT SERVICE START-------");
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
-            objectEntityList = objectMapper.getObjectClasses(ObjectClasses);
+            objectEntityList = objectMapper.getObjectClasses(ClassesId);
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
             logger.info("result: " + objectEntityList.toString());
         } catch (Exception e) {
@@ -171,17 +172,18 @@ public class ObjectService {
 
     /**
      * 根据添加用户查询产品信息
-     * @param ObjectUserAccount
+     * @param UserId
      * @return ResponseResult<List<ObjectEntity>>
      */
     @Transactional
-    public List<ObjectEntity> getObjectUserName(String ObjectUserAccount) {
+    public List<ObjectEntity> getObjectByClassesId(Long UserId) {
 
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
-            objectEntityList = objectMapper.getObjectUserAccount(ObjectUserAccount);
+            System.out.println(UserId);
+            objectEntityList = objectMapper.getObjectByClassesId(UserId);
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
             logger.info("result: " + objectEntityList.toString());
         } catch (Exception e) {
@@ -198,7 +200,7 @@ public class ObjectService {
      * @param objectId
      * @return
      */
-    public ObjectEntity getObject(int objectId) {
+    public ObjectEntity getObject(Long objectId) {
         ObjectEntity objectEntity = null;
         logger.info("OBJECT SERVICE SELECT OBJECT START");
 
@@ -235,11 +237,11 @@ public class ObjectService {
 
 
 
-    public HashMap<String, String> uploadImage(MultipartFile multipartFiles, String objectId, String objectName){
+    public HashMap<String, String> uploadImage(MultipartFile multipartFiles, String uuid){
         // 处理文件上传逻辑
         // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
         HashMap<String, String> hashMap = new HashMap<String, String>();
-        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + objectId + "_" + "/image/";
+        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + uuid + "_" + "/image/";
         File d = new File(dirname);
         if (!d.exists()) {
             d.mkdirs();
@@ -256,16 +258,16 @@ public class ObjectService {
             return null;
         }
         hashMap.put("name", targetFile.getName());
-        hashMap.put("url", "http://localhost:8898/"+ objectId + "_" + "/image/" + targetFile.getName());
+        hashMap.put("url", "http://localhost:8898/"+ uuid + "_" + "/image/" + targetFile.getName());
         return hashMap;
 
     }
 
-    public HashMap<String, String> uploadBanner(MultipartFile multipartFiles, String objectId, String objectName) {
+    public HashMap<String, String> uploadBanner(MultipartFile multipartFiles, String uuid) {
         // 处理文件上传逻辑
         // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
         HashMap<String, String> hashMap = new HashMap<String, String>();
-        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + objectId + "_" + "/banner/";
+        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + uuid + "_" + "/banner/";
         File d = new File(dirname);
         if (!d.exists()) {
             d.mkdirs();
@@ -282,15 +284,15 @@ public class ObjectService {
             return null;
         }
         hashMap.put("name", targetFile.getName());
-        hashMap.put("url", "http://localhost:8898/"+ objectId + "_" + "/banner/" + targetFile.getName());
+        hashMap.put("url", "http://localhost:8898/"+ uuid + "_" + "/banner/" + targetFile.getName());
         return hashMap;
     }
 
-    public HashMap<String, String> uploadImg(MultipartFile multipartFiles, String objectId, String objectName) {
+    public HashMap<String, String> uploadImg(MultipartFile multipartFiles, String uuid) {
         // 处理文件上传逻辑
         // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
         HashMap<String, String> hashMap = new HashMap<String, String>();
-        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + objectId + "_" + "/info/";
+        String dirname = "/Users/shuzhi/project/Trantal/system-object-consumer/src/main/resources/static/" + uuid + "_" + "/info/";
         File d = new File(dirname);
         if (!d.exists()) {
             d.mkdirs();
@@ -307,7 +309,17 @@ public class ObjectService {
             return null;
         }
         hashMap.put("name", targetFile.getName());
-        hashMap.put("url", "http://localhost:8898/"+ objectId + "_" + "/info/" + targetFile.getName());
+        hashMap.put("url", "http://localhost:8898/"+ uuid + "_" + "/info/" + targetFile.getName());
         return hashMap;
+    }
+
+    /**
+     * 判断是否商品是否有库存
+     * @param objectId
+     * @param orderCout
+     */
+    public Boolean hasObject(Long objectId, Long orderCout) {
+        ObjectEntity objectEntity= objectMapper.getObject(objectId);
+        return (objectEntity.getObjectCout() - orderCout) >= 0?true:false;
     }
 }

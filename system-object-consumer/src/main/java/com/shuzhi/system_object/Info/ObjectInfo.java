@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ObjectInfo {
 
-    private String orderName;
+    private String objectUUID;
     private String objectName;
     private String objectTitle;    //原价
     private float objectCost;      //售价
@@ -19,12 +19,12 @@ public class ObjectInfo {
     private String objectImg;
     private Long userId;
 
-    public String getOrderName() {
-        return orderName;
+    public String getObjectUUID() {
+        return objectUUID;
     }
 
-    public void setOrderName(String orderName) {
-        this.orderName = orderName;
+    public void setObjectUUID(String objectUUID) {
+        this.objectUUID = objectUUID;
     }
 
     public String getObjectName() {

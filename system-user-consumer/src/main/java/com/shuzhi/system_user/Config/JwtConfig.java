@@ -8,7 +8,9 @@ import com.nimbusds.jwt.SignedJWT;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,6 +30,17 @@ public class JwtConfig {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+
+        // 获取公钥
+        PublicKey publicKey = keyPair.getPublic();
+
+        // 将公钥转换为Base64字符串
+        String publicKeyString = Base64.getEncoder().encodeToString(publicKey.getEncoded());
+
+        // 打印输出公钥字符串
+        System.out.println("Public Key: " + publicKeyString);
+
 
         // 创建JWT Claims
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()

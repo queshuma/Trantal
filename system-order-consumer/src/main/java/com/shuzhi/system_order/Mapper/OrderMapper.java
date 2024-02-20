@@ -14,16 +14,15 @@ public interface OrderMapper {
      * @param orderInfo
      * @return
      */
-    @Insert("INSERT INTO trantal_order (order_number, user_id, object_id, object_cout, order_info, order_time, order_track, order_address, order_name, order_phone, order_status, object_price, order_cost) \n" +
-            "                   SELECT  #{orderNumber}, #{userId}, #{objectId}, #{objectCout}, #{orderInfo}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus}, obj.object_price,  obj.object_price * #{objectCout}\n" +
-            "                   FROM trantal_object AS obj WHERE obj.object_id = #{objectId};")
+    @Insert("INSERT INTO trantal_order (order_uuid, user_id, object_id, object_price, order_cout, order_cost, order_info, order_time, order_track, order_address, order_name, order_phone, order_status) \n" +
+            " VALUES (#{order_uuid}, #{userId}, #{objectId}, #{objectPrice}, #{orderCout}, #{itemCost}, #{Info}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus} ) ")
     int addOrder(OrderInfo orderInfo);
 
     /**
      * 查询所有订单
      * @return
      */
-    @Select("SELECT * FROM trantal_order")
+    @Select("SELECT * FROM trantalf_order")
     @Results(id = "orderResultMap", value = {
             @Result(property = "orderId", column = "order_id"),
             @Result(property = "orderNumber", column = "order_number"),

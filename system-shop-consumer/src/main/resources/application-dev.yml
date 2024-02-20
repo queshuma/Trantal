@@ -21,9 +21,16 @@ spring:
     nacos:
       config:
         server-addr: localhost:8848/nacos/
+  boot:
+    admin:
+      client:
+        url: localhost:9001
 logging:
   config:
     classpath: logback-spring.xml
+system-object:
+  ribbon:
+    listOfServers: localhost:8898  # Nacos 注册中心的地址和端口
 Mybatis:
   mapper-locations: Mapper/*.xml
 server:

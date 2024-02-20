@@ -3,13 +3,13 @@ package com.shuzhi.system_user.Controller;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
+import com.shuzhi.common.TokenFunction;
 import com.shuzhi.entity.UserEntity;
 import com.shuzhi.result.code.UserCode;
 import com.shuzhi.result.parmSetting.UserSetting;
 import com.shuzhi.system_user.Config.CookieConfig;
 import com.shuzhi.system_user.Info.UserInfo;
 import com.shuzhi.system_user.Service.UserService;
-import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
 import java.util.List;
 
 import static com.shuzhi.common.SystemUtils.listIsNull;
@@ -251,6 +252,27 @@ public class UserController {
         return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_INFO_FIND_SUCCESS, userEntityList);
     }
 
+    @GetMapping("/find")
+    public ResponseResult find(HttpServletRequest httpServletRequest) throws ParseException {
+        Long userId = new TokenFunction().tokenGetUserId(httpServletRequest);
+
+        UserEntity userEntity = null;
+        String resultCode = UserCode.SYSTEM_USER_INFO_FIND_SUCCESS;
+        if(!SystemUtils.isNull(userId)) {
+            userEntity = userService.getUserId(userId);
+        } else {
+            logger.error("ERROR : THE USER ID INPUT IS NULL! ");
+            resultCode = UserCode.SYSTEM_USER_ERROR_FIND_ID_NULL;
+        }
+        if (userEntity == null) {
+            logger.info("SELECT BY NAME USER INFO IS NULL!");
+        }
+        logger.info("TRANTAL ALL USER INFO: " + userEntity);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY NAME END! ==========");
+        return ResponseResultFactory.buildResponseFactory(resultCode, userEntity);
+    }
+
     /**
      * 根据用户手机号查找(唯一)
      * @param userPhone
@@ -375,13 +397,6 @@ public class UserController {
         return ResponseResultFactory.buildResponseFactory(resultCode, userEntity);
     }
 
-    @GetMapping("/findByIdFeign")
-    public String findByIdFeign(@RequestParam("userId") Long userId) {
-
-        UserEntity userEntity = userService.getUserId(userId);
-        return userEntity.getUserAccount();
-    }
-
     /**
      * 根据用户权限等级查找(不唯一)
      * @param userLevel
@@ -414,7 +429,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseResult loginByPhoneAndEmail(String info, String password, HttpServletResponse httpServletResponse) {
+    public ResponseResult loginByPhoneAndEmail(String info, String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         //定义返回的状态码
         String resultCode;
 
@@ -428,6 +443,7 @@ public class UserController {
 
         //区分邮箱登陆或者是手机号码登陆
         String token = null;
+        Long level = null;
         if (info.contains("@")) {
             if (info.length() > UserSetting.USER_INFO_EMAIL_SIZE_MAX || info.length() < UserSetting.USER_INFO_EMAIL_SIZE_MIN) {
                 resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_ERROR;
@@ -435,6 +451,7 @@ public class UserController {
             }
             System.out.println("邮箱登录：");
             token = userService.userEmailCheck(info, password);
+            level = userService.getUserEmail(info).getUserLevel();
         } else {
             if (info.length() > UserSetting.USER_INFO_PHONE_SIZE_MAX || info.length() < UserSetting.USER_INFO_PHONE_SIZE_MIN) {
                 resultCode = UserCode.SYSTEM_USER_ERROR_LOGIN_INFO_ERROR;
@@ -442,12 +459,14 @@ public class UserController {
             }
             System.out.println("手机号登录：");
             token = userService.userPhoneCheck(info, password);
+            level = userService.getUserPhone(info).getUserLevel();
         }
 
         if (!SystemUtils.isNullOrEmpty(token)) {
             //设置添加cookie
-            CookieConfig.setClientCookie(httpServletResponse, info, token);
-            return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_LOGIN_SUCCESS, token);
+            CookieConfig.setClientCookie(httpServletRequest, httpServletResponse, "token", token);
+            System.out.println("data: " + httpServletRequest.getCookies());
+            return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_LOGIN_SUCCESS, level);
         } else {
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_LOGIN_FAIL);
         }

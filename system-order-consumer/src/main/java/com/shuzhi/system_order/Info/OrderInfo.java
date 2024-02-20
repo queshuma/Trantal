@@ -1,44 +1,36 @@
 package com.shuzhi.system_order.Info;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 public class OrderInfo {
-
-    private String orderNumber;
-
+    private String order_uuid;
     private Long userId;
-
     private Long objectId;
-
-    private Float objectPrice;
-
-    private Long objectCout;
-
-    private Float orderCost;
-
-    private String orderInfo;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private float objectPrice;
+    //
+    private Long orderCout;
+    //
+    private float itemCost;
+    private String Info;
+    @DateTimeFormat(pattern = "yyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyy-MM-dd HH:mm")
     private Date orderTime;
-
     private String orderTrack;
-
     private String orderAddress;
-
     private String orderName;
-
     private String orderPhone;
-
     private int orderStatus;
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public String getOrder_uuid() {
+        return order_uuid;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setOrder_uuid(String order_uuid) {
+        this.order_uuid = order_uuid;
     }
 
     public Long getUserId() {
@@ -57,44 +49,36 @@ public class OrderInfo {
         this.objectId = objectId;
     }
 
-    public Float getObjectPrice() {
+    public float getObjectPrice() {
         return objectPrice;
     }
 
-    public void setObjectPrice(Float objectPrice) {
+    public void setObjectPrice(float objectPrice) {
         this.objectPrice = objectPrice;
     }
 
-    public Float getObjectCost() {
-        return orderCost;
+    public Long getOrderCout() {
+        return orderCout;
     }
 
-    public void setObjectCost(Float orderCost) {
-        this.orderCost = orderCost;
+    public void setOrderCout(Long orderCout) {
+        this.orderCout = orderCout;
     }
 
-    public Long getObjectCout() {
-        return objectCout;
+    public float getItemCost() {
+        return itemCost;
     }
 
-    public void setObjectCout(Long objectCout) {
-        this.objectCout = objectCout;
+    public void setItemCost(float itemCost) {
+        this.itemCost = itemCost;
     }
 
-    public Float getOrderCost() {
-        return orderCost;
+    public String getInfo() {
+        return Info;
     }
 
-    public void setOrderCost(Float orderCost) {
-        this.orderCost = orderCost;
-    }
-
-    public String getOrderInfo() {
-        return orderInfo;
-    }
-
-    public void setOrderInfo(String orderInfo) {
-        this.orderInfo = orderInfo;
+    public void setInfo(String info) {
+        Info = info;
     }
 
     public Date getOrderTime() {
@@ -148,13 +132,12 @@ public class OrderInfo {
     @Override
     public String toString() {
         return "OrderInfo{" +
-                "orderNumber='" + orderNumber + '\'' +
-                ", userId=" + userId +
+                "userId=" + userId +
                 ", objectId=" + objectId +
                 ", objectPrice=" + objectPrice +
-                ", objectCout=" + objectCout +
-                ", orderCost=" + orderCost +
-                ", orderInfo='" + orderInfo + '\'' +
+                ", orderCout=" + orderCout +
+                ", objectCost=" + itemCost +
+                ", objectInfo='" + Info + '\'' +
                 ", orderTime=" + orderTime +
                 ", orderTrack='" + orderTrack + '\'' +
                 ", orderAddress='" + orderAddress + '\'' +
@@ -162,9 +145,5 @@ public class OrderInfo {
                 ", orderPhone='" + orderPhone + '\'' +
                 ", orderStatus=" + orderStatus +
                 '}';
-    }
-
-    public OrderInfo() {
-
     }
 }

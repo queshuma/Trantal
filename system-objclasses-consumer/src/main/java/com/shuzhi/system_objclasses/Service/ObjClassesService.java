@@ -176,4 +176,22 @@ public class ObjClassesService {
         return false;
 
     }
+
+    public ObjClassesEntity getClassesByName(String classesName) {
+        int b = 0;
+        ObjClassesEntity objClassesEntity = new ObjClassesEntity();
+
+        try {
+            objClassesEntity = objClassesMapper.findClassesByName(classesName);
+            logger.info("OBJECT CLASSES SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + objClassesEntity);
+        } catch (Exception e) {
+            logger.error("OBJECT CLASSES SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROR: " + e);
+            logger.error("result: " + objClassesEntity);
+        }
+        logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO END");
+
+        return objClassesEntity;
+    }
 }

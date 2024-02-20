@@ -3,17 +3,25 @@ package com.shuzhi.system_shop.Controller;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
+import com.shuzhi.common.TokenFunction;
 import com.shuzhi.result.code.OrderCode;
 import com.shuzhi.result.code.ShopCode;
 import com.shuzhi.system_shop.DTO.ShopDTO;
+import com.shuzhi.system_shop.Info.ShopWithObjectUser;
 import com.shuzhi.system_shop.Service.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.shuzhi.system_shop.Controller.ObjectFeign;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,6 +30,8 @@ import java.util.List;
 public class ShopController {
 
     private final ShopService shopService;
+    @Autowired
+    private ObjectFeign objectFeign;
     private final Logger logger = LoggerFactory.getLogger(ShopController.class);
     private final Long LONG_ZERO = 0L;
     private final int ZERO = 0;
@@ -34,15 +44,16 @@ public class ShopController {
 
     /**
      * 添加商品至购物车
-     * @param userId
+     * @param httpServletRequest
      * @param objectId
      * @param shopCout
      * @return
      */
     @PostMapping("/add")
-    public ResponseResult add(int userId, int objectId, int shopCout) {
+    public ResponseResult add(HttpServletRequest httpServletRequest, int objectId, int shopCout) throws ParseException {
 
         Boolean b = false;
+        Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
 
         if (userId == ZERO) {
             logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
@@ -70,26 +81,48 @@ public class ShopController {
 
     /**
      * 查询购物车
-     * @param userId
+     * @param httpServletRequest
      * @return
      */
     @PostMapping("/find/userId")
-    public ResponseResult findById(int userId) {
+    public ResponseResult findById(HttpServletRequest httpServletRequest) throws ParseException {
+        Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
         List<ShopDTO> shopDTOList = null;
+        List<ShopWithObjectUser> shopWithObjectUserList = new ArrayList<>();
         shopDTOList = shopService.getShopUserId(userId);
+        for (ShopDTO shopDTO:shopDTOList) {
+            ShopWithObjectUser shopWithObjectUser = new ShopWithObjectUser();
+            BeanUtils.copyProperties(shopDTO, shopWithObjectUser);
+            shopWithObjectUser.setObjectWithBussVO(objectFeign.findObject(shopDTO.getObjectId()));
+            shopWithObjectUserList.add(shopWithObjectUser);
+        }
+
         if (SystemUtils.isNull(shopDTOList)) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");
         }
         logger.info("TRANTAL ALL SHOP INFO: " + shopDTOList);
         logger.info("RETURN");
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopDTOList);
+        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopWithObjectUserList);
     }
 
+    /**
+     * 更新商品数量
+     * @param shopId
+     * @param objectCout
+     * @return
+     */
     @PostMapping("/update/cout")
-    public ResponseResult updateShopCout(int userId, int shopId, int objectCout) {
+    public ResponseResult updateShopCout(Long shopId, Long objectCout, HttpServletRequest httpServletRequest) throws ParseException {
         Boolean b = false;
-        b = shopService.updShopCout(shopId, userId, objectCout);
-        System.out.println(b);
+        Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
+        System.out.println("商品数量： " + objectCout);
+        if (objectCout > 0 ) {
+            b = shopService.updShopCout(shopId, userId, objectCout);
+        } else {
+            Long shopStatus = 0L;
+            b = shopService.updShopStatus(shopId, shopStatus);
+        }
+
         if (!b) {
             logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCout" + objectCout);
             logger.info("RETURN");
@@ -99,10 +132,15 @@ public class ShopController {
         return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
     }
 
+    /**
+     * 删除购物车内单个商品
+     * @param shopId
+     * @return
+     */
     @PutMapping("/update/delete")
-    public ResponseResult updateShopStatus(int shopId) {
+    public ResponseResult updateShopStatus(Long shopId) {
         Boolean b = false;
-        int objectStatus = 1;
+        Long objectStatus = 1L;
         b = shopService.updShopStatus(shopId, objectStatus);
         if (!b) {
             logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectStatus" + objectStatus);

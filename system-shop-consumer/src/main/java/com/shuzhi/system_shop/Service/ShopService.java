@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Description:
+ * Description: 购物车功能服务
  * Author: SHUZHI
  * Date: 2023/8/25
  *
@@ -39,7 +39,7 @@ public class ShopService {
      * @return
      */
     @Transactional
-    public Boolean addShop(int userId, int objectId, int shopCout) {
+    public Boolean addShop(Long userId, int objectId, int shopCout) {
 
         int b = 0;
         int ShopLength = 0;
@@ -49,19 +49,19 @@ public class ShopService {
         logger.info("OBJECT SERVICE ADD OBJECT PHONE START");
         try {
             ShopLength = shopMapper.getShopUserIdObjectId(userId, objectId);
-            System.out.println("shop" + ShopLength);
+            Long shopStatus = 1L;
             if (ShopLength == Common.ZERO) {
-                shopMapper.addShop(userId, objectId, shopCout, shopTime);
+                //购物车添加商品
+                shopMapper.addShop(userId, objectId, shopCout, shopTime, shopStatus);
             } else if (ShopLength == Common.ONE){
+                //购物车已存在商品
                 shopMapper.updShopCoutAddShop(userId, objectId, shopCout, shopTime);
             }
             b = 1;
             logger.info("SHOP SERVICE ADD ORDER INFO SUCCESS!");
-//            logger.info("result: " + shopInfo.toString());
         } catch (Exception e) {
             logger.error("SHOP SERVICE ADD ORDER INFO ERROR!");
             logger.error("ERROE:" + e);
-//            logger.error("result: " + shopInfo.toString());
         }
         logger.info("SHOP SERVICE ADD ORDER INFO END");
         if (b == SERVICE_ADD_SHOP_INFO_NUMBER) {
@@ -76,7 +76,7 @@ public class ShopService {
      * @return
      */
     @Transactional
-    public List<ShopDTO> getShopUserId(int userId) {
+    public List<ShopDTO> getShopUserId(Long userId) {
 
         List<ShopDTO> shopDTOList = null;
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
@@ -103,7 +103,7 @@ public class ShopService {
      * @param objectCout
      * @return
      */
-    public Boolean updShopCout(int shopId, int userId, int objectCout) {
+    public Boolean updShopCout(Long shopId, Long userId, Long objectCout) {
 
         Boolean b = false;
         Date shopTime = new Date();
@@ -122,19 +122,25 @@ public class ShopService {
         return b;
     }
 
-    public Boolean updShopStatus(int shopId, int objectStatus) {
+    /**
+     * 更新购物车状态
+     * @param shopId
+     * @param shopStatus
+     * @return
+     */
+    public Boolean updShopStatus(Long shopId, Long shopStatus) {
 
         Boolean b = false;
         logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
 
         try {
-            b = shopMapper.updShopStatus(shopId, objectStatus);
+            b = shopMapper.updShopStatus(shopId, shopStatus);
             logger.info("OBJECT SERVICE UPDATE SHOP STATUS SUCCESS!");
-            logger.info("result: shopId = " + shopId + "objectStatus = " + objectStatus);
+            logger.info("result: shopId = " + shopId + "objectStatus = " + shopStatus);
         } catch (Exception e) {
             logger.error("OBJECT SERVICE UPDATE SHOP STATUS ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: shopId = " + shopId + "objectStatus = " + objectStatus);
+            logger.error("result: shopId = " + shopId + "objectStatus = " + shopStatus);
         }
 
         return b;

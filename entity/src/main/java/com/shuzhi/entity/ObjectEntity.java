@@ -16,9 +16,11 @@ import java.math.BigDecimal;
 
 public class ObjectEntity {
 
-
 	@Column(name = "object_id")
 	private Long objectId;
+
+	@Column(name = "object_uuid")
+	private String objectUUID;
 
 	@Column(name = "object_name")
 	private String objectName;
@@ -73,6 +75,14 @@ public class ObjectEntity {
 
 	public void setObjectId(Long objectId) {
 		this.objectId = objectId;
+	}
+
+	public String getObjectUUID() {
+		return objectUUID;
+	}
+
+	public void setObjectUUID(String objectUUID) {
+		this.objectUUID = objectUUID;
 	}
 
 	public String getObjectName() {
@@ -179,25 +189,24 @@ public class ObjectEntity {
 		this.objectImg = objectImg;
 	}
 
-	public ObjectEntity(Long objectId, String objectName, String objectTitle, float objectCost, float objectPrice, String objectInfo, int objectCout, String objectImage, Long objectStatus, Date objectTime, Long objectClasses, Long userId, String objectBanner, String objectImg) {
-		this.objectId = objectId;
-		this.objectName = objectName;
-		this.objectTitle = objectTitle;
-		this.objectCost = objectCost;
-		this.objectPrice = objectPrice;
-		this.objectInfo = objectInfo;
-		this.objectCout = objectCout;
-		this.objectImage = objectImage;
-		this.objectStatus = objectStatus;
-		this.objectTime = objectTime;
-		this.objectClasses = objectClasses;
-		this.userId = userId;
-		this.objectBanner = objectBanner;
-		this.objectImg = objectImg;
+	@Override
+	public String toString() {
+		return "ObjectEntity{" +
+				"objectId=" + objectId +
+				", objectUUID='" + objectUUID + '\'' +
+				", objectName='" + objectName + '\'' +
+				", objectTitle='" + objectTitle + '\'' +
+				", objectCost=" + objectCost +
+				", objectPrice=" + objectPrice +
+				", objectInfo='" + objectInfo + '\'' +
+				", objectCout=" + objectCout +
+				", objectImage='" + objectImage + '\'' +
+				", objectStatus=" + objectStatus +
+				", objectTime=" + objectTime +
+				", objectClasses=" + objectClasses +
+				", userId=" + userId +
+				", objectBanner='" + objectBanner + '\'' +
+				", objectImg='" + objectImg + '\'' +
+				'}';
 	}
-
-	public ObjectEntity() {
-
-	}
-
 }

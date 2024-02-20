@@ -1,12 +1,17 @@
 package com.shuzhi.system_order.Service;
 
+import com.alibaba.nacos.shaded.com.google.gson.annotations.Until;
+import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.entity.OrderEntity;
-import com.shuzhi.result.Common;
-import com.shuzhi.system_order.Mapper.ObjectMapper;
+import com.shuzhi.objectVO.ObjectWithBussVO;
 import com.shuzhi.system_order.Info.OrderInfo;
+import com.shuzhi.system_order.Info.OrderWithObjectUser;
+import com.shuzhi.system_order.Mapper.ObjectMapper;
+import com.shuzhi.system_order.Controller.ObjectFeign;
 import com.shuzhi.system_order.Mapper.OrderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +30,9 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final ObjectMapper objectMapper;
     private final Logger logger = LoggerFactory.getLogger(OrderService.class);
-//    新建商品修改的互斥锁表
+    @Autowired
+    private ObjectFeign objectFeign;
+    //    新建商品修改的互斥锁表
     final Map<Long, ReentrantLock> productLocks = new ConcurrentHashMap<>();
 
     @Autowired
@@ -36,60 +43,71 @@ public class OrderService {
 
     /**
      * 添加订单
-     * @param orderInfo
+     *
+     * @param o
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean addOrder(OrderInfo orderInfo) throws Exception {
+    public Boolean addOrder(List<OrderWithObjectUser> o) throws Exception {
 
         boolean b = true;
-        Random random = new Random(System.currentTimeMillis());
-        String orderNumber = String.valueOf(-random.nextLong());
-        orderInfo.setOrderNumber(orderNumber);
-        Date date = new Date();
-        orderInfo.setOrderTime(date);
-        orderInfo.setOrderStatus(Common.ZERO);
+        String order_uuid = "od" + System.currentTimeMillis();
+        for (int i = 0; i < o.size(); i++) {
+            OrderWithObjectUser Info = o.get(i);
+            OrderInfo orderInfo = new OrderInfo();
+            Date date = new Date();
 
-        logger.info("ORDER SERVICE ADD ORDER START");
-        //判断提交订单之后，产品数量是否低于0
-        if(objectMapper.getObjectCout(orderInfo.getObjectId())  - orderInfo.getObjectCout() < Common.ZERO) {
-            logger.error("OBJECT COUNT LOWER!");
-            logger.error("result: " + orderInfo);
-            logger.info("ORDER SERVICE ADD ORDER INFO END");
-            return false;
-        }
 
-        // 获取商品对应的锁对象
-        ReentrantLock productLock = productLocks.computeIfAbsent(orderInfo.getObjectId(), id -> new ReentrantLock());
+            //提取商品属性
+            ObjectWithBussVO objVO = Info.getObjectWithBussVO();
+            ObjectEntity objectEntity = objVO;
 
-        //判断互斥锁当前的状态
-        if (productLock.tryLock()) {
-            try {
-                //执行相关的持久层函数
-                //更新产品信息
-                objectMapper.updObjectReduce(orderInfo.getObjectId(), orderInfo.getObjectCout());
-                //更新订单信息
-                orderMapper.addOrder(orderInfo);
-                logger.info("ORDER SERVICE ADD ORDER INFO SUCCESS!");
-                logger.info("result: " + orderInfo);
-            } catch (Exception e) {
-                logger.error("ORDER SERVICE ADD ORDER INFO ERROR!");
-                logger.error("ERROE:" + e);
-                logger.error("result: " + orderInfo);
-                b = false;
-                throw e;
-            } finally {
-                logger.info("ORDER SERVICE ADD ORDER INFO END");
-                productLock.unlock();
-                //判断执行数量是否为1
-                if (b) {
-                    return true;
-                }
+            BeanUtils.copyProperties(objectEntity, orderInfo);
+            BeanUtils.copyProperties(Info, orderInfo);
+            orderInfo.setOrderCout(Info.getShopCout());
+            orderInfo.setItemCost(orderInfo.getObjectPrice() * orderInfo.getOrderCout());
+            orderInfo.setOrderTime(new Date());
+            orderInfo.setOrderStatus(0);
+            orderInfo.setOrder_uuid(order_uuid);
+            orderInfo.setOrderAddress(Info.getReceiveAddress());
+            orderInfo.setOrderPhone(Info.getReceivePhone());
+            orderInfo.setOrderName(Info.getReceiveName());
+            System.out.println(objectFeign.hasObject(objVO.getObjectId(), Info.getShopCout()));
+            //判断该商品是否有库存
+            if (!objectFeign.hasObject(objVO.getObjectId(), Info.getShopCout())) {
+                System.out.println("没有库存");
                 return false;
             }
+            // 获取商品对应的锁对象
+            ReentrantLock productLock = productLocks.computeIfAbsent(orderInfo.getObjectId(), id -> new ReentrantLock());
+            //判断互斥锁当前的状态
+            if (productLock.tryLock()) {
+                try {
+                    //执行相关的持久层函数
+                    //更新产品信息
+                    objectMapper.updObjectReduce(orderInfo.getObjectId(), orderInfo.getOrderCout());
+                    //更新订单信息
+                    orderMapper.addOrder(orderInfo);
+                    logger.info("ORDER SERVICE ADD ORDER INFO SUCCESS!");
+                    logger.info("result: " + orderInfo);
+                } catch (Exception e) {
+                    logger.error("ORDER SERVICE ADD ORDER INFO ERROR!");
+                    logger.error("ERROE:" + e);
+                    logger.error("result: " + orderInfo);
+                    b = false;
+                    throw e;
+                } finally {
+                    logger.info("ORDER SERVICE ADD ORDER INFO END");
+                    productLock.unlock();
+                    //判断执行数量是否为1
+                    if (!b) {
+                        return false;
+                    }
+                }
         }
-        return false;
     }
+    return true;
+}
 
 
     /**

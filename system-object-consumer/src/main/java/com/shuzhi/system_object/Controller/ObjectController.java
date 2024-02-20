@@ -3,12 +3,13 @@ package com.shuzhi.system_object.Controller;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
+import com.shuzhi.common.TokenFunction;
 import com.shuzhi.entity.ObjectEntity;
+import com.shuzhi.objectVO.ObjectWithBussVO;
 import com.shuzhi.result.code.ObjectCode;
 import com.shuzhi.result.parmSetting.ObjectSetting;
 
 import com.shuzhi.system_object.Info.ObjectInfo;
-import com.shuzhi.system_object.Info.ObjectWithBuss;
 import com.shuzhi.system_object.Service.ObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 import static com.shuzhi.result.Common.*;
@@ -50,14 +53,13 @@ public class ObjectController {
     /**
      * 上传商品图片Image
      * @param multipartFiles
-     * @param objectId
-     * @param objectName
+     * @param uuid
      * @return
      * @throws IOException
      */
     @PostMapping("/uploadImage")
-    public ResponseResult handleFileUploadImage(@RequestParam("file") MultipartFile multipartFiles, String objectId, String objectName){
-        HashMap<String, String> hashMap = objectService.uploadImage(multipartFiles, objectId, objectName);
+    public ResponseResult handleFileUploadImage(@RequestParam("file") MultipartFile multipartFiles, String uuid){
+        HashMap<String, String> hashMap = objectService.uploadImage(multipartFiles, uuid);
         System.out.println(multipartFiles.getOriginalFilename());
         System.out.println("地址：" + hashMap.get("url"));
 
@@ -75,13 +77,11 @@ public class ObjectController {
     /**
      * 上传商品海报Banner
      * @param multipartFiles
-     * @param objectId
-     * @param objectName
      * @return
      */
     @PostMapping("/uploadBanner")
-    public ResponseResult handleFileUploadBanner(@RequestParam("file") MultipartFile multipartFiles, String objectId, String objectName){
-        HashMap<String, String> hashMap = objectService.uploadBanner(multipartFiles, objectId, objectName);
+    public ResponseResult handleFileUploadBanner(@RequestParam("file") MultipartFile multipartFiles, String uuid){
+        HashMap<String, String> hashMap = objectService.uploadBanner(multipartFiles, uuid);
         System.out.println(multipartFiles.getOriginalFilename());
         System.out.println("地址：" + hashMap.get("url"));
 
@@ -98,13 +98,12 @@ public class ObjectController {
     /**
      * 上传图片详情图Img
      * @param multipartFiles
-     * @param objectId
-     * @param objectName
+     * @param uuid
      * @return
      */
     @PostMapping("/uploadImg")
-    public ResponseResult handleFileUploadImg(@RequestParam("file") MultipartFile multipartFiles, String objectId, String objectName){
-        HashMap<String, String> hashMap = objectService.uploadImg(multipartFiles, objectId, objectName);
+    public ResponseResult handleFileUploadImg(@RequestParam("file") MultipartFile multipartFiles, String uuid){
+        HashMap<String, String> hashMap = objectService.uploadImg(multipartFiles, uuid);
         System.out.println(multipartFiles.getOriginalFilename());
         System.out.println("地址：" + hashMap.get("url"));
 
@@ -245,20 +244,19 @@ public class ObjectController {
     public ResponseResult findAll() {
 
         List<ObjectEntity> objectEntityList = null;
-        List<ObjectWithBuss> objectInfoWithUserNameList = new ArrayList<>();
+        List<ObjectWithBussVO> objectInfoWithUserNameList = new ArrayList<>();
         objectEntityList = objectService.getAllObject();
         for (ObjectEntity obj:objectEntityList) {
-              ObjectWithBuss objectInfoWithUserName =new ObjectWithBuss();
+              ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();
               BeanUtils.copyProperties(obj, objectInfoWithUserName);
-              objectInfoWithUserName.setBussAccount(userFeign.findById(obj.getUserId()).getResultMsg());
-              objectInfoWithUserName.setClassesName(objClassesFeign.findById(obj.getObjectClasses()).getResultMsg());
+              objectInfoWithUserName.setBussAccount(userFeign.findById(obj.getUserId()).getUserAccount());
+              objectInfoWithUserName.setClassesName(objClassesFeign.findById(obj.getObjectClasses()));
               objectInfoWithUserNameList.add(objectInfoWithUserName);
         }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL BJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-//        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectEntityList);
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectInfoWithUserNameList);
     }
 
@@ -283,35 +281,46 @@ public class ObjectController {
 
     /**
      * 根据产品分类查询商品
-     * @param objectClasses
+     * @param classesName
      * @return
      */
-    @PostMapping("/find/classes")
-    public ResponseResult findObjectClasses(String objectClasses) {
+    @GetMapping("/find/classes")
+    public ResponseResult findObjectClasses(String classesName) {
         List<ObjectEntity> objectEntityList = null;
-        objectEntityList = objectService.getObjectClasses(objectClasses);
+        Long classesId = objClassesFeign.findByName(classesName);
+        objectEntityList = objectService.getObjectClasses(classesId);
 
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectClasses, objectEntityList);
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, classesName, objectEntityList);
     }
 
     /**
      * 根据上架用户查询商品
-     * @param objectUserAccount
+     * @param
      * @return
      */
-    @PostMapping("/find/userAccount")
-    public ResponseResult findObjectUserAccount(String objectUserAccount) {
-
+    @GetMapping("/find/userId")
+    public ResponseResult findObjectUserAccount(HttpServletRequest httpServletRequest) throws ParseException {
+        String objectUserAccount = null;
         List<ObjectEntity> objectEntityList = null;
-        objectEntityList = objectService.getObjectUserName(objectUserAccount);
+        Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
+        objectEntityList = objectService.getObjectByClassesId(userId);
+        List<ObjectWithBussVO> objectInfoWithUserNameList = new ArrayList<>();
+        for (ObjectEntity obj:objectEntityList) {
+            ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();
+            BeanUtils.copyProperties(obj, objectInfoWithUserName);
+            objectInfoWithUserName.setBussAccount(userFeign.findById(obj.getUserId()).getUserAccount());
+            objectInfoWithUserName.setClassesName(objClassesFeign.findById(obj.getObjectClasses()));
+            System.out.println(objectInfoWithUserName.classesName);
+            objectInfoWithUserNameList.add(objectInfoWithUserName);
+        }
 
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectUserAccount, objectEntityList);
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectUserAccount, objectInfoWithUserNameList);
     }
 
     /**
@@ -319,16 +328,20 @@ public class ObjectController {
      * @param objectId
      * @return
      */
-    @GetMapping("/find/object")
-    public ResponseResult findObject(int objectId) {
+    @GetMapping("/find/id")
+    public ResponseResult findObject(Long objectId) {
 
         ObjectEntity objectEntity = null;
         objectEntity = objectService.getObject(objectId);
+        ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();
+        BeanUtils.copyProperties(objectEntity, objectInfoWithUserName);
+        objectInfoWithUserName.setBussAccount(userFeign.findById(objectEntity.getUserId()).getUserAccount());
+        objectInfoWithUserName.setClassesName(objClassesFeign.findById(objectEntity.getObjectClasses()));
 
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntity);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, String.valueOf(objectId), objectEntity);
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, String.valueOf(objectId), objectInfoWithUserName);
     }
 
 }
