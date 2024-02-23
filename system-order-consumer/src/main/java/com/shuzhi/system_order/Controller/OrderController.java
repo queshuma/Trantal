@@ -45,8 +45,11 @@ public class OrderController {
     public ResponseResult add(@RequestBody List<OrderWithObjectUser> orderWithObjectUserList) throws Exception {
         Boolean b = false;
         b =  orderService.addOrder(orderWithObjectUserList);
-
+        if (b == true) {
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
+        }
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
+
     }
 
     //    @PostMapping("/add")

@@ -39,7 +39,7 @@ public class ShopService {
      * @return
      */
     @Transactional
-    public Boolean addShop(Long userId, int objectId, int shopCout) {
+    public Boolean addShop(Long userId, Long objectId, Long shopCout) {
 
         int b = 0;
         int ShopLength = 0;
@@ -48,8 +48,8 @@ public class ShopService {
 
         logger.info("OBJECT SERVICE ADD OBJECT PHONE START");
         try {
-            ShopLength = shopMapper.getShopUserIdObjectId(userId, objectId);
             Long shopStatus = 1L;
+            ShopLength = shopMapper.getShopUserIdObjectId(userId, objectId, shopStatus);
             if (ShopLength == Common.ZERO) {
                 //购物车添加商品
                 shopMapper.addShop(userId, objectId, shopCout, shopTime, shopStatus);

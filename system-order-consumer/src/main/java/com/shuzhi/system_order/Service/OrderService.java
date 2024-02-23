@@ -1,9 +1,9 @@
 package com.shuzhi.system_order.Service;
 
-import com.alibaba.nacos.shaded.com.google.gson.annotations.Until;
 import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.entity.OrderEntity;
 import com.shuzhi.objectVO.ObjectWithBussVO;
+import com.shuzhi.system_order.Controller.ShopFeign;
 import com.shuzhi.system_order.Info.OrderInfo;
 import com.shuzhi.system_order.Info.OrderWithObjectUser;
 import com.shuzhi.system_order.Mapper.ObjectMapper;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -27,19 +26,23 @@ import java.util.concurrent.locks.ReentrantLock;
 public class OrderService {
 
     private static final int SERVICE_UPD_ORDER_INFO_NUMBER = 1;
+    @Autowired
     private final OrderMapper orderMapper;
+    @Autowired
     private final ObjectMapper objectMapper;
     private final Logger logger = LoggerFactory.getLogger(OrderService.class);
     @Autowired
     private ObjectFeign objectFeign;
+    @Autowired
+    private ShopFeign shopFeign;
     //    新建商品修改的互斥锁表
     final Map<Long, ReentrantLock> productLocks = new ConcurrentHashMap<>();
 
-    @Autowired
     public OrderService(OrderMapper orderMapper, ObjectMapper objectMapper) {
         this.orderMapper = orderMapper;
         this.objectMapper = objectMapper;
     }
+
 
     /**
      * 添加订单
@@ -57,7 +60,6 @@ public class OrderService {
             OrderInfo orderInfo = new OrderInfo();
             Date date = new Date();
 
-
             //提取商品属性
             ObjectWithBussVO objVO = Info.getObjectWithBussVO();
             ObjectEntity objectEntity = objVO;
@@ -72,7 +74,7 @@ public class OrderService {
             orderInfo.setOrderAddress(Info.getReceiveAddress());
             orderInfo.setOrderPhone(Info.getReceivePhone());
             orderInfo.setOrderName(Info.getReceiveName());
-            System.out.println(objectFeign.hasObject(objVO.getObjectId(), Info.getShopCout()));
+
             //判断该商品是否有库存
             if (!objectFeign.hasObject(objVO.getObjectId(), Info.getShopCout())) {
                 System.out.println("没有库存");
@@ -86,6 +88,8 @@ public class OrderService {
                     //执行相关的持久层函数
                     //更新产品信息
                     objectMapper.updObjectReduce(orderInfo.getObjectId(), orderInfo.getOrderCout());
+                    //删除购物车中的商品
+                    shopFeign.removeObject(Info.getShopId());
                     //更新订单信息
                     orderMapper.addOrder(orderInfo);
                     logger.info("ORDER SERVICE ADD ORDER INFO SUCCESS!");
@@ -108,7 +112,6 @@ public class OrderService {
     }
     return true;
 }
-
 
     /**
      * 修改订单

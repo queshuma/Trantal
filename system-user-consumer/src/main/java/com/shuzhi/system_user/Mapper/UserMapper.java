@@ -25,8 +25,9 @@ public interface UserMapper {
      * @param userEntity
      * @return
      */
-    @Update("UPDATE trantal_user SET user_name = #{userName}, user_account = #{userAccount}, user_email = #{userEmail}, user_phone = #{userPhone}, user_time = #{userTime}, user_last = #{userLast} WHERE user_id = #{userId}")
+    @Update("UPDATE trantal_user SET user_name = #{userName}, user_account = #{userAccount}, user_email = #{userEmail}, user_phone = #{userPhone}, user_time = #{userTime}, user_last = #{userLast}, user_level = #{userLevel} WHERE user_id = #{userId}")
     int updUser(UserEntity userEntity);
+
     /**
      * 修改用户登记信息
      * @param userId

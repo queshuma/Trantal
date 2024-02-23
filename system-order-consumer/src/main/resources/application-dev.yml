@@ -39,3 +39,6 @@ management:
 system-object:
   ribbon:
     listOfServers: localhost:8898  # Nacos 注册中心的地址和端口
+system-shop:
+  ribbon:
+    listOfServers: localhost:8818  # Nacos 注册中心的地址和端口

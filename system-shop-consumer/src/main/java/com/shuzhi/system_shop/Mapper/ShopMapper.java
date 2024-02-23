@@ -27,7 +27,7 @@ public interface ShopMapper {
      * @return
      */
     @Insert("INSERT INTO trantal_shop (user_id, object_id, shop_cout, shop_time, shop_status) VALUES (#{userId}, #{objectId}, #{shopCout},#{shopTime},#{shopStatus})")
-    int addShop(Long userId, int objectId, int shopCout, Date shopTime, Long shopStatus);
+    int addShop(Long userId, Long objectId, Long shopCout, Date shopTime, Long shopStatus);
 
     /**
      * 查询所有购物车数据
@@ -52,13 +52,13 @@ public interface ShopMapper {
      * @return
      */
     @Update("UPDATE trantal_shop SET shop_cout = #{shopCout} + shop_cout, shop_time = #{shopTime} WHERE user_id = #{userId} AND object_id = #{objectId}")
-    Boolean updShopCoutAddShop(Long userId, int objectId, int shopCout, Date shopTime);
+    Boolean updShopCoutAddShop(Long userId, Long objectId, Long shopCout, Date shopTime);
 
     @Update("UPDATE trantal_shop SET shop_cout = #{objectCout}, shop_time = #{shopTime} WHERE user_id = #{userId} AND shop_id = #{shopId}")
     Boolean updShopCout(Long shopId, Long userId, Long objectCout, Date shopTime);
 
     /**
-     * 设置订单状态
+     * 设置购物车状态
      * @param shopId
      * @param shopStatus
      * @return
@@ -72,6 +72,6 @@ public interface ShopMapper {
      * @param objectId
      * @return
      */
-    @Select("SELECT COUNT(object_id) as FindShopCout FROM trantal_shop WHERE user_id = #{userId} AND object_id = #{objectId};")
-    int getShopUserIdObjectId(Long userId, int objectId);
+    @Select("SELECT COUNT(object_id) as FindShopCout FROM trantal_shop WHERE user_id = #{userId} AND object_id = #{objectId} AND shop_status = #{shopStatus};")
+    int getShopUserIdObjectId(Long userId, Long objectId, Long shopStatus);
 }

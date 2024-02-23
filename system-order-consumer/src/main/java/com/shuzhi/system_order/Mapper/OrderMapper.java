@@ -15,7 +15,7 @@ public interface OrderMapper {
      * @return
      */
     @Insert("INSERT INTO trantal_order (order_uuid, user_id, object_id, object_price, order_cout, order_cost, order_info, order_time, order_track, order_address, order_name, order_phone, order_status) \n" +
-            " VALUES (#{order_uuid}, #{userId}, #{objectId}, #{objectPrice}, #{orderCout}, #{itemCost}, #{Info}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus} ) ")
+            " VALUES (#{order_uuid}, #{userId}, #{objectId}, #{objectPrice}, #{orderCout}, #{itemCost}, #{Info}, #{orderTime}, #{orderTrack}, #{receiveAddress}, #{receiveName}, #{receivePhone}, #{orderStatus} ) ")
     int addOrder(OrderInfo orderInfo);
 
     /**

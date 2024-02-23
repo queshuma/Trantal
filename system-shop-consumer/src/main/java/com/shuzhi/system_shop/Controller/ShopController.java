@@ -50,23 +50,23 @@ public class ShopController {
      * @return
      */
     @PostMapping("/add")
-    public ResponseResult add(HttpServletRequest httpServletRequest, int objectId, int shopCout) throws ParseException {
+    public ResponseResult add(HttpServletRequest httpServletRequest, Long objectId, Long shopCout) throws ParseException {
 
         Boolean b = false;
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
 
-        if (userId == ZERO) {
-            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_USER_ID_NULL);
-        }
-        if (objectId == ZERO) {
-            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_ID_NULL);
-        }
-        if (shopCout == ZERO) {
-            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
-        }
+//        if (userId == ZERO) {
+//            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_USER_ID_NULL);
+//        }
+//        if (objectId == ZERO) {
+//            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_ID_NULL);
+//        }
+//        if (shopCout == ZERO) {
+//            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
+//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
+//        }
 
         b =  shopService.addShop(userId, objectId, shopCout);
 

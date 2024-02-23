@@ -117,7 +117,7 @@ public class UserController {
      * @return ResponseResult
      */
     @PostMapping("/update")
-    public ResponseResult update(UserEntity userEntity, HttpServletRequest httpServletRequest) {
+    public ResponseResult update(@RequestBody UserEntity userEntity) {
 
         Boolean b = false;
 
@@ -171,7 +171,6 @@ public class UserController {
         logger.error("TRANTAL USER CONTROLLER USER INFO --UPDATE FAIL-- ! ");
         return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_UPD_FAIL);
     }
-
     /**
      * 修改用户权限等级
      * @param userId
@@ -278,7 +277,7 @@ public class UserController {
      * @param userPhone
      * @return
      */
-    @PostMapping("/findByPhone")
+    @GetMapping("/findByPhone")
     public ResponseResult findByPhone(String userPhone) {
         UserEntity userEntity = null;
         String resultCode = UserCode.SYSTEM_USER_INFO_FIND_SUCCESS;
