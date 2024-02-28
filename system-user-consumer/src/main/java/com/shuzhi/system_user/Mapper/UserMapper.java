@@ -17,7 +17,7 @@ public interface UserMapper {
      * @param userEntity
      * @return
      */
-    @Insert("INSERT INTO trantal_user (user_name, user_account, user_email, user_password, user_phone, user_time, user_last) VALUES (#{userName}, #{userAccount}, #{userEmail}, #{userPassword}, #{userPhone}, #{userTime}, #{userLast})")
+    @Insert("INSERT INTO trantal_user (user_name, user_account, user_email, user_password, user_phone, user_time, user_last, user_level) VALUES (#{userName}, #{userAccount}, #{userEmail}, #{userPassword}, #{userPhone}, #{userTime}, #{userLast}, #{userLevel})")
     int addUser(UserEntity userEntity);
 
     /**

@@ -1,26 +1,23 @@
 package com.shuzhi.system_order.Controller;
 
-import com.alibaba.nacos.shaded.com.google.gson.JsonObject;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nimbusds.jose.shaded.json.JSONArray;
-import com.nimbusds.jose.shaded.json.JSONObject;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
+import com.shuzhi.common.TokenFunction;
+import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.entity.OrderEntity;
-import com.shuzhi.result.code.ObjectCode;
 import com.shuzhi.result.code.OrderCode;
-import com.shuzhi.system_order.DTO.OrderDTO;
+import com.shuzhi.system_order.Info.OrderInfoWithObject;
 import com.shuzhi.system_order.Info.OrderWithObjectUser;
 import com.shuzhi.system_order.Service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -30,14 +27,15 @@ public class OrderController {
 
     private final OrderService orderService;
     private final Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private final ObjectFeign objectFeign;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ObjectFeign objectFeign) {
         this.orderService = orderService;
+        this.objectFeign = objectFeign;
     }
 
     /**
      * 添加订单
-//     * @param orderWithObjectUserList
      * @return
      * @throws Exception
      */
@@ -51,49 +49,6 @@ public class OrderController {
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
 
     }
-
-    //    @PostMapping("/add")
-//    public ResponseResult add(List<OrderWithObjectUser> orderWithObjectUserList) {
-//
-//        Boolean b = false;
-//
-//        System.out.println(orderWithObjectUserList);
-////        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectId().toString())) {
-////            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
-////            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_ID_NULL);
-////        }
-////        if (SystemUtils.isNullOrEmpty(orderInfo.getUserId().toString())) {
-////            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-////            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_USER_ID_NULL);
-////        }
-////        //商品信息
-////        if (SystemUtils.isNullOrEmpty(orderInfo.getObjectCout().toString())) {
-////            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --OBJECT COUNT-- INPUT IS NULL ! ");
-////            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
-////        }
-////        //收件信息
-////        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderName().toString())) {
-////            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER NAME-- INPUT IS NULL ! ");
-////            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_NAME_NULL);
-////        }
-////        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderAddress().toString())) {
-////            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER ADDRESS-- INPUT IS NULL ! ");
-////            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_ADDRESS_NULL);
-////        }
-////        if (SystemUtils.isNullOrEmpty(orderInfo.getOrderPhone().toString())) {
-////            logger.error("TRANTAL ORDER CONTROLLER ORDER INFO --ORDER PHONE-- INPUT IS NULL ! ");
-////            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL_ORDER_PHONE_NULL);
-////        }
-////
-////        b =  orderService.addOrder(orderInfo);
-////
-////        if (b) {
-////            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_ADD_SUCCESS);
-////        }
-////
-////        logger.info("TRANTAL ALL OBJECT INFO: " + orderInfo);
-//        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
-//    }
 
     /**
      * 修改订单
@@ -138,84 +93,51 @@ public class OrderController {
 
     /**
      * 修改订单的快递单号
-     * @param orderId
+     * @param orderUUID
+     * @param objectId
      * @param orderTrack
      * @return
      */
     @PostMapping("/update/track")
-    public ResponseResult updateOrderTrack(int orderId, String orderTrack) {
+    public ResponseResult updateOrderTrack(String orderUUID, Long objectId, String orderTrack) {
         Boolean b = false;
 
-        b = orderService.updOrderTrack(orderId, orderTrack);
+        b = orderService.updOrderTrack(orderUUID, objectId, orderTrack);
 
         if (b) {
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
-        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "快递单号为:" + orderTrack);
+        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderUUID + "快递单号为:" + orderTrack);
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
 
     /**
-     * 修改订单状态_确认收货
-     * @param orderId
+     * 修改订单状态
+     * @param orderUUID
+     * @param objectId
+     * @param orderStatus
      * @return
      */
     @PostMapping("/update/status")
-    public ResponseResult updateOrderStatus(int orderId) {
+    public ResponseResult updateOrderStatus(String orderUUID, Long objectId, int orderStatus) {
         Boolean b = false;
+        //订单取消状态码
+        int orderCancalCode = 5;
 
-        b = orderService.updOrderStatus(orderId);
+        if (orderStatus != orderCancalCode) {
+            b = orderService.updOrderStatus(orderUUID, objectId, orderStatus);
+        } else if (orderStatus == orderCancalCode) {
+            b = orderService.updOrderCancal(orderUUID, objectId, orderStatus);
+        }
 
         if (b) {
             return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
         }
 
-        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
+        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderUUID + "当前状态为:确认收货");
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
     }
-    @PostMapping("/update/back")
-    public ResponseResult updateOrderBack(int orderId) {
-        Boolean b = false;
-
-        b = orderService.updOrderBack(orderId);
-
-        if (b) {
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
-        }
-
-        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
-        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
-    }
-
-    @PostMapping("/update/BackOK")
-    public ResponseResult updateOrderBackOk(int orderId) {
-        Boolean b = false;
-
-        b = orderService.updOrderBackOk(orderId);
-
-        if (b) {
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
-        }
-
-        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderId + "当前状态为:确认收货");
-        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
-    }
-
-    @PostMapping("/update/Cancel")
-    public ResponseResult updateOrderCancel(int orderNumber) throws Exception {
-        Boolean b = false;
-
-        b = orderService.updOrderCancel(orderNumber);
-
-        if (b) {
-            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_UPD_SUCCESS);
-        }
-
-        logger.info("TRANTAL ALL OBJECT INFO: " + "用户Id：" + orderNumber + "当前状态为:确认收货");
-        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_UPD_FAIL);
-    }
-
 
     /**
      * 查找所有订单
@@ -233,5 +155,97 @@ public class OrderController {
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderEntityList);
     }
 
+    /**
+     * 根据商家查找所有订单
+     * @return
+     */
+    @GetMapping("/find/buss")
+    public ResponseResult findByBuss(HttpServletRequest httpServletRequest) throws ParseException {
+
+        List<OrderEntity> orderEntityList = null;
+        Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
+        //获取该用户Id下的所有商品信息
+        List<ObjectEntity> objectList = new ArrayList<>();
+        //转换成商品ID的列表的字符串
+        String objIdString = "";
+        objectList = objectFeign.findObjectIdList(userId);
+        for (ObjectEntity object: objectList) {
+            objIdString += object.getObjectId();
+            objIdString += ",";
+        }
+        objIdString = objIdString.substring(0, objIdString.length() - 1);
+        //查询根据列表做IN选择查询
+        orderEntityList = orderService.getOrderByObjectId(objIdString);
+        //查询数据判断
+        if (orderEntityList == null) {
+            logger.warn("SELECT ALL ORDER INFO IS NULL!");
+        } else {
+            List<OrderInfoWithObject> orderIWO = new ArrayList<>();
+            for (OrderEntity orderEntity:orderEntityList) {
+                OrderInfoWithObject orderInfoWithObject = new OrderInfoWithObject();
+                BeanUtils.copyProperties(orderEntity, orderInfoWithObject);
+                //远程调用system_object
+                System.out.println(objectFeign.findObject(orderEntity.getObjectId()));
+                BeanUtils.copyProperties(objectFeign.findObject(orderEntity.getObjectId()), orderInfoWithObject);
+                orderIWO.add(orderInfoWithObject);
+            }
+            logger.info("TRANTAL ALL ORDER INFO: " + orderIWO);
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderIWO);
+        }
+        logger.info("TRANTAL ALL ORDER INFO: " + orderEntityList);
+        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderEntityList);
+    }
+
+    /**
+     * 根据登录用户查找所有订单
+     * @return
+     */
+    @GetMapping("/find/user")
+    public ResponseResult findByUser(HttpServletRequest httpServletRequest) throws ParseException {
+
+        List<OrderEntity> orderEntityList = null;
+        Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
+        orderEntityList = orderService.getOrderByUserId(userId);
+        if (orderEntityList == null) {
+            logger.warn("SELECT ALL ORDER INFO IS NULL!");
+        } else {
+            List<OrderInfoWithObject> orderIWO = new ArrayList<>();
+            for (OrderEntity orderEntity:orderEntityList) {
+                OrderInfoWithObject orderInfoWithObject = new OrderInfoWithObject();
+                BeanUtils.copyProperties(orderEntity, orderInfoWithObject);
+                //远程调用system_object
+                System.out.println(objectFeign.findObject(orderEntity.getObjectId()));
+                BeanUtils.copyProperties(objectFeign.findObject(orderEntity.getObjectId()), orderInfoWithObject);
+                orderIWO.add(orderInfoWithObject);
+            }
+            logger.info("TRANTAL ALL ORDER INFO: " + orderIWO);
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderIWO);
+        }
+        logger.info("TRANTAL ALL ORDER INFO: " + orderEntityList);
+        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderEntityList);
+    }
+
+    /**
+     * 根据订单的UUID查找所有订单
+     * @return
+     */
+    @GetMapping("/find/orderUUID")
+    public ResponseResult findByOrderUUID(String orderUUID, Long objectId) {
+
+        OrderEntity orderEntity = null;
+        orderEntity = orderService.getOrderByOrderUUID(orderUUID, objectId);
+        if (orderEntity == null) {
+            logger.warn("SELECT ALL ORDER INFO IS NULL!");
+        } else {
+            OrderInfoWithObject orderInfoWithObject = new OrderInfoWithObject();
+            BeanUtils.copyProperties(orderEntity, orderInfoWithObject);
+            //远程调用system_object
+            BeanUtils.copyProperties(objectFeign.findObject(orderEntity.getObjectId()), orderInfoWithObject);
+            logger.info("TRANTAL ALL ORDER INFO: " + orderInfoWithObject);
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderInfoWithObject);
+        }
+        logger.info("TRANTAL ALL ORDER INFO: " + orderEntity);
+        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderEntity);
+    }
 
 }

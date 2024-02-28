@@ -45,7 +45,7 @@ public class UserService {
         userEntity = InfoToEntity(userInfo);
         userEntity.setUserTime(new Date());
         userEntity.setUserLast(new Date());
-
+        userEntity.setUserLevel(0L);
         logger.info("USER SERVICE ADD USER PHONE START");
         try {
             b = userMapper.addUser(userEntity);

@@ -15,22 +15,22 @@ public interface OrderMapper {
      * @return
      */
     @Insert("INSERT INTO trantal_order (order_uuid, user_id, object_id, object_price, order_cout, order_cost, order_info, order_time, order_track, order_address, order_name, order_phone, order_status) \n" +
-            " VALUES (#{order_uuid}, #{userId}, #{objectId}, #{objectPrice}, #{orderCout}, #{itemCost}, #{Info}, #{orderTime}, #{orderTrack}, #{receiveAddress}, #{receiveName}, #{receivePhone}, #{orderStatus} ) ")
+            " VALUES (#{order_uuid}, #{userId}, #{objectId}, #{objectPrice}, #{orderCout}, #{itemCost}, #{Info}, #{orderTime}, #{orderTrack}, #{orderAddress}, #{orderName}, #{orderPhone}, #{orderStatus} ) ")
     int addOrder(OrderInfo orderInfo);
 
     /**
      * 查询所有订单
      * @return
      */
-    @Select("SELECT * FROM trantalf_order")
+    @Select("SELECT * FROM trantal_order")
     @Results(id = "orderResultMap", value = {
             @Result(property = "orderId", column = "order_id"),
-            @Result(property = "orderNumber", column = "order_number"),
+            @Result(property = "orderUUID", column = "order_uuid"),
             @Result(property = "userId", column = "user_id"),
             @Result(property = "objectId", column = "object_id"),
             @Result(property = "objectPrice", column = "object_price"),
             @Result(property = "objectCost", column = "object_oldprice"),
-            @Result(property = "objectCout", column = "object_cout"),
+            @Result(property = "orderCout", column = "order_cout"),
             @Result(property = "orderInfo", column = "order_info"),
             @Result(property = "orderTime", column = "order_time"),
             @Result(property = "orderTrack", column = "order_track"),
@@ -60,22 +60,51 @@ public interface OrderMapper {
 
     /**
      * 修改订单快递编号
-     * @param orderId
+     * @param orderUUID
+     * @param objectId
      * @param orderTrack
      * @param orderStatus
      * @return
      */
-    @Update("UPDATE trantal_order SET order_track = #{orderTrack}, order_status = #{orderStatus} WHERE order_id = #{orderId}")
-    int updOrderTrack(int orderId, String orderTrack, int orderStatus);
+    @Update("UPDATE trantal_order SET order_track = #{orderTrack}, order_status = #{orderStatus} WHERE order_uuid = #{orderUUID} AND object_id = #{objectId}")
+    int updOrderTrack(String orderUUID, Long objectId, String orderTrack, int orderStatus);
 
     /**
      * 修改订单快递状态
-     * @param orderId
+     * @param orderUUID
+     * @param objectId
      * @param orderStatus
      * @return
      */
-    @Update("UPDATE trantal_order SET order_status = #{orderStatus} WHERE order_id = #{orderId}")
-    int updOrderStatus(int orderId, int orderStatus);
+    @Update("UPDATE trantal_order SET order_status = #{orderStatus} WHERE order_uuid = #{orderUUID} AND object_id = #{objectId}")
+    int updOrderStatus(String orderUUID, Long objectId, int orderStatus);
 
-    Long getObjectIdByOrderNumber(int orderNumber);
+    @Select("SELECT order_cout FROM trantal_order WHERE order_uuid = #{orderUUID} AND object_id = #{objectId}")
+//    @ResultMap("orderResultMap")
+    int getOrderCout(String orderUUID, Long objectId);
+
+    /**
+     * 根据用户Id查找订单
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM trantal_order WHERE user_id = #{userId}")
+    @ResultMap("orderResultMap")
+    List<OrderEntity> getOrderByUserId(Long userId);
+
+    @Select("SELECT order_id FROM trantal_order WHERE order_uuid = #{orderUUID}")
+    Long getObjectIdByOrderNumber(int orderUUID);
+
+    /**
+     * 根据商家Id查找订单
+     * @param objIdList
+     * @return
+     */
+    @Select("SELECT * FROM trantal_order WHERE object_id IN (#{objIdList})")
+    @ResultMap("orderResultMap")
+    List<OrderEntity> getOrderByObjectId(String objIdList);
+
+    @Select("SELECT * FROM trantal_order WHERE order_uuid = #{orderUUID} AND object_id = #{objectId}")
+    @ResultMap("orderResultMap")
+    OrderEntity getOrderByOrderUUID(String orderUUID, Long objectId);
 }

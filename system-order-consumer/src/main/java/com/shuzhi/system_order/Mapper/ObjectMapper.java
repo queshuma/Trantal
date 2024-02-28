@@ -91,40 +91,33 @@ public interface ObjectMapper {
 
     /**
      * 根据产品上架用户查找产品
-     * @param ObjectUserAccount
+     * @param objectUserAccount
      * @return
      */
     @Select("SELECT * FROM trantal_object object " +
             "JOIN trantal_user user ON object." +
             "user_id = user.user_id WHERE " +
-            "user.user_account = #{ObjectUserAccount} ORDER BY object.object_classes")
+            "user.user_account = #{objectUserAccount} ORDER BY object.object_classes")
     @ResultMap("objectResultMap")
-    List<ObjectEntity> getObjectUserAccount(String ObjectUserAccount);
+    List<ObjectEntity> getObjectUserAccount(String objectUserAccount);
 
     /**
-     * 提交订单，修改产品的总数
-     * @param ObjectId
-     * @param ObjectCout
+     * 修改商品总数
+     * @param objectId
+     * @param objectCout
      * @return
      */
-    @Update("UPDATE trantal_object SET object_cout = object_cout - #{ObjectCout} WHERE object_id = #{ObjectId};")
-    int updObjectReduce(long ObjectId, long ObjectCout);
+    @Update("UPDATE trantal_object SET object_cout = object_cout - #{objectCout} WHERE object_id = #{objectId};")
+    int updObjectReduce(long objectId, long objectCout);
+    @Update("UPDATE trantal_object SET object_cout = object_cout + #{objectCout} WHERE object_id = #{objectId};")
+    int updObjectAdd(Long objectId, int objectCout);
 
     /**
      * 根据产品id获取产品库存
-     * @param ObjectId
+     * @param objectId
      * @return
      */
-    @Select("SELECT object_cout FROM trantal_object WHERE object_id = #{ObjectId}")
-    int getObjectCout(long ObjectId);
+    @Select("SELECT object_cout FROM trantal_object WHERE object_id = #{objectId}")
+    int getObjectCout(long objectId);
 
-    /**
-     * 取消订单，修改商品的总数
-     * @param orderId
-     */
-    @Update("UPDATE trantal_object AS obj\n" +
-            "JOIN trantal_order AS ord ON obj.object_id = ord.object_id\n" +
-            "SET obj.object_cout = obj.object_cout + ord.object_cout\n" +
-            "WHERE ord.order_id = #{orderId};")
-    void updObjectAdd(int orderId);
 }

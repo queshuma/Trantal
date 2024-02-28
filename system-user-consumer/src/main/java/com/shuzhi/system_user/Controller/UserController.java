@@ -99,7 +99,7 @@ public class UserController {
             return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_ERROR_ADD_FAIL_EMAIL_SIZE);
         }
         b = userService.addUser(userInfo);
-        System.out.println(userInfo);
+        System.out.println(userInfo.toString());
 
         //插入数据正反馈，向前端返回正确码
         if (b) {

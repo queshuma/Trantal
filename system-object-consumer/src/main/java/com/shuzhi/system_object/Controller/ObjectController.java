@@ -185,7 +185,6 @@ public class ObjectController {
      * @return ResponseResult
      */
     @PostMapping("/update")
-//    @ResponseBody
     public ResponseResult update(ObjectEntity objectEntity) {
 
         Boolean b = false;
@@ -241,11 +240,11 @@ public class ObjectController {
      * @return ResponseResult<List<ObjectEntity>>
      */
     @GetMapping("/find/all")
-    public ResponseResult findAll() {
+    public ResponseResult findAll(int pageNum, int pageSize) {
 
         List<ObjectEntity> objectEntityList = null;
         List<ObjectWithBussVO> objectInfoWithUserNameList = new ArrayList<>();
-        objectEntityList = objectService.getAllObject();
+        objectEntityList = objectService.getAllObject(pageNum, pageSize);
         for (ObjectEntity obj:objectEntityList) {
               ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();
               BeanUtils.copyProperties(obj, objectInfoWithUserName);
@@ -258,6 +257,22 @@ public class ObjectController {
         logger.info("RETURN");
         logger.info("========== TRANTAL BJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectInfoWithUserNameList);
+    }
+
+    /**
+     * 获取所有产品的数量
+     * @return ResponseResult<List<ObjectEntity>>
+     */
+    @GetMapping("/get/cout")
+    public ResponseResult getCout() {
+
+        int dataCout = 0;
+        dataCout = objectService.getObjectCout();
+
+        logger.info("TRANTAL ALL OBJECT INFO: " + dataCout);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL BJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, dataCout);
     }
 
     /**
@@ -285,15 +300,31 @@ public class ObjectController {
      * @return
      */
     @GetMapping("/find/classes")
-    public ResponseResult findObjectClasses(String classesName) {
+    public ResponseResult findObjectClasses(String classesName, int pageNum, int pageSize) {
         List<ObjectEntity> objectEntityList = null;
         Long classesId = objClassesFeign.findByName(classesName);
-        objectEntityList = objectService.getObjectClasses(classesId);
+        objectEntityList = objectService.getObjectClasses(classesId, pageNum, pageSize);
 
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
         return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, classesName, objectEntityList);
+    }
+
+    /**
+     * 根据商品标题信息查询商品
+     * @param objectTitle
+     * @return
+     */
+    @GetMapping("/find/title")
+    public ResponseResult findObjectTitle(String objectTitle, int pageNum, int pageSize) {
+        List<ObjectEntity> objectEntityList = null;
+        objectEntityList = objectService.getObjectTitle(objectTitle, pageNum, pageSize);
+
+        logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
+        logger.info("RETURN");
+        logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
+        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectTitle, objectEntityList);
     }
 
     /**
@@ -306,7 +337,7 @@ public class ObjectController {
         String objectUserAccount = null;
         List<ObjectEntity> objectEntityList = null;
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
-        objectEntityList = objectService.getObjectByClassesId(userId);
+        objectEntityList = objectService.getObjectUserId(userId);
         List<ObjectWithBussVO> objectInfoWithUserNameList = new ArrayList<>();
         for (ObjectEntity obj:objectEntityList) {
             ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();

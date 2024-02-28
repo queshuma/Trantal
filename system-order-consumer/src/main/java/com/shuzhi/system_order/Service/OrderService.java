@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -74,6 +75,7 @@ public class OrderService {
             orderInfo.setOrderAddress(Info.getReceiveAddress());
             orderInfo.setOrderPhone(Info.getReceivePhone());
             orderInfo.setOrderName(Info.getReceiveName());
+            orderInfo.setInfo(Info.getRemark());
 
             //判断该商品是否有库存
             if (!objectFeign.hasObject(objVO.getObjectId(), Info.getShopCout())) {
@@ -144,25 +146,25 @@ public class OrderService {
 
     /**
      * 修改订单的快递单号
-     * @param orderId
+     * @param orderUUID
      * @param orderTrack
      * @return
      */
     @Transactional
-    public Boolean updOrderTrack(int orderId, String orderTrack) {
+    public Boolean updOrderTrack(String orderUUID, Long objectId, String orderTrack) {
 
         int b = 0;
         int orderStatus = 1;
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
         try {
-            b = orderMapper.updOrderTrack(orderId, orderTrack, orderStatus);
+            b = orderMapper.updOrderTrack(orderUUID, objectId, orderTrack, orderStatus);
             logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-            logger.info("result: " + orderId + "快递单号为:" + orderTrack);
+            logger.info("result: " + orderUUID + "快递单号为:" + orderTrack);
         } catch (Exception e) {
             logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + orderId + "快递单号为:" + orderTrack);
+            logger.error("result: " + orderUUID + "快递单号为:" + orderTrack);
         }
         logger.info("ORDER SERVICE UPDATE ORDER INFO END");
         if (b == SERVICE_UPD_ORDER_INFO_NUMBER) {
@@ -172,25 +174,24 @@ public class OrderService {
     }
 
     /**
-     * 修改订单的状态(确认收货)
-     * @param orderId
+     * 修改订单的状态
+     * @param orderUUID
      * @return
      */
     @Transactional
-    public Boolean updOrderStatus(int orderId) {
+    public Boolean updOrderStatus(String orderUUID, Long objectId, int orderStatus) {
 
         int b = 0;
-        int orderStatus = 2;
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
         try {
-            b = orderMapper.updOrderStatus(orderId, orderStatus);
+            b = orderMapper.updOrderStatus(orderUUID, objectId, orderStatus);
             logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-            logger.info("result: " + orderId + "确认收货");
+            logger.info("result: " + orderUUID + "确认收货");
         } catch (Exception e) {
             logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + orderId);
+            logger.error("result: " + orderUUID);
         }
         logger.info("ORDER SERVICE UPDATE ORDER INFO END");
         if (b == SERVICE_UPD_ORDER_INFO_NUMBER) {
@@ -200,108 +201,57 @@ public class OrderService {
     }
 
     /**
-     * 修改订单状态_申请退货
-     * @param orderId
+     * 取消订单
+     * @param orderUUID
+     * @param objectId
+     * @param orderStatus
      * @return
      */
     @Transactional
-    public Boolean updOrderBack(int orderId) {
-
-        int b = 0;
-        int orderStatus = 3;
-
-        logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
-        try {
-            b = orderMapper.updOrderStatus(orderId, orderStatus);
-            logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-            logger.info("result: " + orderId + "退货");
-        } catch (Exception e) {
-            logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
-            logger.error("ERROE:" + e);
-            logger.error("result: " + orderId);
-        }
-        logger.info("ORDER SERVICE UPDATE ORDER INFO END");
-        if (b == SERVICE_UPD_ORDER_INFO_NUMBER) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 修改订单状态_允许退货(商家)
-     * @param orderId
-     * @return
-     */
-    @Transactional
-    public Boolean updOrderBackOk(int orderId) {
-
-        int b = 0;
-        int orderStatus = 4;
-
-        logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
-        try {
-            orderMapper.updOrderStatus(orderId, orderStatus);
-            logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-            logger.info("result: " + orderId + "退货确认");
-        } catch (Exception e) {
-            logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
-            logger.error("ERROE:" + e);
-            logger.error("result: " + orderId);
-        }
-        logger.info("ORDER SERVICE UPDATE ORDER INFO END");
-        if (b == SERVICE_UPD_ORDER_INFO_NUMBER) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 修改订单状态_取消订单
-     * @param orderNumber
-     * @return
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean updOrderCancel(int orderNumber) throws Exception{
-
+    public Boolean updOrderCancal(String orderUUID, Long objectId, int orderStatus) {
         Boolean b = true;
-        int orderStatus = 5;
 
         logger.info("OBJECT SERVICE UPD OBJECT PHONE START");
 
-        try {
-            //获取该订单的产品Id
-            Long objectId = orderMapper.getObjectIdByOrderNumber(orderNumber);
-            // 获取商品对应的锁对象
-            ReentrantLock productLock = productLocks.computeIfAbsent(objectId, id -> new ReentrantLock());
-            if (productLock.tryLock()) {
-                orderMapper.updOrderStatus(orderNumber, orderStatus);
-                objectMapper.updObjectAdd(orderNumber);
-                logger.info("ORDER SERVICE UPDATE ORDER INFO SUCCESS!");
-                logger.info("result: " + orderNumber + "退货确认");
+        // 获取商品对应的锁对象
+        ReentrantLock productLock = productLocks.computeIfAbsent(objectId, id -> new ReentrantLock());
+        //判断互斥锁当前的状态
+        if (productLock.tryLock()) {
+            try {
+                //执行相关的持久层函数
+                int objectCout = orderMapper.getOrderCout(orderUUID, objectId);
+                //更新产品信息
+                objectMapper.updObjectAdd(objectId, objectCout);
+                System.out.println("logger");
+                //更新订单信息
+                orderMapper.updOrderStatus(orderUUID, objectId, orderStatus);
+                logger.info("ORDER SERVICE ADD ORDER INFO SUCCESS!");
+                logger.info("result: " + orderUUID);
+            } catch (Exception e) {
+                logger.error("ORDER SERVICE ADD ORDER INFO ERROR!");
+                logger.error("ERROE:" + e);
+                logger.error("result: " + orderUUID);
+                b = false;
+                throw e;
+            } finally {
+                logger.info("ORDER SERVICE ADD ORDER INFO END");
+                productLock.unlock();
+                //判断执行数量是否为1
+                if (!b) {
+                    return false;
+                }
             }
-            productLock.unlock();
-        } catch (Exception e) {
-            logger.error("ORDER SERVICE UPDATE ORDER INFO ERROR!");
-            logger.error("ERROE:" + e);
-            logger.error("result: " + orderNumber);
-            b = false;
-            throw e;
-        } finally {
-            logger.info("ORDER SERVICE UPDATE ORDER INFO END");
-            if (b) {
-                return true;
-            }
-            return false;
         }
+        logger.info("ORDER SERVICE UPDATE ORDER INFO END");
+        return b;
     }
-
 
     /**
      * 查询所有订单
      * @return
      */
     @Transactional
-    public List<OrderEntity> getAllOrder() {
+        public List<OrderEntity> getAllOrder() {
 
         List<OrderEntity> orderEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
@@ -319,4 +269,74 @@ public class OrderService {
         return orderEntityList;
     }
 
+    /**
+     * 根据用户Id查询所有订单
+     * @param userId
+     * @return
+     */
+    @Transactional
+    public List<OrderEntity> getOrderByUserId(Long userId) {
+        List<OrderEntity> orderEntityList = null;
+        logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
+
+        try {
+            orderEntityList = orderMapper.getOrderByUserId(userId);
+            logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + orderEntityList.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + orderEntityList.toString());
+        }
+
+        return orderEntityList;
+    }
+
+    /**
+     * 根据商品Id列表查询商品
+     * @param objIdList
+     * @return
+     */
+    public List<OrderEntity> getOrderByObjectId(String objIdList) {
+        List<OrderEntity> orderEntityList = null;
+        logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
+
+        try {
+            orderEntityList = orderMapper.getOrderByObjectId(objIdList);
+            System.out.println("info：" + orderEntityList);
+            logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + orderEntityList.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + orderEntityList.toString());
+        }
+
+        return orderEntityList;
+    }
+
+    /**
+     * 根据订单UUID和商品Id查询
+     * @param orderUUID
+     * @param objectId
+     * @return
+     */
+    @Transactional
+    public OrderEntity getOrderByOrderUUID(String orderUUID, Long objectId) {
+        OrderEntity orderEntity = null;
+        logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
+
+        try {
+            orderEntity = orderMapper.getOrderByOrderUUID(orderUUID, objectId);
+            System.out.println("info：" + orderEntity);
+            logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + orderEntity.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + orderEntity.toString());
+        }
+
+        return orderEntity;
+    }
 }

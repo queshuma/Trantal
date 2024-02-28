@@ -30,6 +30,9 @@ spring:
     admin:
       client:
         url: localhost:9001
+#  自动破解循环依赖
+  main:
+    allow-circular-references: true
 logging:
   config:
     classpath: logback-spring.xml
@@ -54,9 +57,11 @@ management:
   endpoint:
     health:
       show-details: always
-#    feign:
-#      client:
-#        config:
-#          default:
-#            loggerLevel: full # 设置Feign的日志级别，便于调试
+pagehelper:
+  helperDialect: mysql  # 数据库方言，根据实际情况选择
+  reasonable: true  # 分页合理化参数，默认值为 false
+  supportMethodsArguments: true  # 支持通过 Mapper 接口参数来传递分页参数，默认值为 false
+  params: count=countSql  # count 通用查询中 count 的限制名称，如果不设置会生成没有限制的 count 查询
+  offsetAsPageNum: true  # 开启 offsetAsPageNum 将会把 offset 参数当成 pageNum 使用，默认值为 false
+  rowBoundsWithCount: true  # 使用 RowBounds 传递分页参数时，是否执行 count 查询，默认值为 false
 

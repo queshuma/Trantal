@@ -92,12 +92,12 @@ public interface ObjectMapper {
 
     /**
      * 根据产品上架用户查找产品
-     * @param UserId
+     * @param userId
      * @return
      */
     @Select("SELECT * FROM trantal_object WHERE user_id = #{userId}")
     @ResultMap("objectResultMap")
-    List<ObjectEntity> getObjectByClassesId(Long UserId);
+    List<ObjectEntity> getObjectUserId(Long userId);
 
     /**
      * 提交订单，修改产品的总数
@@ -109,12 +109,11 @@ public interface ObjectMapper {
     int updObjectReduce(long ObjectId, long ObjectCout);
 
     /**
-     * 根据产品id获取产品库存
-     * @param ObjectId
+     * 获取商品总数
      * @return
      */
-    @Select("SELECT object_cout FROM trantal_object WHERE object_id = #{ObjectId}")
-    int getObjectCout(long ObjectId);
+    @Select("SELECT COUNT(object_id) FROM trantal_object")
+    int getDataCout();
 
     /**
      * 取消订单，修改商品的总数
@@ -126,7 +125,30 @@ public interface ObjectMapper {
             "WHERE ord.order_id = #{orderId};")
     void updObjectAdd(int orderId);
 
+    /**
+     * 根据Id获取商品数据
+     * @param objectId
+     * @return
+     */
     @Select("SELECT * FROM trantal_object WHERE object_id = #{objectId}")
     @ResultMap("objectResultMap")
     ObjectEntity getObject(Long objectId);
+
+    /**
+     * 根据Title模糊查找商品
+     * @param objectTitle
+     * @return
+     */
+    @Select("SELECT * FROM trantal_object WHERE object_title LIKE CONCAT('%' +#{objectTitle} + '%')")
+    @ResultMap("objectResultMap")
+    List<ObjectEntity> getObjectByTitle(String objectTitle);
+
+    /**
+     * 根据用户Id获取旗下的商品
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM trantal_object WHERE user_id = #{userId}")
+    @ResultMap("objectResultMap")
+    List<ObjectEntity> getObjectId(Long userId);
 }

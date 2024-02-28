@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-//@MapperScan("com.shuzhi.system.com.shuzhi.system_order.Mapper")
 public class MyBatisConfig {
 
     @Bean

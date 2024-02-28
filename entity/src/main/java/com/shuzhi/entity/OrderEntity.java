@@ -17,8 +17,8 @@ public class OrderEntity {
 	@Column(name = "order_id")
 	private Long orderId;
 
-	@Column(name = "order_number")
-	private Long orderNumber;
+	@Column(name = "order_uuid")
+	private String orderUUID;
 
 	@Column(name = "user_id")
 	private Long userId;
@@ -32,8 +32,8 @@ public class OrderEntity {
 	@Column(name = "object_oldprice")
 	private Float objectCost;
 
-	@Column(name = "object_count")
-	private Long objectCount;
+	@Column(name = "order_cout")
+	private Long orderCout;
 
 	@Column(name = "order_info")
 	private String orderInfo;
@@ -72,12 +72,12 @@ public class OrderEntity {
 		this.orderId = orderId;
 	}
 
-	public Long getOrderNumber() {
-		return orderNumber;
+	public String getOrderUUID() {
+		return orderUUID;
 	}
 
-	public void setOrderNumber(Long orderNumber) {
-		this.orderNumber = orderNumber;
+	public void setOrderUUID(String orderUUID) {
+		this.orderUUID = orderUUID;
 	}
 
 	public Long getUserId() {
@@ -112,12 +112,12 @@ public class OrderEntity {
 		this.objectCost = objectCost;
 	}
 
-	public Long getObjectCount() {
-		return objectCount;
+	public Long getOrderCout() {
+		return orderCout;
 	}
 
-	public void setObjectCount(Long objectCount) {
-		this.objectCount = objectCount;
+	public void setOrderCout(Long orderCout) {
+		this.orderCout = orderCout;
 	}
 
 	public String getOrderInfo() {

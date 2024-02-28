@@ -21,6 +21,8 @@ spring:
     nacos:
       config:
         server-addr: localhost:8848/nacos/
+  main:
+    allow-circular-references: true
 logging:
   config:
     classpath: logback-spring.xml

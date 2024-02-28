@@ -1,5 +1,7 @@
 package com.shuzhi.system_object.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.result.Common;
 import com.shuzhi.system_object.Info.ObjectInfo;
@@ -127,12 +129,13 @@ public class ObjectService {
      * @return List<UserEntity>
      */
     @Transactional
-    public List<ObjectEntity> getAllObject() {
+    public List<ObjectEntity> getAllObject(int pageNum, int pageSize) {
 
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT ALL OBJECT START");
 
         try {
+            PageHelper.startPage(pageNum, pageSize);
             objectEntityList = objectMapper.getAllObject();
             logger.info("OBJECT SERVICE SELECT ALL OBJECT SUCCESS!");
             logger.info("result: " + objectEntityList.toString());
@@ -151,12 +154,14 @@ public class ObjectService {
      * @return ResponseResult<List<ObjectEntity>>
      */
     @Transactional
-    public List<ObjectEntity> getObjectClasses(Long ClassesId) {
+    public List<ObjectEntity> getObjectClasses(Long ClassesId, int pageNum, int pageSize) {
         logger.info("-------TRANTAL OBJECT SELECT SERVICE START-------");
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
+            //设置分类查询
+            PageHelper.startPage(pageNum, pageSize);
             objectEntityList = objectMapper.getObjectClasses(ClassesId);
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
             logger.info("result: " + objectEntityList.toString());
@@ -172,18 +177,19 @@ public class ObjectService {
 
     /**
      * 根据添加用户查询产品信息
-     * @param UserId
+     * @param userId
      * @return ResponseResult<List<ObjectEntity>>
      */
     @Transactional
-    public List<ObjectEntity> getObjectByClassesId(Long UserId) {
+    public List<ObjectEntity> getObjectUserId(Long userId) {
 
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
-            System.out.println(UserId);
-            objectEntityList = objectMapper.getObjectByClassesId(UserId);
+            System.out.println(userId);
+            objectEntityList = objectMapper.getObjectUserId(userId);
+            System.out.println(objectEntityList.toString());
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
             logger.info("result: " + objectEntityList.toString());
         } catch (Exception e) {
@@ -236,7 +242,12 @@ public class ObjectService {
     }
 
 
-
+    /**
+     * 上传商品缩略图的接口
+     * @param multipartFiles
+     * @param uuid
+     * @return
+     */
     public HashMap<String, String> uploadImage(MultipartFile multipartFiles, String uuid){
         // 处理文件上传逻辑
         // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
@@ -263,6 +274,12 @@ public class ObjectService {
 
     }
 
+    /**
+     * 上传海报图的接口
+     * @param multipartFiles
+     * @param uuid
+     * @return
+     */
     public HashMap<String, String> uploadBanner(MultipartFile multipartFiles, String uuid) {
         // 处理文件上传逻辑
         // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
@@ -288,6 +305,12 @@ public class ObjectService {
         return hashMap;
     }
 
+    /**
+     * 上传文件详情图的接口
+     * @param multipartFiles
+     * @param uuid
+     * @return
+     */
     public HashMap<String, String> uploadImg(MultipartFile multipartFiles, String uuid) {
         // 处理文件上传逻辑
         // 可以使用 file.getInputStream() 获取文件内容进行进一步处理
@@ -321,5 +344,55 @@ public class ObjectService {
     public Boolean hasObject(Long objectId, Long orderCout) {
         ObjectEntity objectEntity= objectMapper.getObject(objectId);
         return (objectEntity.getObjectCout() - orderCout) >= 0?true:false;
+    }
+
+    /**
+     * 获取数据表的数据数据总数
+     * @return
+     */
+    public int getObjectCout() {
+        return objectMapper.getDataCout();
+    }
+
+    /**
+     * 根据Title信息查找商品
+     * @param objectTitle
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public List<ObjectEntity> getObjectTitle(String objectTitle, int pageNum, int pageSize) {
+        List<ObjectEntity> objectEntityList = null;
+        logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
+
+        try {
+            System.out.println(objectTitle);
+            objectEntityList = objectMapper.getObjectByTitle(objectTitle);
+            logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + objectEntityList.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + objectEntityList.toString());
+        }
+
+        return objectEntityList;
+    }
+
+    public List<ObjectEntity> getObjectId(Long userId) {
+        List<ObjectEntity> objectEntityList = null;
+        logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
+
+        try {
+            objectEntityList = objectMapper.getObjectId(userId);
+            logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
+            logger.info("result: " + objectEntityList.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT OBJECT CLASSES ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + objectEntityList.toString());
+        }
+
+        return objectEntityList;
     }
 }
