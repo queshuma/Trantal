@@ -31,10 +31,9 @@ public interface ShopMapper {
 
     /**
      * 查询所有购物车数据
-     * @param userId
      * @return
      */
-    @Select("SELECT * FROM trantal_shop WHERE user_id = #{userId} AND shop_status = 1")
+    @Select("SELECT * FROM trantal_shop WHERE shop_status = 1")
     @Results(id = "shopResultMap", value = {
             @Result(property = "shopId", column = "shop_id"),
             @Result(property = "userId", column = "user_id"),
@@ -42,6 +41,15 @@ public interface ShopMapper {
             @Result(property = "shopCout", column = "shop_cout"),
             @Result(property = "shopTime", column = "shop_time")
     })
+    List<ShopDTO> getShopAll(int shopStatus);
+
+    /**
+     * 根据用户Id获取购物车数据
+     * @param userId
+     * @return
+     */
+    @Select("SELECT * FROM trantal_shop WHERE user_id = #{userId} AND shop_status = 1")
+    @ResultMap("shopResultMap")
     List<ShopDTO> getShopUserId(Long userId);
 
     /**
@@ -74,4 +82,5 @@ public interface ShopMapper {
      */
     @Select("SELECT COUNT(object_id) as FindShopCout FROM trantal_shop WHERE user_id = #{userId} AND object_id = #{objectId} AND shop_status = #{shopStatus};")
     int getShopUserIdObjectId(Long userId, Long objectId, Long shopStatus);
+
 }

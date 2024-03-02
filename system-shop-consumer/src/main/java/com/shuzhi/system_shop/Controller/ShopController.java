@@ -13,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.shuzhi.system_shop.Controller.ObjectFeign;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,6 +87,31 @@ public class ShopController {
         List<ShopDTO> shopDTOList = null;
         List<ShopWithObjectUser> shopWithObjectUserList = new ArrayList<>();
         shopDTOList = shopService.getShopUserId(userId);
+        for (ShopDTO shopDTO:shopDTOList) {
+            ShopWithObjectUser shopWithObjectUser = new ShopWithObjectUser();
+            BeanUtils.copyProperties(shopDTO, shopWithObjectUser);
+            shopWithObjectUser.setObjectWithBussVO(objectFeign.findObject(shopDTO.getObjectId()));
+            shopWithObjectUserList.add(shopWithObjectUser);
+        }
+
+        if (SystemUtils.isNull(shopDTOList)) {
+            logger.warn("SELECT ALL ORDER INFO IS NULL!");
+        }
+        logger.info("TRANTAL ALL SHOP INFO: " + shopDTOList);
+        logger.info("RETURN");
+        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopWithObjectUserList);
+    }
+
+    /**
+     * 查询所有购物车信息
+     * @return
+     * @throws ParseException
+     */
+    @GetMapping("/findAll")
+    public ResponseResult findAll() throws ParseException {
+        List<ShopDTO> shopDTOList = null;
+        List<ShopWithObjectUser> shopWithObjectUserList = new ArrayList<>();
+        shopDTOList = shopService.getShopAll();
         for (ShopDTO shopDTO:shopDTOList) {
             ShopWithObjectUser shopWithObjectUser = new ShopWithObjectUser();
             BeanUtils.copyProperties(shopDTO, shopWithObjectUser);

@@ -157,4 +157,10 @@ public interface UserMapper {
     @Update("UPDATE trantal_user set user_status = #{userStatus} WHERE user_id = #{userId}")
     int updUserStatus(int userId, int userStatus);
 
+    /**
+     * 获取用户数量
+     * @return
+     */
+    @Select("SELECT COUNT(user_id) FROM trantal_user")
+    int getUserCout();
 }

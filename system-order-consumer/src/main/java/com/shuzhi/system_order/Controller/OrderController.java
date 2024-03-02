@@ -20,7 +20,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 订单接口
+ */
 @RestController
 @RequestMapping("/Order")
 public class OrderController {
@@ -148,8 +150,21 @@ public class OrderController {
 
         List<OrderEntity> orderEntityList = null;
         orderEntityList = orderService.getAllOrder();
+//查询数据判断
         if (orderEntityList == null) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");
+        } else {
+            List<OrderInfoWithObject> orderIWO = new ArrayList<>();
+            for (OrderEntity orderEntity:orderEntityList) {
+                OrderInfoWithObject orderInfoWithObject = new OrderInfoWithObject();
+                BeanUtils.copyProperties(orderEntity, orderInfoWithObject);
+                //远程调用system_object
+                System.out.println(objectFeign.findObject(orderEntity.getObjectId()));
+                BeanUtils.copyProperties(objectFeign.findObject(orderEntity.getObjectId()), orderInfoWithObject);
+                orderIWO.add(orderInfoWithObject);
+            }
+            logger.info("TRANTAL ALL ORDER INFO: " + orderIWO);
+            return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderIWO);
         }
         logger.info("TRANTAL ALL ORDER INFO: " + orderEntityList);
         return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_INFO_FIND_SUCCESS, orderEntityList);

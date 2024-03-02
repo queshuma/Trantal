@@ -25,6 +25,8 @@ spring:
     admin:
       client:
         url: localhost:9001
+  main:
+    allow-circular-references: true
 logging:
   config:
     classpath: logback-spring.xml

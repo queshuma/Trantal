@@ -1,5 +1,6 @@
 package com.shuzhi.system_user.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.shuzhi.entity.UserEntity;
 import com.shuzhi.system_user.Config.JwtConfig;
 import com.shuzhi.system_user.Info.UserInfo;
@@ -125,12 +126,13 @@ public class UserService {
      * @return List<UserEntity>
      */
     @Transactional
-    public List<UserEntity> getAllUser() {
+    public List<UserEntity> getAllUser(int pageNum, int pageSize) {
 
         List<UserEntity> userEntityList = null;
         logger.info("USER SERVICE SELECT ALL USER START");
 
         try {
+            PageHelper.startPage(pageNum, pageSize);
             userEntityList = userMapper.getAllUser();
             logger.info("USER SERVICE SELECT ALL USER SUCCESS!");
             logger.info("result: " + userEntityList.toString());
@@ -417,5 +419,13 @@ public class UserService {
         userEntity.setUserTime(new Date());
         userEntity.setUserLast(new Date());
         return userEntity;
+    }
+
+    /**
+     * 获取用户数量
+     * @return
+     */
+    public int getUserCout() {
+        return userMapper.getUserCout();
     }
 }

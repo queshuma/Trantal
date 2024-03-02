@@ -1,3 +1,5 @@
+server:
+  port: 8818
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,8 +32,6 @@ logging:
     classpath: logback-spring.xml
 Mybatis:
   mapper-locations: Mapper/*.xml
-server:
-  port: 8818
 management:
   endpoints:
     web:

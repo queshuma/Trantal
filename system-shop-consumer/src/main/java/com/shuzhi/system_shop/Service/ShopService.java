@@ -145,4 +145,28 @@ public class ShopService {
 
         return b;
     }
+
+    /**
+     * cc
+     * @return
+     */
+    public List<ShopDTO> getShopAll() {
+        List<ShopDTO> shopDTOList = null;
+        logger.info("OBJECT SERVICE SELECT SHOP USER ID START");
+        int shopStatus = 1;
+
+        try {
+            shopDTOList = shopMapper.getShopAll(shopStatus);
+            logger.info("OBJECT SERVICE SELECT SHOP USER ID SUCCESS!");
+            logger.info("result: " + shopDTOList.toString());
+        } catch (Exception e) {
+            logger.error("OBJECT SERVICE SELECT SHOP USER ID ERROR!");
+            logger.error("ERROE:" + e);
+            logger.error("result: " + shopDTOList);
+            throw e;
+
+        }
+
+        return shopDTOList;
+    }
 }

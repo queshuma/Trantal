@@ -7,6 +7,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
+  boot:
+    admin:
+      client:
+        url: localhost:9001
   cloud:
     gateway:
       routes:

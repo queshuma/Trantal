@@ -241,14 +241,25 @@ public class UserController {
      * @return
      */
     @GetMapping("/findAll")
-    public ResponseResult findAll(HttpServletRequest httpServletRequest) {
+    public ResponseResult findAll(int pageNum, int pageSize) {
         List<UserEntity> userEntityList = null;
-        userEntityList = userService.getAllUser();
+        userEntityList = userService.getAllUser(pageNum, pageSize);
         if (userEntityList == null) {
             logger.warn("SELECT ALL USER INFO IS NULL!");
         }
         logger.info("TRANTAL ALL USER INFO: " + userEntityList.toString());
         return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_INFO_FIND_SUCCESS, userEntityList);
+    }
+
+    /**
+     * 获取用户数量
+     * @return
+     */
+    @GetMapping("/get/cout")
+    public ResponseResult getCout() {
+        int userCout = 0;
+        userCout = userService.getUserCout();
+        return ResponseResultFactory.buildResponseFactory(UserCode.SYSTEM_USER_INFO_FIND_SUCCESS, userCout);
     }
 
     @GetMapping("/find")
