@@ -1,5 +1,6 @@
 package com.shuzhi.system_object.Controller;
 
+import com.github.pagehelper.PageHelper;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
@@ -260,22 +261,6 @@ public class ObjectController {
     }
 
     /**
-     * 获取所有产品的数量
-     * @return ResponseResult<List<ObjectEntity>>
-     */
-    @GetMapping("/get/cout")
-    public ResponseResult getCout() {
-
-        int dataCout = 0;
-        dataCout = objectService.getObjectCout();
-
-        logger.info("TRANTAL ALL OBJECT INFO: " + dataCout);
-        logger.info("RETURN");
-        logger.info("========== TRANTAL BJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, dataCout);
-    }
-
-    /**
      * 下架商品状态
      * @param objectId
      * @return
@@ -333,11 +318,11 @@ public class ObjectController {
      * @return
      */
     @GetMapping("/find/userId")
-    public ResponseResult findObjectUserAccount(HttpServletRequest httpServletRequest) throws ParseException {
+    public ResponseResult findObjectUserAccount(HttpServletRequest httpServletRequest, int pageNum, int pageSize) throws ParseException {
         String objectUserAccount = null;
         List<ObjectEntity> objectEntityList = null;
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
-        objectEntityList = objectService.getObjectUserId(userId);
+        objectEntityList = objectService.getObjectUserId(userId, pageNum, pageSize);
         List<ObjectWithBussVO> objectInfoWithUserNameList = new ArrayList<>();
         for (ObjectEntity obj:objectEntityList) {
             ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();

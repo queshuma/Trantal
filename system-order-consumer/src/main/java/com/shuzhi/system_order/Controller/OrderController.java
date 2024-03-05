@@ -150,7 +150,7 @@ public class OrderController {
 
         List<OrderEntity> orderEntityList = null;
         orderEntityList = orderService.getAllOrder();
-//查询数据判断
+        //查询数据判断
         if (orderEntityList == null) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");
         } else {
@@ -175,7 +175,7 @@ public class OrderController {
      * @return
      */
     @GetMapping("/find/buss")
-    public ResponseResult findByBuss(HttpServletRequest httpServletRequest) throws ParseException {
+    public ResponseResult findByBuss(HttpServletRequest httpServletRequest, int pageNum, int pageSize) throws ParseException {
 
         List<OrderEntity> orderEntityList = null;
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
@@ -190,7 +190,7 @@ public class OrderController {
         }
         objIdString = objIdString.substring(0, objIdString.length() - 1);
         //查询根据列表做IN选择查询
-        orderEntityList = orderService.getOrderByObjectId(objIdString);
+        orderEntityList = orderService.getOrderByObjectId(objIdString,pageNum, pageSize);
         //查询数据判断
         if (orderEntityList == null) {
             logger.warn("SELECT ALL ORDER INFO IS NULL!");

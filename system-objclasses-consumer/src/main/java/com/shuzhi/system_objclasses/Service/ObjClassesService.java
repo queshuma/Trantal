@@ -48,6 +48,11 @@ public class ObjClassesService {
                 ObjClassesShow objClassesShow = new ObjClassesShow();
                 objClassesShow.setId(objClassesEntity.getClassesId());
                 objClassesShow.setLabel(objClassesEntity.getClassesName());
+                objClassesShow.setStatus(objClassesEntity.getClassesStatus());
+                objClassesShow.setParent("综合");
+                objClassesShow.setWeightId(objClassesEntity.getWeightId());
+                objClassesShow.setListStatus(objClassesEntity.getListStatus());
+                objClassesShow.setObjectStatus(objClassesEntity.getObjectStatus());
                 classesParSon.put(objClassesEntity.getClassesId(), n);
                 if (objClassesEntity.getClassesParentId() == ZERO) {
                     objClassesShowList.add(objClassesShow);
@@ -107,6 +112,7 @@ public class ObjClassesService {
      */
     @Transactional
     public Boolean addObjectClasses(ObjClassesInfo objClassesInfo) {
+        objClassesInfo.setClassesParentId(1L);
         Boolean b = false;
         try {
             b = objClassesMapper.addObjectClasses(objClassesInfo);
@@ -128,15 +134,15 @@ public class ObjClassesService {
      * @return
      */
     @Transactional
-    public Boolean updObjectClasses(int objClassesId) {
+    public Boolean updObjectClasses(Long objClassesId, int objClassStatus) {
 
         int b = 0;
 
         logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO START");
         try {
-            b = objClassesMapper.updObjectClassesStatus(objClassesId, ZERO);
+            b = objClassesMapper.updObjectClassesStatus(objClassesId, objClassStatus);
             logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO SUCCESS!");
-            logger.info("result: classesId" + objClassesId + ",classesStatus " + ONE);
+            logger.info("result: classesId" + objClassesId + ",classesStatus " + ZERO);
         } catch (Exception e) {
             logger.error("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO ERROR!");
             logger.error("ERROE:" + e);

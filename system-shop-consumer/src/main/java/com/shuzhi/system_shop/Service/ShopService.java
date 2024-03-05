@@ -147,7 +147,7 @@ public class ShopService {
     }
 
     /**
-     * cc
+     * 查找所有购物车商品
      * @return
      */
     public List<ShopDTO> getShopAll() {

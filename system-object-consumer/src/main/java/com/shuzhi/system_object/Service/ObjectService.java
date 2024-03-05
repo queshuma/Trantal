@@ -181,13 +181,13 @@ public class ObjectService {
      * @return ResponseResult<List<ObjectEntity>>
      */
     @Transactional
-    public List<ObjectEntity> getObjectUserId(Long userId) {
+    public List<ObjectEntity> getObjectUserId(Long userId, int pageNum, int pageSize) {
 
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
-            System.out.println(userId);
+            PageHelper.startPage(pageNum, pageSize);
             objectEntityList = objectMapper.getObjectUserId(userId);
             System.out.println(objectEntityList.toString());
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
@@ -379,12 +379,17 @@ public class ObjectService {
         return objectEntityList;
     }
 
-    public List<ObjectEntity> getObjectId(Long userId) {
+    /**
+     * 根据商家Id查询所有商品
+     * @param userId
+     * @return
+     */
+    public List<ObjectEntity> getObjectId(Long bussId) {
         List<ObjectEntity> objectEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
-            objectEntityList = objectMapper.getObjectId(userId);
+            objectEntityList = objectMapper.getObjectId(bussId);
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");
             logger.info("result: " + objectEntityList.toString());
         } catch (Exception e) {

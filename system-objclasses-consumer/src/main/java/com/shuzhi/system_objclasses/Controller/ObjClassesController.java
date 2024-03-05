@@ -11,13 +11,11 @@ import com.shuzhi.system_objclasses.Service.ObjClassesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.shuzhi.result.Common.ONE;
 import static com.shuzhi.result.Common.ZERO;
 
 @RestController
@@ -58,14 +56,10 @@ public class ObjClassesController {
 
         Boolean b = false;
 
-        //输入产品名称为空
+        //输入产品分类为空
         if(SystemUtils.isNullOrEmpty(objClassesInfo.getClassesName())) {
             logger.error("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO --CLASSES NAME-- INPUT IS NULL ! ");
             return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_ADD_FAIL_NAME_NULL);
-        }
-        //输入上级名称为空
-        if(objClassesInfo.getClassesParentId() == ZERO) {
-            logger.warn("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO IS --ROOT DIRECTORY-- ! ");
         }
 
 
@@ -86,11 +80,16 @@ public class ObjClassesController {
      * @param objClassesId
      * @return
      */
-    @PostMapping("/delete")
-    public ResponseResult delete(int objClassesId) {
+    @PutMapping("/status")
+    public ResponseResult status(Long objClassesId, int currentStatus) {
         Boolean b = false;
 
-        b = objClassesService.updObjectClasses(objClassesId);
+        if (currentStatus == ZERO) {
+            b = objClassesService.updObjectClasses(objClassesId, ONE);
+        } else if (currentStatus == ONE) {
+            b = objClassesService.updObjectClasses(objClassesId, ZERO);
+        }
+
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
@@ -105,25 +104,9 @@ public class ObjClassesController {
      * @param objClassesEntity
      * @return
      */
-    @PostMapping("/update")
-    public ResponseResult delete(ObjClassesEntity objClassesEntity) {
+    @PutMapping ("/update")
+    public ResponseResult info(ObjClassesEntity objClassesEntity) {
         Boolean b = false;
-
-        //输入产品名称为空
-        if(SystemUtils.isNullOrEmpty(objClassesEntity.getClassesName())) {
-            logger.error("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO --CLASSES NAME-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL_CLASSES_NAME_NULL);
-        }
-        //输入上级编号为空，默认为0
-        if(objClassesEntity.getClassesId() == ZERO) {
-            objClassesEntity.setClassesId(SYSTEM_OBJECT_CLASSES_DEFAULT_CLASSES_PARENT_ID);
-            logger.warn("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO IS --ROOT DIRECTORY-- ! ");
-        }
-        //输入状态为空，默认为0
-        if(objClassesEntity.getClassesStatus() == ZERO) {
-            objClassesEntity.setClassesStatus(SYSTEM_OBJECT_CLASSES_DEFAULT_CLASSES_STATUS);
-            logger.warn("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO IS --STATUS ZERO-- ! ");
-        }
 
         b = objClassesService.updObjectClasses(objClassesEntity);
 

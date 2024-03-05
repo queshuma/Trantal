@@ -1,5 +1,6 @@
 package com.shuzhi.system_order.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.entity.OrderEntity;
 import com.shuzhi.objectVO.ObjectWithBussVO;
@@ -297,11 +298,12 @@ public class OrderService {
      * @param objIdList
      * @return
      */
-    public List<OrderEntity> getOrderByObjectId(String objIdList) {
+    public List<OrderEntity> getOrderByObjectId(String objIdList, int pageNum, int pageSize) {
         List<OrderEntity> orderEntityList = null;
         logger.info("OBJECT SERVICE SELECT OBJECT CLASSES START");
 
         try {
+            PageHelper.startPage(pageNum, pageSize);
             orderEntityList = orderMapper.getOrderByObjectId(objIdList);
             System.out.println("info：" + orderEntityList);
             logger.info("OBJECT SERVICE SELECT OBJECT CLASSES SUCCESS!");

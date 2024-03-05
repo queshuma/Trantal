@@ -145,10 +145,10 @@ public interface ObjectMapper {
 
     /**
      * 根据用户Id获取旗下的商品
-     * @param userId
+     * @param bussId
      * @return
      */
-    @Select("SELECT * FROM trantal_object WHERE user_id = #{userId}")
+    @Select("SELECT * FROM trantal_object WHERE user_id = #{bussId}")
     @ResultMap("objectResultMap")
-    List<ObjectEntity> getObjectId(Long userId);
+    List<ObjectEntity> getObjectId(Long bussId);
 }

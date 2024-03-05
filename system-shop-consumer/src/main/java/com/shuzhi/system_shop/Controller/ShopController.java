@@ -77,7 +77,7 @@ public class ShopController {
     }
 
     /**
-     * 查询购物车
+     * 根据Id查询购物车
      * @param httpServletRequest
      * @return
      */

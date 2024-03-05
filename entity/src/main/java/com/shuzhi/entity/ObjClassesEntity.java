@@ -22,6 +22,15 @@ public class ObjClassesEntity {
 	@Column(name = "classes_status")
 	private int classesStatus;
 
+	@Column(name = "weight_id")
+	private int weightId;
+
+	@Column(name = "list_status")
+	private int listStatus;
+
+	@Column(name = "object_status")
+	private int objectStatus;
+
 	public Long getClassesId() {
 		return classesId;
 	}
@@ -52,5 +61,29 @@ public class ObjClassesEntity {
 
 	public void setClassesStatus(int classesStatus) {
 		this.classesStatus = classesStatus;
+	}
+
+	public int getWeightId() {
+		return weightId;
+	}
+
+	public void setWeightId(int weightId) {
+		this.weightId = weightId;
+	}
+
+	public int getListStatus() {
+		return listStatus;
+	}
+
+	public void setListStatus(int listStatus) {
+		this.listStatus = listStatus;
+	}
+
+	public int getObjectStatus() {
+		return objectStatus;
+	}
+
+	public void setObjectStatus(int objectStatus) {
+		this.objectStatus = objectStatus;
 	}
 }

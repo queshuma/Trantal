@@ -100,7 +100,7 @@ public interface OrderMapper {
      * @param objIdList
      * @return
      */
-    @Select("SELECT * FROM trantal_order WHERE object_id IN (#{objIdList})")
+    @Select("SELECT * FROM trantal_order WHERE object_id IN (${objIdList})")
     @ResultMap("orderResultMap")
     List<OrderEntity> getOrderByObjectId(String objIdList);
 
