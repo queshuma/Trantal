@@ -47,6 +47,30 @@ public class ObjClassesController {
     }
 
     /**
+     * 查询显示在列表的商品分类
+     * @return
+     */
+    @GetMapping("/info/listStatus")
+    public ResponseResult findInfoListStatus() {
+        List<ObjClassesEntity> objectEntityList = null;
+        List<ObjClassesShow> objClassesShowList = objClassesService.getInfoListStatus();
+
+        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objClassesShowList);
+    }
+
+    /**
+     * 查询显示在商品表的商品分类
+     * @return
+     */
+    @GetMapping("/info/objectStatus")
+    public ResponseResult findInfoObjectStatus() {
+        List<ObjClassesEntity> objectEntityList = null;
+        List<ObjClassesShow> objClassesShowList = objClassesService.getInfoObjectStatus();
+
+        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objClassesShowList);
+    }
+
+    /**
      * 新增分类
      * @param objClassesInfo
      * @return ResponseResult
@@ -76,20 +100,14 @@ public class ObjClassesController {
     }
 
     /**
-     * 修改商品分类状态(删除)
+     * 修改商品分类状态
      * @param objClassesId
      * @return
      */
     @PutMapping("/status")
-    public ResponseResult status(Long objClassesId, int currentStatus) {
+    public ResponseResult Status(Long objClassesId, int status) {
         Boolean b = false;
-
-        if (currentStatus == ZERO) {
-            b = objClassesService.updObjectClasses(objClassesId, ONE);
-        } else if (currentStatus == ONE) {
-            b = objClassesService.updObjectClasses(objClassesId, ZERO);
-        }
-
+            b = objClassesService.updObjectClasses(objClassesId, status);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
@@ -100,15 +118,16 @@ public class ObjClassesController {
     }
 
     /**
-     * 修改商品分类信息
-     * @param objClassesEntity
+     * 修改分类在列表状态
+     * @param objClassesId
+     * @param listStatus
      * @return
      */
-    @PutMapping ("/update")
-    public ResponseResult info(ObjClassesEntity objClassesEntity) {
+    @PutMapping ("/listStatus")
+    public ResponseResult updateListStatus(Long objClassesId, int listStatus) {
         Boolean b = false;
 
-        b = objClassesService.updObjectClasses(objClassesEntity);
+        b = objClassesService.updateListStatus(objClassesId, listStatus);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
@@ -118,4 +137,23 @@ public class ObjClassesController {
         return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL);
     }
 
+    /**
+     * 修改分类在商品列表状态
+     * @param objClassesId
+     * @param objectStatus
+     * @return
+     */
+    @PutMapping ("/objectStatus")
+    public ResponseResult updateObjecttatus(Long objClassesId, int objectStatus) {
+        Boolean b = false;
+
+        b = objClassesService.updateObjectStatus(objClassesId, objectStatus);
+
+        //插入数据正反馈，向前端返回正确码
+        if (b) {
+            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_UPD_SUCCESS);
+        }
+        logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
+        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL);
+    }
 }

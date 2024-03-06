@@ -381,7 +381,7 @@ public class ObjectService {
 
     /**
      * 根据商家Id查询所有商品
-     * @param userId
+     * @param bussId
      * @return
      */
     public List<ObjectEntity> getObjectId(Long bussId) {

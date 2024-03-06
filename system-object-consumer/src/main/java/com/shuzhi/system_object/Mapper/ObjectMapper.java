@@ -139,7 +139,7 @@ public interface ObjectMapper {
      * @param objectTitle
      * @return
      */
-    @Select("SELECT * FROM trantal_object WHERE object_title LIKE CONCAT('%' +#{objectTitle} + '%')")
+    @Select("SELECT * FROM trantal_object WHERE object_title LIKE CONCAT('%',#{objectTitle},'%')")
     @ResultMap("objectResultMap")
     List<ObjectEntity> getObjectByTitle(String objectTitle);
 

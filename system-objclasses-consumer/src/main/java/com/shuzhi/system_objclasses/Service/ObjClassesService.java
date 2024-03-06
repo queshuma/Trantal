@@ -134,19 +134,19 @@ public class ObjClassesService {
      * @return
      */
     @Transactional
-    public Boolean updObjectClasses(Long objClassesId, int objClassStatus) {
+    public Boolean updObjectClasses(Long objClassesId, int status) {
 
         int b = 0;
 
         logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO START");
         try {
-            b = objClassesMapper.updObjectClassesStatus(objClassesId, objClassStatus);
+            b = objClassesMapper.updObjectClassesStatus(objClassesId, status);
             logger.info("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO SUCCESS!");
-            logger.info("result: classesId" + objClassesId + ",classesStatus " + ZERO);
+            logger.info("result: classesId" + objClassesId + ",classesStatus " + status);
         } catch (Exception e) {
             logger.error("OBJECT CLASSES SERVICE UPDATE OBJECT CLASSES INFO ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: classesId" + objClassesId + ",classesStatus " + ONE);
+            logger.error("result: classesId" + objClassesId + ",classesStatus " + status);
         }
         logger.info("OBJECT CLASSES SERVICE UPDATE OBJECTR CLASSES INFO END");
         if (b == SERVICE_UPDATE_OBJECT_INFO_NUMBER) {
@@ -199,5 +199,43 @@ public class ObjClassesService {
         logger.info("OBJECT CLASSES SERVICE FIND OBJECT CLASSES INFO END");
 
         return objClassesEntity;
+    }
+
+    /**
+     * 修改商品分类在列表中的显示状态
+     * @param objClassesId
+     * @param listStatus
+     * @return
+     */
+    public Boolean updateListStatus(Long objClassesId, int listStatus) {
+        return objClassesMapper.updateListStatus(objClassesId, listStatus);
+    }
+
+    /**
+     * 修改商品分类在商品模块的显示状态
+     * @param objClassesId
+     * @param objectStatus
+     * @return
+     */
+    public Boolean updateObjectStatus(Long objClassesId, int objectStatus) {
+        return objClassesMapper.updateObjectStatus(objClassesId, objectStatus);
+    }
+
+    /**
+     * 查询显示在列表的商品分类
+     * @return
+     */
+    public List<ObjClassesShow> getInfoListStatus() {
+        int listStatus = 1;
+        return objClassesMapper.getInfoListStatus(listStatus);
+    }
+
+    /**
+     * 查询显示在列表的商品分类
+     * @return
+     */
+    public List<ObjClassesShow> getInfoObjectStatus() {
+        int objectStatus = 1;
+        return objClassesMapper.getInfoObjectStatus(objectStatus);
     }
 }
