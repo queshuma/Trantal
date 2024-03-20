@@ -1,13 +1,12 @@
 package com.shuzhi.system_object.Controller;
 
-import com.github.pagehelper.PageHelper;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.common.TokenFunction;
 import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.objectVO.ObjectWithBussVO;
-import com.shuzhi.result.code.ObjectCode;
+import com.shuzhi.result.code.ResultCode;
 import com.shuzhi.result.parmSetting.ObjectSetting;
 
 import com.shuzhi.system_object.Info.ObjectInfo;
@@ -46,11 +45,6 @@ public class ObjectController {
     //依赖注入Logger服务，用于日志输出
     private final Logger logger = LoggerFactory.getLogger(ObjectController.class);
 
-//    @GetMapping("/all")
-//    public void findByAll(Long userId) {
-//        System.out.println(objClassesFeign.findById(userId).getResultMsg());
-//    }
-
     /**
      * 上传商品图片Image
      * @param multipartFiles
@@ -65,11 +59,9 @@ public class ObjectController {
         System.out.println("地址：" + hashMap.get("url"));
 
         if (hashMap != null) {
-            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "", hashMap));
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "",hashMap.get("url"));
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, "",hashMap.get("url"));
         } else {
-            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL));
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
         }
 
     }
@@ -87,11 +79,9 @@ public class ObjectController {
         System.out.println("地址：" + hashMap.get("url"));
 
         if (hashMap != null) {
-            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "", hashMap));
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "",hashMap.get("url"));
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, "",hashMap.get("url"));
         } else {
-            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL));
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
         }
 
     }
@@ -109,11 +99,9 @@ public class ObjectController {
         System.out.println("地址：" + hashMap.get("url"));
 
         if (hashMap != null) {
-            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "", hashMap));
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_SUCCESS, "",hashMap.get("url"));
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, "",hashMap.get("url"));
         } else {
-            System.out.println(ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL));
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_UPLOAD_IMAGE_FAIL);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
         }
 
     }
@@ -123,60 +111,21 @@ public class ObjectController {
      * @param objectInfo
      * @return ResponseResult
      */
-    @PostMapping("/add")
+    @PostMapping("/object")
     public ResponseResult add(ObjectInfo objectInfo) {
 
         Boolean b = false;
-
-        //输入产品名称为空
-        if(SystemUtils.isNullOrEmpty(objectInfo.getObjectName())) {
-            logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_ADD_NAME_NULL);
-        }
-        //输入产品名称长度越界
-        if (objectInfo.getObjectName().length() < ObjectSetting.OBJECT_INFO_NAME_SIZE_MIN || objectInfo.getObjectName().length() > ObjectSetting.OBJECT_INFO_NAME_SIZE_MAX) {
-            logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME SIZE-- TO LONG/SHORT ! ");
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_ADD_NAME_SIZE);
-        }
-        //输入原价为空(警告)
-        if (objectInfo.getObjectCost() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COST-- INPUT IS WARNING ! ");
-        }
-        //输入售价为空(警告)
-        if(objectInfo.getObjectPrice() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --PRICE-- INPUT IS WARNING ! ");
-        }
-        //输入详情为空(警告)
-        if(SystemUtils.isNullOrEmpty(objectInfo.getObjectInfo())) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --INFO-- INPUT IS WARNING ! ");
-        }
-        //输入数量为空(警告)
-        if(objectInfo.getObjectCout() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --EMAIL-- INPUT IS WARNING ! ");
-        }
-        //输入图片为空
-        if(SystemUtils.isNullOrEmpty(objectInfo.getObjectImage())) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --IMAGE-- INPUT IS WARNING ! ");
-        }
-        //输入类别为空
-        if(objectInfo.getObjectClasses() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --CLASSES-- INPUT IS WARNING ! ");
-        }
-        //输入用户id为空
-        if(objectInfo.getUserId() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --USER ID-- INPUT IS WARNING ! ");
-        }
 
         b = objectService.addObject(objectInfo);
         System.out.println(objectInfo);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_ADD_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
 
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --ADD FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_ADD_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
 
     }
 
@@ -185,62 +134,27 @@ public class ObjectController {
      * @param objectEntity
      * @return ResponseResult
      */
-    @PostMapping("/update")
+    @PutMapping("/object")
     public ResponseResult update(ObjectEntity objectEntity) {
 
         Boolean b = false;
-
-        //输入产品名称为空
-        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectName())) {
-            logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL_NAME_NULL);
-        }
-        //输入产品名称长度越界
-        if (objectEntity.getObjectName().length() < ObjectSetting.OBJECT_INFO_NAME_SIZE_MIN || objectEntity.getObjectName().length() > ObjectSetting.OBJECT_INFO_NAME_SIZE_MAX) {
-            logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --NAME SIZE-- TO LONG/SHORT ! ");
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL_NAME_SIZE);
-        }
-        //输入原价为空(警告)
-        if (objectEntity.getObjectCost() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COST-- INPUT IS WARNING ! ");
-        }
-        //输入售价为空(警告)
-        if(objectEntity.getObjectPrice() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --PRICE-- INPUT IS WARNING ! ");
-        }
-        //输入详情为空(警告)
-        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectInfo())) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --INFO-- INPUT IS WARNING ! ");
-        }
-        //输入数量为空(警告)
-        if(objectEntity.getObjectCout() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --COUNT-- INPUT IS WARNING ! ");
-        }
-        //输入图片为空
-//        if(SystemUtils.isNullOrEmpty(objectEntity.getObjectImage())) {
-//            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --IMAGE-- INPUT IS WARNING ! ");
-//        }
-        //输入类别为空
-        if(objectEntity.getObjectClasses() == ZERO) {
-            logger.warn("TRANTAL OBJECT CONTROLLER OBJECT INFO --CLASSES-- INPUT IS WARNING ! ");
-        }
 
         b = objectService.updObject(objectEntity);
 
         //更新数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_UPD_SUCCESS, objectEntity);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objectEntity);
         }
 
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_ERROR_UPDATE_FAIL   );
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
     }
 
     /**
      * 查找所有产品
      * @return ResponseResult<List<ObjectEntity>>
      */
-    @GetMapping("/find/all")
+    @GetMapping("/info/all")
     public ResponseResult findAll(int pageNum, int pageSize) {
 
         List<ObjectEntity> objectEntityList = null;
@@ -257,7 +171,7 @@ public class ObjectController {
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL BJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectInfoWithUserNameList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objectInfoWithUserNameList);
     }
 
     /**
@@ -265,7 +179,7 @@ public class ObjectController {
      * @param objectId
      * @return
      */
-    @PostMapping("/update/status")
+    @PutMapping("/status")
     public ResponseResult updateObject(int objectId, int objectStatus) {
         Boolean b = false;
 
@@ -273,10 +187,10 @@ public class ObjectController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_DEL_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_DEL_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
     }
 
     /**
@@ -284,7 +198,7 @@ public class ObjectController {
      * @param classesName
      * @return
      */
-    @GetMapping("/find/classes")
+    @GetMapping("/info/classes")
     public ResponseResult findObjectClasses(String classesName, int pageNum, int pageSize) {
         List<ObjectEntity> objectEntityList = null;
         Long classesId = objClassesFeign.findByName(classesName);
@@ -293,7 +207,7 @@ public class ObjectController {
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, classesName, objectEntityList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, classesName, objectEntityList);
     }
 
     /**
@@ -301,15 +215,23 @@ public class ObjectController {
      * @param objectTitle
      * @return
      */
-    @GetMapping("/find/title")
+    @GetMapping("/info/title")
     public ResponseResult findObjectTitle(String objectTitle, int pageNum, int pageSize) {
         List<ObjectEntity> objectEntityList = null;
+        List<ObjectWithBussVO> objectInfoWithUserNameList = new ArrayList<>();
         objectEntityList = objectService.getObjectTitle(objectTitle, pageNum, pageSize);
+        for (ObjectEntity obj:objectEntityList) {
+            ObjectWithBussVO objectInfoWithUserName =new ObjectWithBussVO();
+            BeanUtils.copyProperties(obj, objectInfoWithUserName);
+            objectInfoWithUserName.setBussAccount(userFeign.findById(obj.getUserId()).getUserAccount());
+            objectInfoWithUserName.setClassesName(objClassesFeign.findById(obj.getObjectClasses()));
+            objectInfoWithUserNameList.add(objectInfoWithUserName);
+        }
 
-        logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
+        logger.info("TRANTAL ALL OBJECT INFO: " + objectInfoWithUserNameList);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectTitle, objectEntityList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objectTitle, objectInfoWithUserNameList);
     }
 
     /**
@@ -317,7 +239,7 @@ public class ObjectController {
      * @param
      * @return
      */
-    @GetMapping("/find/userId")
+    @GetMapping("/info/userId")
     public ResponseResult findObjectUserAccount(HttpServletRequest httpServletRequest, int pageNum, int pageSize) throws ParseException {
         String objectUserAccount = null;
         List<ObjectEntity> objectEntityList = null;
@@ -336,7 +258,7 @@ public class ObjectController {
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, objectUserAccount, objectInfoWithUserNameList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objectUserAccount, objectInfoWithUserNameList);
     }
 
     /**
@@ -344,7 +266,7 @@ public class ObjectController {
      * @param objectId
      * @return
      */
-    @GetMapping("/find/id")
+    @GetMapping("/info/id")
     public ResponseResult findObject(Long objectId) {
 
         ObjectEntity objectEntity = null;
@@ -357,7 +279,7 @@ public class ObjectController {
         logger.info("TRANTAL ALL OBJECT INFO: " + objectEntity);
         logger.info("RETURN");
         logger.info("========== TRANTAL OBJECT CONTROLLER SELECT ALL OBJECT END ! ==========");
-        return ResponseResultFactory.buildResponseFactory(ObjectCode.SYSTEM_OBJECT_INFO_FIND_SUCCESS, String.valueOf(objectId), objectInfoWithUserName);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, String.valueOf(objectId), objectInfoWithUserName);
     }
 
 }

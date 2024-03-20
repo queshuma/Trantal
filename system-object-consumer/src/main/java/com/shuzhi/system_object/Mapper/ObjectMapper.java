@@ -151,4 +151,12 @@ public interface ObjectMapper {
     @Select("SELECT * FROM trantal_object WHERE user_id = #{bussId}")
     @ResultMap("objectResultMap")
     List<ObjectEntity> getObjectId(Long bussId);
+
+    /**
+     * 根据商品title获取商品总数
+     * @param objectTitle
+     * @return
+     */
+    @Select("SELECT COUNT(object_id) FROM trantal_object WHERE object_title LIKE CONCAT('%',#{objectTitle},'%')")
+    int getDataTitleCout(String objectTitle);
 }

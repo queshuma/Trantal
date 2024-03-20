@@ -4,8 +4,7 @@ import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.common.TokenFunction;
-import com.shuzhi.result.code.OrderCode;
-import com.shuzhi.result.code.ShopCode;
+import com.shuzhi.result.code.ResultCode;
 import com.shuzhi.system_shop.DTO.ShopDTO;
 import com.shuzhi.system_shop.Info.ShopWithObjectUser;
 import com.shuzhi.system_shop.Service.ShopService;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.shuzhi.system_shop.Controller.ObjectFeign;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -46,34 +44,21 @@ public class ShopController {
      * @param shopCout
      * @return
      */
-    @PostMapping("/add")
+    @PostMapping("/shop")
     public ResponseResult add(HttpServletRequest httpServletRequest, Long objectId, Long shopCout) throws ParseException {
 
         Boolean b = false;
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
 
-//        if (userId == ZERO) {
-//            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_USER_ID_NULL);
-//        }
-//        if (objectId == ZERO) {
-//            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --OBJECT ID-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_ID_NULL);
-//        }
-//        if (shopCout == ZERO) {
-//            logger.error("TRANTAL SHOP CONTROLLER ORDER INFO --USER ID-- INPUT IS NULL ! ");
-//            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_ERROR_ADD_FAIL_OBJECT_COUNT_NULL);
-//        }
-
         b =  shopService.addShop(userId, objectId, shopCout);
 
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_ADD_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
 
 //        logger.info("TRANTAL ALL SHOP INFO: " + shopInfo);
         logger.info("RETURN");
-        return ResponseResultFactory.buildResponseFactory(OrderCode.SYSTEM_ORDER_ERROR_ADD_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
     }
 
     /**
@@ -81,7 +66,7 @@ public class ShopController {
      * @param httpServletRequest
      * @return
      */
-    @PostMapping("/find/userId")
+    @GetMapping("/info/userId")
     public ResponseResult findById(HttpServletRequest httpServletRequest) throws ParseException {
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
         List<ShopDTO> shopDTOList = null;
@@ -99,7 +84,7 @@ public class ShopController {
         }
         logger.info("TRANTAL ALL SHOP INFO: " + shopDTOList);
         logger.info("RETURN");
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopWithObjectUserList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, shopWithObjectUserList);
     }
 
     /**
@@ -107,7 +92,7 @@ public class ShopController {
      * @return
      * @throws ParseException
      */
-    @GetMapping("/findAll")
+    @GetMapping("/info/all")
     public ResponseResult findAll() throws ParseException {
         List<ShopDTO> shopDTOList = null;
         List<ShopWithObjectUser> shopWithObjectUserList = new ArrayList<>();
@@ -124,7 +109,7 @@ public class ShopController {
         }
         logger.info("TRANTAL ALL SHOP INFO: " + shopDTOList);
         logger.info("RETURN");
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_FIND_SUCCESS, shopWithObjectUserList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, shopWithObjectUserList);
     }
 
     /**
@@ -133,7 +118,7 @@ public class ShopController {
      * @param objectCout
      * @return
      */
-    @PostMapping("/update/cout")
+    @PutMapping("/info/cout")
     public ResponseResult updateShopCout(Long shopId, Long objectCout, HttpServletRequest httpServletRequest) throws ParseException {
         Boolean b = false;
         Long userId = TokenFunction.tokenGetUserId(httpServletRequest);
@@ -148,10 +133,10 @@ public class ShopController {
         if (!b) {
             logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectCout" + objectCout);
             logger.info("RETURN");
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
         }
         logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectCout = " + objectCout);
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
     }
 
     /**
@@ -159,17 +144,17 @@ public class ShopController {
      * @param shopId
      * @return
      */
-    @PutMapping("/update/delete")
+    @DeleteMapping("/info/id")
     public ResponseResult updateShopStatus(Long shopId) {
         Boolean b = false;
         Long objectStatus = 1L;
         b = shopService.updShopStatus(shopId, objectStatus);
         if (!b) {
             logger.info("TRANTAL SHOP INFO: userId" + shopId + "objectStatus" + objectStatus);
-            return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_ERROE);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
         }
         logger.info("TRANTAL SHOP INFO: userId = " + shopId + "objectStatus" + objectStatus);
-        return ResponseResultFactory.buildResponseFactory(ShopCode.SYSTEM_SHOP_INFO_UPD_SUCCESS);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
     }
 
 }

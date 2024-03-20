@@ -213,11 +213,11 @@ public class ObjectService {
         try {
             objectEntity = objectMapper.getObject(objectId);
             logger.info("OBJECT SERVICE SELECT OBJECT SUCCESS!");
-            logger.info("result: " + objectEntity.toString());
+            logger.info("result: " + objectEntity);
         } catch (Exception e) {
             logger.error("OBJECT SERVICE SELECT OBJECT ERROR!");
             logger.error("ERROE:" + e);
-            logger.error("result: " + objectEntity.toString());
+            logger.error("result: " + objectEntity);
         }
 
         return objectEntity;
@@ -399,5 +399,14 @@ public class ObjectService {
         }
 
         return objectEntityList;
+    }
+
+    /**
+     * 根据商品标题获取总素
+     * @param objectTitle
+     * @return
+     */
+    public int getObjectTitleCout(String objectTitle) {
+        return objectMapper.getDataTitleCout(objectTitle);
     }
 }

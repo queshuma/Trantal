@@ -19,6 +19,12 @@
     <dependencies>
         <dependency>
             <groupId>com.shuzhi</groupId>
+            <artifactId>result</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.shuzhi</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -26,11 +32,6 @@
         <dependency>
             <groupId>com.shuzhi</groupId>
             <artifactId>entity</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.shuzhi</groupId>
-            <artifactId>result</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

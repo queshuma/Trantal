@@ -3,6 +3,7 @@ package com.shuzhi.system_user.Service;
 import com.github.pagehelper.PageHelper;
 import com.shuzhi.entity.UserEntity;
 import com.shuzhi.system_user.Config.JwtConfig;
+import com.shuzhi.system_user.Config.Sha256Utils;
 import com.shuzhi.system_user.Info.UserInfo;
 import com.shuzhi.system_user.Mapper.UserMapper;
 import org.slf4j.Logger;
@@ -297,6 +298,7 @@ public class UserService {
     public String userPhoneCheck(String phone, String password) {
         String token = null;
         try {
+            password = Sha256Utils.sha256(password);
             UserEntity userEntity = userMapper.loginByPhone(phone, password);
             userEntity = setPwdIsNull(userEntity);
             //String userId
@@ -427,5 +429,15 @@ public class UserService {
      */
     public int getUserCout() {
         return userMapper.getUserCout();
+    }
+
+    /**
+     * 修改用户密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    public Boolean updatePassword(Long userId, String password) {
+        return userMapper.updatePassword(userId, password);
     }
 }

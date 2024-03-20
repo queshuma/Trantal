@@ -27,7 +27,7 @@ public class ControlllerAspect {
 
     private final Logger logger = LoggerFactory.getLogger(ControlllerAspect.class);
 
-    @Before("execution(public * com.shuzhi.system.Controller.*.*(..))")
+    @Before("execution(public * com.shuzhi.system_objclasses.Controller.*.*(..))")
     public void ControllerBefore() throws Throwable {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
@@ -50,7 +50,7 @@ public class ControlllerAspect {
 
     }
 
-    @AfterReturning(returning = "obj", pointcut = "execution(public * com.shuzhi.system.Controller.*.*(..))")
+    @AfterReturning(returning = "obj", pointcut = "execution(public * com.shuzhi.system_objclasses.Controller.*.*(..))")
     public void ControllerAfter(ResponseResult obj) throws Throwable {
         logger.info("Response: " + obj.getResultCode());
         logger.info("========== TRANTAL CONTROLLER END! ==========");

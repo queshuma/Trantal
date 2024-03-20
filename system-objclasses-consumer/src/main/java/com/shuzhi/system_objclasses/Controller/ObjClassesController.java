@@ -4,7 +4,7 @@ import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.entity.ObjClassesEntity;
-import com.shuzhi.result.code.ObjClassesCode;
+import com.shuzhi.result.code.ResultCode;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 import com.shuzhi.system_objclasses.Info.ObjClassesShow;
 import com.shuzhi.system_objclasses.Service.ObjClassesService;
@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.shuzhi.result.Common.ONE;
-import static com.shuzhi.result.Common.ZERO;
 
 @RestController
 @RequestMapping("/ObjClasses")
@@ -36,13 +33,13 @@ public class ObjClassesController {
      * 查找所有商品分类
      * @return
      */
-    @GetMapping("/findAll")
+    @GetMapping("/info/all")
     public ResponseResult findAll(){
 
         List<ObjClassesEntity> objectEntityList = null;
         List<ObjClassesShow> objClassesShowList = objClassesService.getAllClasses();
 
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objClassesShowList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objClassesShowList);
 
     }
 
@@ -55,7 +52,7 @@ public class ObjClassesController {
         List<ObjClassesEntity> objectEntityList = null;
         List<ObjClassesShow> objClassesShowList = objClassesService.getInfoListStatus();
 
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objClassesShowList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objClassesShowList);
     }
 
     /**
@@ -67,7 +64,7 @@ public class ObjClassesController {
         List<ObjClassesEntity> objectEntityList = null;
         List<ObjClassesShow> objClassesShowList = objClassesService.getInfoObjectStatus();
 
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_FIND_SUCCESS, objClassesShowList);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, objClassesShowList);
     }
 
     /**
@@ -75,27 +72,20 @@ public class ObjClassesController {
      * @param objClassesInfo
      * @return ResponseResult
      */
-    @PostMapping("/add")
+    @PostMapping("/classes")
     public ResponseResult add(ObjClassesInfo objClassesInfo) {
 
         Boolean b = false;
-
-        //输入产品分类为空
-        if(SystemUtils.isNullOrEmpty(objClassesInfo.getClassesName())) {
-            logger.error("TRANTAL OBJECT CLASSES CONTROLLER OBJECT CLASSES INFO --CLASSES NAME-- INPUT IS NULL ! ");
-            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_ADD_FAIL_NAME_NULL);
-        }
-
 
         b = objClassesService.addObjectClasses(objClassesInfo);
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ADD_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
 
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --ADD FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_ADD_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
 
     }
 
@@ -111,10 +101,10 @@ public class ObjClassesController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_DEL_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_DEL_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
     }
 
     /**
@@ -131,10 +121,10 @@ public class ObjClassesController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_UPD_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
     }
 
     /**
@@ -151,9 +141,9 @@ public class ObjClassesController {
 
         //插入数据正反馈，向前端返回正确码
         if (b) {
-            return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_UPD_SUCCESS);
+            return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS);
         }
         logger.error("TRANTAL OBJECT CONTROLLER OBJECT INFO --UPDATE STATUS FAIL-- ! ");
-        return ResponseResultFactory.buildResponseFactory(ObjClassesCode.SYSTEM_OBJECT_CLASSES_ERROR_UPD_FAIL);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS_NOT_DO);
     }
 }

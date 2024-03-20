@@ -79,7 +79,7 @@ public interface UserMapper {
      * @param userName
      * @return
      */
-    @Select("SELECT * FROM trantal_user WHERE user_name = #{userName}")
+    @Select("SELECT * FROM trantal_user WHERE user_name LIKE CONCAT('%',#{userName},'%')")
     @ResultMap("userResultMap")
     List<UserEntity> getUserName(String userName);
 
@@ -163,4 +163,13 @@ public interface UserMapper {
      */
     @Select("SELECT COUNT(user_id) FROM trantal_user")
     int getUserCout();
+
+    /**
+     * 修改用户密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    @Update("UPDATE trantal_user set user_password = #{password} WHERE user_id = #{userId}")
+    Boolean updatePassword(Long userId, String password);
 }

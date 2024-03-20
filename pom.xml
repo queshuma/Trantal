@@ -18,10 +18,10 @@
     </parent>
 
     <modules>
+        <module>result</module>
         <module>common</module>
         <module>entity</module>
-        <module>result</module>
-        <module>dependencies</module>
+
         <module>system-user-consumer</module>
         <module>system-object-consumer</module>
         <module>system-order-consumer</module>
@@ -63,11 +63,6 @@
             </exclusions>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <version>8.0.33</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -107,24 +102,23 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.3</version>
-                <configuration>
-                    <mainClass>com.shuzhi.system.SystemApplication</mainClass>
-                    <excludes>
-                        <exclude>
-                            <groupId>junit</groupId>
-                            <artifactId>junit</artifactId>
-                        </exclude>
-                        <exclude>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-start-test</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <version>2.7.3</version>-->
+<!--                <configuration>-->
+<!--                    <excludes>-->
+<!--                        <exclude>-->
+<!--                            <groupId>junit</groupId>-->
+<!--                            <artifactId>junit</artifactId>-->
+<!--                        </exclude>-->
+<!--                        <exclude>-->
+<!--                            <groupId>org.springframework.boot</groupId>-->
+<!--                            <artifactId>spring-boot-start-test</artifactId>-->
+<!--                        </exclude>-->
+<!--                    </excludes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
