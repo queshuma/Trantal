@@ -171,12 +171,12 @@ public class UserController {
     }
 
     /**
-     * 查找所用用户信息
+     * 查找用户信息
      * @param httpServletRequest
      * @return
      * @throws ParseException
      */
-    @GetMapping("/info/all")
+    @GetMapping("/info")
     public ResponseResult find(HttpServletRequest httpServletRequest) throws ParseException {
         Long userId = new TokenFunction().tokenGetUserId(httpServletRequest);
 
@@ -264,6 +264,7 @@ public class UserController {
 
         UserEntity userEntity = null;
         String resultCode = ResultCode.REQUEST_SUCCESS;
+        userEntity = userService.getUserId(userId);
         logger.info("TRANTAL ALL USER INFO: " + userEntity);
         logger.info("RETURN");
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY NAME END! ==========");
