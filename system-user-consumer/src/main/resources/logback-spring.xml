@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration scan="true" scanPeriod="60 second" debug="false">
-    <!--关于生产环境和测试环境的日志文件-->
-    <springProfile name="dev">
-        <property name="LOG_HOME" value="/Users/shuzhi/project/Trantal/system_log/dev/"></property>
-    </springProfile>
-
-    <springProfile name="prd">
-        <property name="LOG_HOME" value="/Users/shuzhi/project/Trantal/system_log/prd/"></property>
-    </springProfile>
+    <!--    &lt;!&ndash;关于生产环境和测试环境的日志文件&ndash;&gt;-->
+    <springProperty name="LOG_HOME_DEV" source="logging.home.dev" defaultValue="/Users/shuzhi/project/Trantal/system_log/dev/"/>
+    <springProperty name="LOG_HOME_PRD" source="logging.home.prd" defaultValue="/Users/shuzhi/project/Trantal/system_log/prd/"/>
 
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
@@ -37,9 +32,6 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>ACCEPT</onMismatch>
         </filter>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>10MB</maxFileSize>
-        </triggeringPolicy>
     </appender>
     <appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -58,9 +50,6 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>10MB</maxFileSize>
-        </triggeringPolicy>
     </appender>
     <appender name="WarnFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -79,9 +68,6 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>10MB</maxFileSize>
-        </triggeringPolicy>
     </appender>
 
     <root level="info">

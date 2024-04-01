@@ -182,10 +182,11 @@ public class UserController {
 
         UserEntity userEntity = null;
         String resultCode = ResultCode.REQUEST_SUCCESS;
+        userEntity = userService.getUserId(userId);
         logger.info("TRANTAL ALL USER INFO: " + userEntity);
         logger.info("RETURN");
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY NAME END! ==========");
-        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, userEntity);
+        return ResponseResultFactory.buildResponseFactory(ResultCode.REQUEST_SUCCESS, "SUCCESS", userEntity);
     }
 
     /**

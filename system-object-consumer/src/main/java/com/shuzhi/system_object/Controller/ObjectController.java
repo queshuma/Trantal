@@ -7,7 +7,6 @@ import com.shuzhi.common.TokenFunction;
 import com.shuzhi.entity.ObjectEntity;
 import com.shuzhi.objectVO.ObjectWithBussVO;
 import com.shuzhi.result.code.ResultCode;
-import com.shuzhi.result.parmSetting.ObjectSetting;
 
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Service.ObjectService;

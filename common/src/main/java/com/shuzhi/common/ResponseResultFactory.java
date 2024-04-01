@@ -19,7 +19,7 @@ public class ResponseResultFactory<T> {
     public static <T> ResponseResult buildResponseFactory(String resultCode, T t) {
         return new ResponseResult(resultCode, t);
     }
-    public static ResponseResult buildResponseFactory(String resultCode, String resultMsg, Object obj) {
-        return new  ResponseResult(resultCode, resultMsg, obj);
+    public static ResponseResult buildResponseFactory(String resultCode, String resultMsg, Object result) {
+        return new  ResponseResult(resultCode, resultMsg, result);
     }
 }

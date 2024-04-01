@@ -27,7 +27,7 @@ public class ServiceAspect {
 
     private final Logger logger = LoggerFactory.getLogger(ServiceAspect.class);
 
-    @Before("execution(public * com.shuzhi.system_objclasses.Service.*.*(..))")
+    @Before("execution(public * com.shuzhi.system.Service.*.*(..))")
     public void ControllerBefore() throws Throwable {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
@@ -42,7 +42,7 @@ public class ServiceAspect {
 
     }
 
-    @AfterReturning(returning = "obj", pointcut = "execution(public * com.shuzhi.system_objclasses.Controller.*.*(..))")
+    @AfterReturning(returning = "obj", pointcut = "execution(public * com.shuzhi.system.Controller.*.*(..))")
     public void ControllerAfter(ResponseResult obj) throws Throwable {
         logger.info("========== TRANTAL SERVICE END! ==========");
     }

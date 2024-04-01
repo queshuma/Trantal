@@ -4,6 +4,11 @@ spring:
     url: jdbc:mysql://localhost:3306/trantal_sys
     username: root
     password: 20001120
+  data:
+    mongodb:
+      database: Trantal_logs
+      host: localhost
+      port: 27017
   mvc:
     static-path-pattern: /**
     pathmatch:
@@ -46,4 +51,5 @@ management:
 ribbon:
   nacos:
     enabled: true
-
+server:
+  port: 8888

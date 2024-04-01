@@ -1,16 +1,21 @@
 package com.shuzhi.system_shop.WebAspect;
 
 import com.shuzhi.common.ResponseResult;
+import com.shuzhi.system_shop.Entity.MongoShop;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Enumeration;
 
 /**
@@ -26,8 +31,13 @@ import java.util.Enumeration;
 public class ControlllerAspect {
 
     private final Logger logger = LoggerFactory.getLogger(ControlllerAspect.class);
+    private final String DEFAULT_RESPONSE_STATUS = "000";
+    private ObjectId objectId = new ObjectId();
 
-    @Before("execution(public * com.shuzhi.system.Controller.*.*(..))")
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @Before("execution(public * com.shuzhi.system_shop.Controller.*.*(..))")
     public void ControllerBefore() throws Throwable {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
@@ -48,11 +58,22 @@ public class ControlllerAspect {
             logger.info("{} : {}", name, request.getParameter(name));
         }
 
+        MongoShop mongoShop = new MongoShop();
+        mongoShop.setId(objectId);
+        mongoShop.setHEADER(request.getHeader(String.valueOf(request.getHeaderNames())));
+        mongoShop.setIP(request.getRemoteAddr());
+        mongoShop.setURL(String.valueOf(request.getRequestURL()));
+        mongoShop.setTIME(new Date());
+        mongoShop.setSTATUS(DEFAULT_RESPONSE_STATUS);
+        mongoTemplate.save(mongoShop);
     }
 
-    @AfterReturning(returning = "obj", pointcut = "execution(public * com.shuzhi.system.Controller.*.*(..))")
+    @AfterReturning(returning = "obj", pointcut = "execution(public * com.shuzhi.system_shop.Controller.*.*(..))")
     public void ControllerAfter(ResponseResult obj) throws Throwable {
         logger.info("Response: " + obj.getResultCode());
         logger.info("========== TRANTAL CONTROLLER END! ==========");
+        MongoShop mongoShop = mongoTemplate.findById(objectId, MongoShop.class);
+        mongoShop.setSTATUS(obj.getResultCode());
+        mongoTemplate.save(mongoShop);
     }
 }

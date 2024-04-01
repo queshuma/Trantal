@@ -14,9 +14,34 @@ spring:
       enabled: true
     livereload:
       enabled: true
-logging:
-  config:
-    classpath: logback-spring.xml
-Mybatis:
-  mapper-locations: Mapper/*.xml
-
+  output:
+    ansi:
+      enabled: always
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848/nacos/
+  boot:
+    admin:
+      client:
+        url: localhost:9001
+  main:
+    allow-circular-references: true
+springfox:
+  documentation:
+    enabled: true
+    swagger-ui:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+ribbon:
+  nacos:
+    enabled: true
+server:
+  port: 8888
