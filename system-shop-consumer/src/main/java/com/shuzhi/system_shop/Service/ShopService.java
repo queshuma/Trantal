@@ -1,6 +1,6 @@
 package com.shuzhi.system_shop.Service;
 
-import com.shuzhi.result.Common;
+import com.shuzhi.Common;
 import com.shuzhi.system_shop.DTO.ShopDTO;
 import com.shuzhi.system_shop.Mapper.ShopMapper;
 import org.slf4j.Logger;

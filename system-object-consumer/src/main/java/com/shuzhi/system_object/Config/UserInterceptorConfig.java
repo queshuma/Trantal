@@ -1,12 +1,8 @@
 package com.shuzhi.system_object.Config;
 
-import com.shuzhi.system_object.UserInterceptor.BusinessInterceptor;
 import com.shuzhi.system_object.UserInterceptor.ClientInterceptor;
-import com.shuzhi.system_object.UserInterceptor.MasterInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-
-import static com.shuzhi.result.parmSetting.Authority.*;
 
 /**
  * Description:

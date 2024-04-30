@@ -4,7 +4,7 @@ import com.shuzhi.system_order.UserInterceptor.*;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import static com.shuzhi.result.parmSetting.Authority.*;
+import static com.shuzhi.parmSetting.Authority.*;
 
 /**
  * Description:

@@ -4,7 +4,7 @@ import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.common.TokenFunction;
-import com.shuzhi.result.code.ResultCode;
+import com.shuzhi.code.ResultCode;
 import com.shuzhi.system_shop.DTO.ShopDTO;
 import com.shuzhi.system_shop.Info.ShopWithObjectUser;
 import com.shuzhi.system_shop.Service.ShopService;

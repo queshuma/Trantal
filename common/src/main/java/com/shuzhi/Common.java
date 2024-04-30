@@ -1,4 +1,4 @@
-package com.shuzhi.result;
+package com.shuzhi;
 
 public interface Common {
     public final int ZERO = 0;

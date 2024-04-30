@@ -1,6 +1,6 @@
 package com.shuzhi.system_objclasses.Service;
 
-import com.shuzhi.entity.ObjClassesEntity;
+import com.shuzhi.system_objclasses.Entity.ObjClassesEntity;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 
 import com.shuzhi.system_objclasses.Info.ObjClassesShow;

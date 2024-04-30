@@ -18,9 +18,7 @@
     </parent>
 
     <modules>
-        <module>result</module>
         <module>common</module>
-        <module>entity</module>
 
         <module>system-user-consumer</module>
         <module>system-object-consumer</module>

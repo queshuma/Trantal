@@ -1,6 +1,6 @@
 package com.shuzhi.system_user.Mapper;
 
-import com.shuzhi.entity.UserEntity;
+import com.shuzhi.system_user.Entity.UserEntity;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;

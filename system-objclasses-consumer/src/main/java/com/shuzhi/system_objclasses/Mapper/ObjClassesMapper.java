@@ -1,6 +1,6 @@
 package com.shuzhi.system_objclasses.Mapper;
 
-import com.shuzhi.entity.ObjClassesEntity;
+import com.shuzhi.system_objclasses.Entity.ObjClassesEntity;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 import com.shuzhi.system_objclasses.Info.ObjClassesShow;
 import org.apache.ibatis.annotations.*;

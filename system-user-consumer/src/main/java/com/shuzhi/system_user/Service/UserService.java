@@ -1,7 +1,7 @@
 package com.shuzhi.system_user.Service;
 
 import com.github.pagehelper.PageHelper;
-import com.shuzhi.entity.UserEntity;
+import com.shuzhi.system_user.Entity.UserEntity;
 import com.shuzhi.system_user.Config.JwtConfig;
 import com.shuzhi.system_user.Config.Sha256Utils;
 import com.shuzhi.system_user.Info.UserInfo;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -331,7 +329,11 @@ public class UserService {
     public String userEmailCheck(String email, String password) {
         String token = null;
         try {
-            UserEntity userEntity = userMapper.loginByPhone(email, password);
+            password = Sha256Utils.sha256(password);
+            UserEntity userEntity = userMapper.loginByEmail(email, password);
+            System.out.println(email + " " + password);
+            System.out.println(userMapper.loginByEmail(email, password));
+            System.out.println(userEntity.toString());
             userEntity = setPwdIsNull(userEntity);
             //String userId
             Long userId = userEntity.getUserId();

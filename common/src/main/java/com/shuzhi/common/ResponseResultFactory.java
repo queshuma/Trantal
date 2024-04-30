@@ -1,6 +1,6 @@
 package com.shuzhi.common;
 
-import com.shuzhi.result.code.*;
+import com.shuzhi.code.*;
 
 public class ResponseResultFactory<T> {
 

@@ -1,12 +1,10 @@
 package com.shuzhi.system_object.Service;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.shuzhi.entity.ObjectEntity;
-import com.shuzhi.result.Common;
+import com.shuzhi.system_object.Entity.ObjectEntity;
+import com.shuzhi.Common;
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Mapper.ObjectMapper;
-import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,9 +4,9 @@ import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.common.TokenFunction;
-import com.shuzhi.entity.UserEntity;
-import com.shuzhi.result.code.ResultCode;
-import com.shuzhi.result.parmSetting.UserSetting;
+import com.shuzhi.system_user.Entity.UserEntity;
+import com.shuzhi.code.ResultCode;
+import com.shuzhi.parmSetting.UserSetting;
 import com.shuzhi.system_user.Config.CookieConfig;
 import com.shuzhi.system_user.Config.Sha256Utils;
 import com.shuzhi.system_user.Info.UserInfo;
@@ -21,8 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.List;
 
-import static com.shuzhi.common.SystemUtils.listIsNull;
-import static com.shuzhi.result.Common.ZERO;
+import static com.shuzhi.Common.ZERO;
 
 
 /**
@@ -198,6 +197,7 @@ public class UserController {
     public ResponseResult findByPhone(String userPhone) {
         UserEntity userEntity = null;
         String resultCode = ResultCode.REQUEST_SUCCESS;
+        userEntity = userService.getUserPhone(userPhone);
         logger.info("TRANTAL ALL USER INFO: " + userEntity);
         logger.info("RETURN");
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY PHONE END! ==========");
@@ -282,6 +282,7 @@ public class UserController {
 
         List<UserEntity> userEntityList = null;
         String resultCode = ResultCode.REQUEST_SUCCESS;
+        userEntityList = userService.getUserLevel(userLevel);
         logger.info("TRANTAL ALL USER INFO: " + userEntityList);
         logger.info("RETURN");
         logger.info("========== TRANTAL USER CONTROLLER SELECT USER BY NAME END! ==========");

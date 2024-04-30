@@ -1,6 +1,6 @@
 package com.shuzhi.system_order.Mapper;
 
-import com.shuzhi.entity.OrderEntity;
+import com.shuzhi.system_order.Entity.OrderEntity;
 import com.shuzhi.system_order.Info.OrderInfo;
 import org.apache.ibatis.annotations.*;
 

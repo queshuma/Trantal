@@ -1,9 +1,8 @@
 package com.shuzhi.system_order.Service;
 
 import com.github.pagehelper.PageHelper;
-import com.shuzhi.entity.ObjectEntity;
-import com.shuzhi.entity.OrderEntity;
-import com.shuzhi.objectVO.ObjectWithBussVO;
+import com.shuzhi.system_order.Entity.ObjectWithBussVO;
+import com.shuzhi.system_order.Entity.OrderEntity;
 import com.shuzhi.system_order.Controller.ShopFeign;
 import com.shuzhi.system_order.Info.OrderInfo;
 import com.shuzhi.system_order.Info.OrderWithObjectUser;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -64,7 +62,7 @@ public class OrderService {
 
             //提取商品属性
             ObjectWithBussVO objVO = Info.getObjectWithBussVO();
-            ObjectEntity objectEntity = objVO;
+            ObjectWithBussVO objectEntity = objVO;
 
             BeanUtils.copyProperties(objectEntity, orderInfo);
             BeanUtils.copyProperties(Info, orderInfo);
