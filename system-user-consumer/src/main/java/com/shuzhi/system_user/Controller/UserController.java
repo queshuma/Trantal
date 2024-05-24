@@ -5,8 +5,8 @@ import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.common.SystemUtils;
 import com.shuzhi.common.TokenFunction;
 import com.shuzhi.system_user.Entity.UserEntity;
-import com.shuzhi.code.ResultCode;
-import com.shuzhi.parmSetting.UserSetting;
+import com.shuzhi.system_user.code.ResultCode;
+import com.shuzhi.system_user.parmSetting.UserSetting;
 import com.shuzhi.system_user.Config.CookieConfig;
 import com.shuzhi.system_user.Config.Sha256Utils;
 import com.shuzhi.system_user.Info.UserInfo;
@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.List;
 
-import static com.shuzhi.Common.ZERO;
+import com.shuzhi.system_user.Common.*;
+
+import static com.shuzhi.system_user.Common.ZERO;
 
 
 /**

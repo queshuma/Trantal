@@ -1,8 +1,9 @@
 package com.shuzhi.system_order.Mapper;
 
 
-import com.shuzhi.system_object.Entity.ObjectEntity;
-import com.shuzhi.system_object.Info.ObjectInfo;
+
+import com.shuzhi.system_order.Info.ObjectInfo;
+import com.shuzhi.system_order.Entity.ObjectEntity;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -2,5 +2,5 @@ spring:
   application:
     name: system-shop
   profiles:
-    active: dev
+    active: prd
 

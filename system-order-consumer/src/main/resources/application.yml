@@ -2,5 +2,5 @@ spring:
   application:
     name: system-order
   profiles:
-    active: dev
+    active: prd
 

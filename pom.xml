@@ -18,8 +18,6 @@
     </parent>
 
     <modules>
-        <module>common</module>
-
         <module>system-user-consumer</module>
         <module>system-object-consumer</module>
         <module>system-order-consumer</module>

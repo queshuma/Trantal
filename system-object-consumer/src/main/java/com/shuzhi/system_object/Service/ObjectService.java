@@ -1,8 +1,8 @@
 package com.shuzhi.system_object.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.shuzhi.system_object.Common;
 import com.shuzhi.system_object.Entity.ObjectEntity;
-import com.shuzhi.Common;
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Mapper.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;

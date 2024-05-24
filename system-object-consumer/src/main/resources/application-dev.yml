@@ -30,6 +30,7 @@ spring:
     nacos:
       config:
         server-addr: localhost:8848/nacos/
+#        server-addr: 172.18.0.3:8848/nacos
 #        enabled: true
   boot:
     admin:

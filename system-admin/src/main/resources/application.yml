@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848/nacos
+        server-addr: http://49.232.61.41:8848/nacos/
   boot:
     admin:
       server:

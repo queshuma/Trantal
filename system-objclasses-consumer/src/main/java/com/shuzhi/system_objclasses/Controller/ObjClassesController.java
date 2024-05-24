@@ -3,7 +3,7 @@ package com.shuzhi.system_objclasses.Controller;
 import com.shuzhi.common.ResponseResult;
 import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.system_objclasses.Entity.ObjClassesEntity;
-import com.shuzhi.code.ResultCode;
+import com.shuzhi.system_objclasses.code.ResultCode;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 import com.shuzhi.system_objclasses.Info.ObjClassesShow;
 import com.shuzhi.system_objclasses.Service.ObjClassesService;
