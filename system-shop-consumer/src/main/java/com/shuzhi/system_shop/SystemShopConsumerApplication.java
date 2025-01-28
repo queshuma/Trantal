@@ -6,12 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.shuzhi.system_shop")
 @EnableDiscoveryClient
 @EnableFeignClients
 @MapperScan("com.shuzhi.system_shop.Mapper")
 public class SystemShopConsumerApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SystemShopConsumerApplication.class, args);
     }
