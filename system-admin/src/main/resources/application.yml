@@ -4,7 +4,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://49.232.61.41:8848/nacos/
+        server-addr: 49.232.61.41:8848
+#        namespace: public
+  #        server-addr: localhost:8848/nacos
+#        username: nacos
+#        password: nacos
   boot:
     admin:
       server:
@@ -14,6 +18,8 @@ spring:
       discovery:
         enabled: true
         discovery-services: nacos # 使用的注册中心类型
+  application:
+    name: admin
 management:
   endpoints:
     web:

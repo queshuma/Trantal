@@ -1,7 +1,7 @@
 package com.shuzhi.system_objclasses.WebAspect;
 
-import com.shuzhi.common.ResponseResult;
 import com.shuzhi.system_objclasses.Entity.MongoClasses;
+import com.shuzhi.system_objclasses.common.ResponseResult;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

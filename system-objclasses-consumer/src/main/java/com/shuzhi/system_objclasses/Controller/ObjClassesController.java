@@ -1,12 +1,12 @@
 package com.shuzhi.system_objclasses.Controller;
 
-import com.shuzhi.common.ResponseResult;
-import com.shuzhi.common.ResponseResultFactory;
 import com.shuzhi.system_objclasses.Entity.ObjClassesEntity;
 import com.shuzhi.system_objclasses.code.ResultCode;
 import com.shuzhi.system_objclasses.Info.ObjClassesInfo;
 import com.shuzhi.system_objclasses.Info.ObjClassesShow;
 import com.shuzhi.system_objclasses.Service.ObjClassesService;
+import com.shuzhi.system_objclasses.common.ResponseResult;
+import com.shuzhi.system_objclasses.common.ResponseResultFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

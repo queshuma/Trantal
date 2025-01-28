@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : trantal
+ Source Server         : root
  Source Server Type    : MySQL
  Source Server Version : 80032 (8.0.32)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 10/08/2024 20:11:05
+ Date: 22/05/2024 22:03:11
 */
 
 SET NAMES utf8mb4;

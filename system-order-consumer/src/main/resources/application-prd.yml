@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://49.232.61.41:3306/trantal
-    username: root
-    password:
+    url: jdbc:mysql://49.232.61.41:3306/trantal_sys
+    username: admin
+    password: 123456
   data:
     mongodb:
       database: Trantal_logs
@@ -25,9 +25,15 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: localhost:8848/nacos/
+        server-addr: 49.232.61.41:8848/nacos/
+      discovery:
+        server-addr: 49.232.61.41:8848/nacos/
   main:
     allow-circular-references: true
+  boot:
+    admin:
+      client:
+        url: 49.232.61.41:9001
 logging:
   config:
     classpath: logback-spring.xml
@@ -43,9 +49,9 @@ management:
   endpoint:
     health:
       show-details: always
-system-object:
-  ribbon:
-    listOfServers: localhost:8898  # Nacos 注册中心的地址和端口
-system-shop:
-  ribbon:
-    listOfServers: localhost:8818  # Nacos 注册中心的地址和端口
+#system-object:
+#  ribbon:
+#    listOfServers: localhost:8898  # Nacos 注册中心的地址和端口
+#system-shop:
+#  ribbon:
+#    listOfServers: localhost:8818  # Nacos 注册中心的地址和端口
