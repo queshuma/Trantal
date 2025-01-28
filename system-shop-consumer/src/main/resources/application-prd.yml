@@ -27,11 +27,15 @@ spring:
   cloud:
     nacos:
       config:
-#        server-addr: 49.232.61.41:8848/nacos/
-        server-addr: localhost:8848
+        server-addr: 49.232.61.41:8848
+        username: nacos
+        password: nacos
+#        server-addr: localhost:8848
       discovery:
-#        server-addr: 49.232.61.41:8848/nacos/
-        server-addr: localhost:8848
+        server-addr: 49.232.61.41:8848
+  #        server-addr: localhost:8848
+        username: nacos
+        password: nacos
   boot:
     admin:
       client:
