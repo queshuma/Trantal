@@ -1,14 +1,18 @@
 spring:
+  application:
+    name: system-user
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://49.232.61.41:3306/trantal
-    username: root
-    password:
+    url: jdbc:mysql://49.232.61.41:3306/trantal_sys
+    username: admin
+    password: 123456
   data:
     mongodb:
       database: Trantal_logs
       host: 49.232.61.41
       port: 27017
+#      username: admin
+#      password: 123456
   mvc:
     static-path-pattern: /**
     pathmatch:
@@ -24,12 +28,18 @@ spring:
       enabled: always
   cloud:
     nacos:
+      discovery:
+#        server-addr: 49.232.61.41:8848
+        server-addr: localhost:8848
       config:
-        server-addr: localhost:8848/nacos/
+#        server-addr: 49.232.61.41:8848/nacos
+        server-addr: localhost:8848
+#        username: nacos
+#        password: nacos
   boot:
     admin:
       client:
-        url: localhost:9001
+        url: 49.232.61.41:9001
   main:
     allow-circular-references: true
 logging:
@@ -52,4 +62,4 @@ ribbon:
   nacos:
     enabled: true
 server:
-  port: 8888
+  port: 8838

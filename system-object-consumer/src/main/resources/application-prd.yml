@@ -1,9 +1,11 @@
+server:
+  port: 8898
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://49.232.61.41:3306/trantal
-    username: root
-    password:
+    url: jdbc:mysql://49.232.61.41:3306/trantal_sys
+    username: admin
+    password: 123456
   data:
     mongodb:
       database: Trantal_logs
@@ -28,14 +30,26 @@ spring:
       enabled: always
   cloud:
     nacos:
+      discovery:
+#        server-addr: 49.232.61.41:8848/nacos/
+#        server-addr: 49.232.61.41:8848
+        server-addr: localhost:8848
+#        service: system-object
+        username: nacos
+        password: nacos
       config:
-        server-addr: localhost:8848/nacos/
-  #        server-addr: 172.18.0.3:8848/nacos
-  #        enabled: true
+#        server-addr: 49.232.61.41:8848
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+    loadbalancer:
+      enabled: true
+      nacos:
+        enabled: true
   boot:
     admin:
       client:
-        url: localhost:9001
+        url: 49.232.61.41:9001
   #  自动破解循环依赖
   main:
     allow-circular-references: true
@@ -45,16 +59,16 @@ logging:
 #ribbon:
 #  nacos:
 #    enabled: true
-system-user:
-  ribbon:
-    listOfServers: localhost:8888  # Nacos 注册中心的地址和端口
-system-objclasses:
-  ribbon:
-    listOfServers: localhost:8858  # Nacos 注册中心的地址和端口
+#system-user:
+#  ribbon:
+##    listOfServers: 49.232.61.41:8848  # Nacos 注册中心的地址和端口
+#    listOfServers: lb://system-user/
+#system-objclasses:
+#  ribbon:
+#    listOfServers: lb://system-objclasses
+    ##    listOfServers: 49.232.61.41:8858  # Nacos 注册中心的地址和端口
 Mybatis:
   mapper-locations: Mapper/*.xml
-server:
-  port: 8898
 management:
   endpoints:
     web:

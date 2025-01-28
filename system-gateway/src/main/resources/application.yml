@@ -52,8 +52,17 @@ spring:
           enabled: true
     nacos:
       discovery:
-        server-addr: localhost:8848/nacos/
+#        server-addr: 49.232.61.41:8848
+        server-addr: localhost:8848
         enabled: true
+#        username: nacos
+#        password: nacos
+      config:
+#server-addr: 49.232.61.41:8848
+        server-addr: localhost:8848
+        enabled: true
+#        username: nacos
+#        password: nacos
   logging:
     level:
       org:
