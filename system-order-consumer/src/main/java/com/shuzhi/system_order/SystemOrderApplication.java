@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin
 @SpringBootApplication
 @EnableFeignClients
+@CrossOrigin(origins = {"0.0.0.0"})
 @MapperScan("com.shuzhi.system_order.Mapper")
 public class SystemOrderApplication {
 
