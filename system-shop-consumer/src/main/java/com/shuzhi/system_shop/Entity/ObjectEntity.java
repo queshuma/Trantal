@@ -1,11 +1,9 @@
-package com.shuzhi.system_object.Entity;
+package com.shuzhi.system_shop.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.math.BigDecimal;
 
 /**
  * trantal_object

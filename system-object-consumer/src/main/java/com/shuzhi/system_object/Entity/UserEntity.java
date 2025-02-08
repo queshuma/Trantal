@@ -3,7 +3,6 @@ package com.shuzhi.system_object.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 /**
@@ -14,38 +13,28 @@ import java.util.Date;
 
 public class UserEntity {
 
-	@Column(name = "user_id")
 	private Long userId;
 
-	@Column(name = "user_account")
 	private String userAccount;
 
-	@Column(name = "user_name")
 	private String userName;
 
-	@Column(name = "user_phone")
 	private String userPhone;
 
-	@Column(name = "user_email")
 	private String userEmail;
 
-	@Column(name = "user_password")
 	private String userPassword;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd HH:mm")
 	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
-	@Column(name = "user_time")
 	private Date userTime;
 
 	@DateTimeFormat(pattern = "yyy-MM-dd HH:mm")
 	@JsonFormat(pattern = "yyy-MM-dd HH:mm")
-	@Column(name = "user_last")
 	private Date userLast;
 
-	@Column(name = "user_level")
 	private Long userLevel;
 
-	@Column(name = "user_status")
 	private Long userStatus;
 
 	public Long getUserId() {

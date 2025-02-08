@@ -3,7 +3,6 @@ package com.shuzhi.system_shop.Entity;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Date;
  */
 @Document("mg_master_shop")
 public class MongoShop {
-    @Id
     private ObjectId id;
     private String IP;
     private String URL;

@@ -1,6 +1,8 @@
 package com.shuzhi.system_order.Config;
 
-import com.shuzhi.system_order.UserInterceptor.*;
+import com.shuzhi.system_order.UserInterceptor.BusinessInterceptor;
+import com.shuzhi.system_order.UserInterceptor.ClientInterceptor;
+import com.shuzhi.system_order.UserInterceptor.MasterInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 

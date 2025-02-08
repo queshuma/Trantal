@@ -3,7 +3,6 @@ package com.shuzhi.system_object.Entity;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -15,7 +14,6 @@ import java.util.Date;
  */
 @Document("mg_master_object")
 public class MongoObject {
-    @Id
     private ObjectId id;
     private String IP;
     private String URL;

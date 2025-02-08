@@ -1,8 +1,8 @@
 package com.shuzhi.system_object.Controller;
 
 import com.shuzhi.system_object.Entity.ObjectEntity;
-import com.shuzhi.objectVO.ObjectWithBussVO;
 
+import com.shuzhi.system_object.Entity.ObjectWithBussVO;
 import com.shuzhi.system_object.Info.ObjectInfo;
 import com.shuzhi.system_object.Service.ObjectService;
 import com.shuzhi.system_object.code.ResultCode;
