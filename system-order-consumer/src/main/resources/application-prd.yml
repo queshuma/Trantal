@@ -24,10 +24,14 @@ spring:
       enabled: always
   cloud:
     nacos:
-      config:
-        server-addr: 49.232.61.41:8848/nacos/
       discovery:
-        server-addr: 49.232.61.41:8848/nacos/
+        server-addr: 49.232.61.41:8848
+        username: nacos
+        password: nacos
+      config:
+        server-addr: 49.232.61.41:8848
+        username: nacos
+        password: nacos
   main:
     allow-circular-references: true
   boot:
@@ -41,6 +45,7 @@ Mybatis:
   mapper-locations: Mapper/*.xml
 server:
   port: 8868
+  address: 0.0.0.0
 management:
   endpoints:
     web:

@@ -32,14 +32,14 @@ spring:
     nacos:
       discovery:
 #        server-addr: 49.232.61.41:8848/nacos/
-#        server-addr: 49.232.61.41:8848
-        server-addr: localhost:8848
+        server-addr: 49.232.61.41:8848
+#        server-addr: localhost:8848
 #        service: system-object
         username: nacos
         password: nacos
       config:
-#        server-addr: 49.232.61.41:8848
-        server-addr: localhost:8848
+        server-addr: 49.232.61.41:8848
+#        server-addr: localhost:8848
         username: nacos
         password: nacos
     loadbalancer:
