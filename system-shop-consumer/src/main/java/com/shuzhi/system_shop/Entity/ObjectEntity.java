@@ -1,4 +1,4 @@
-package com.shuzhi.system_order.Entity;
+package com.shuzhi.system_shop.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;

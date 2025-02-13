@@ -1,9 +1,9 @@
 package com.shuzhi.system_shop.Controller;
 
-import com.shuzhi.common.ResponseResult;
-import com.shuzhi.common.ResponseResultFactory;
-import com.shuzhi.common.SystemUtils;
-import com.shuzhi.common.TokenFunction;
+import com.shuzhi.system_shop.common.ResponseResult;
+import com.shuzhi.system_shop.common.ResponseResultFactory;
+import com.shuzhi.system_shop.common.SystemUtils;
+import com.shuzhi.system_shop.common.TokenFunction;
 import com.shuzhi.system_shop.code.ResultCode;
 import com.shuzhi.system_shop.DTO.ShopDTO;
 import com.shuzhi.system_shop.Info.ShopWithObjectUser;

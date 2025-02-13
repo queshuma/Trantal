@@ -1,6 +1,6 @@
 package com.shuzhi.system_shop.WebAspect;
 
-import com.shuzhi.common.ResponseResult;
+import com.shuzhi.system_shop.common.ResponseResult;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -27,7 +27,7 @@ public class ServiceAspect {
 
     private final Logger logger = LoggerFactory.getLogger(ServiceAspect.class);
 
-    @Before("execution(public * com.shuzhi.system.Service.*.*(..))")
+    @Before("execution(public * com.shuzhi.Service.*.*(..))")
     public void ControllerBefore() throws Throwable {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
