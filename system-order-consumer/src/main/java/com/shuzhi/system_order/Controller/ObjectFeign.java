@@ -1,10 +1,9 @@
 package com.shuzhi.system_order.Controller;
 
 import com.shuzhi.system_order.Entity.ObjectEntity;
-import com.shuzhi.objectVO.ObjectWithBussVO;
+import com.shuzhi.system_order.Entity.ObjectWithBussVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;

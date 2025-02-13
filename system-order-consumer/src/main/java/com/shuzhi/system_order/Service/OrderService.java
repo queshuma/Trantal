@@ -1,12 +1,12 @@
 package com.shuzhi.system_order.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.shuzhi.system_order.Mapper.ObjectMapper;
+import com.shuzhi.system_order.Controller.ShopFeign;
 import com.shuzhi.system_order.Entity.ObjectWithBussVO;
 import com.shuzhi.system_order.Entity.OrderEntity;
-import com.shuzhi.system_order.Controller.ShopFeign;
 import com.shuzhi.system_order.Info.OrderInfo;
 import com.shuzhi.system_order.Info.OrderWithObjectUser;
-import com.shuzhi.system_order.Mapper.ObjectMapper;
 import com.shuzhi.system_order.Controller.ObjectFeign;
 import com.shuzhi.system_order.Mapper.OrderMapper;
 import org.slf4j.Logger;
@@ -27,9 +27,9 @@ public class OrderService {
 
     private static final int SERVICE_UPD_ORDER_INFO_NUMBER = 1;
     @Autowired
-    private final OrderMapper orderMapper;
+    private OrderMapper orderMapper;
     @Autowired
-    private final ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     private final Logger logger = LoggerFactory.getLogger(OrderService.class);
     @Autowired
     private ObjectFeign objectFeign;
@@ -37,11 +37,6 @@ public class OrderService {
     private ShopFeign shopFeign;
     //    新建商品修改的互斥锁表
     final Map<Long, ReentrantLock> productLocks = new ConcurrentHashMap<>();
-
-    public OrderService(OrderMapper orderMapper, ObjectMapper objectMapper) {
-        this.orderMapper = orderMapper;
-        this.objectMapper = objectMapper;
-    }
 
 
     /**
