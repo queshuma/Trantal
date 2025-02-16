@@ -1,7 +1,7 @@
 package com.shuzhi.system_shop.WebAspect;
 
-import com.shuzhi.common.ResponseResult;
 import com.shuzhi.system_shop.Entity.MongoShop;
+import com.shuzhi.system_shop.common.ResponseResult;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

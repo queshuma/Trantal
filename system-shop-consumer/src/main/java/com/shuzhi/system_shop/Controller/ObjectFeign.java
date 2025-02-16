@@ -1,10 +1,9 @@
 package com.shuzhi.system_shop.Controller;
 
-import com.shuzhi.entity.ObjectEntity;
+import com.shuzhi.system_shop.Entity.ObjectEntity;
+import com.shuzhi.system_shop.Entity.ObjectWithBussVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.shuzhi.objectVO.ObjectWithBussVO;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;

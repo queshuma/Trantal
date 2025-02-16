@@ -1,7 +1,7 @@
 package com.shuzhi.system_shop.Info;
 
-import com.shuzhi.objectVO.ObjectWithBussVO;
 import com.shuzhi.system_shop.DTO.ShopDTO;
+import com.shuzhi.system_shop.Entity.ObjectWithBussVO;
 
 /**
  * Description:
